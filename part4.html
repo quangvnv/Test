@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloze Test - Fill in the Blanks</title>
+    <title>Cloze Test - Inline Dropdown</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
             line-height: 1.8;
         }
         .container {
-            max-width: 1400px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 40px;
@@ -56,62 +56,76 @@
             background: #FF9800;
             color: white;
         }
-        .content-wrapper {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        .passage-panel {
-            flex: 2;
-            padding: 25px;
+        .passage-container {
             background: #fff8e1;
+            padding: 30px;
             border-radius: 8px;
             border: 2px solid #FF9800;
-            max-height: 70vh;
-            overflow-y: auto;
+            margin-bottom: 30px;
             font-size: 18px;
             line-height: 2.2;
         }
-        .passage-panel p {
-            margin-bottom: 15px;
+        .passage-container p {
+            margin-bottom: 20px;
             color: #333;
         }
-        .blank {
-            display: inline-block;
-            min-width: 60px;
-            padding: 0 8px;
-            margin: 0 4px;
-            border-bottom: 2px solid #FF9800;
-            font-weight: 600;
+        .passage-title {
+            font-weight: 700;
+            font-size: 22px;
             color: #FF9800;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .dropdown-blank {
+            display: inline-block;
+            position: relative;
+            margin: 0 4px;
+        }
+        .dropdown-blank select {
+            padding: 4px 25px 4px 8px;
+            border: 2px solid #FF9800;
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23FF9800" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 4px center;
+            background-size: 20px;
+            min-width: 120px;
         }
-        .blank:hover {
-            background: #fff3e0;
+        .dropdown-blank select:hover {
+            background-color: #fff3e0;
+            border-color: #F57C00;
         }
-        .blank.filled {
-            color: #1976D2;
-            border-bottom-color: #1976D2;
+        .dropdown-blank select:focus {
+            outline: none;
+            border-color: #F57C00;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
         }
-        .blank.correct {
-            color: #4CAF50;
-            border-bottom-color: #4CAF50;
-            background: #e8f5e9;
+        .dropdown-blank select.answered {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
         }
-        .blank.incorrect {
-            color: #f44336;
-            border-bottom-color: #f44336;
-            background: #ffebee;
+        .dropdown-blank select.correct {
+            background-color: #c8e6c9;
+            border-color: #4CAF50;
+            color: #2e7d32;
         }
-        .questions-panel {
-            flex: 1;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
+        .dropdown-blank select.incorrect {
+            background-color: #ffcdd2;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        .dropdown-blank select:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
         }
         .loading {
             text-align: center;
@@ -126,74 +140,6 @@
             margin-bottom: 20px;
             color: #c62828;
             border-radius: 4px;
-        }
-        .question {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 6px;
-            border-left: 4px solid #FF9800;
-        }
-        .question-number {
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #FF9800;
-            font-size: 18px;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .option {
-            padding: 12px;
-            background: #f5f5f5;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-        .option-label {
-            font-weight: 600;
-            margin-right: 8px;
-            color: #FF9800;
-            min-width: 25px;
-        }
-        .option:hover {
-            border-color: #FF9800;
-            background: #fff3e0;
-            transform: translateX(3px);
-        }
-        .option.selected {
-            border-color: #FF9800;
-            background: #fff3e0;
-        }
-        .option.correct {
-            border-color: #4CAF50;
-            background: #c8e6c9;
-        }
-        .option.incorrect {
-            border-color: #f44336;
-            background: #ffcdd2;
-        }
-        .explanation {
-            margin-top: 15px;
-            padding: 12px;
-            background: #e3f2fd;
-            border-left: 4px solid #2196F3;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #0d47a1;
-            line-height: 1.7;
-        }
-        .explanation strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 15px;
         }
         .button-container {
             margin-top: 30px;
@@ -254,25 +200,30 @@
         .retry-btn.show {
             display: inline-block;
         }
-        
-        /* Scrollbar styling */
-        .questions-panel::-webkit-scrollbar,
-        .passage-panel::-webkit-scrollbar {
-            width: 8px;
+        .explanation-section {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
         }
-        .questions-panel::-webkit-scrollbar-track,
-        .passage-panel::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
+        .explanation-section.show {
+            display: block;
         }
-        .questions-panel::-webkit-scrollbar-thumb,
-        .passage-panel::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
+        .explanation-section h3 {
+            color: #1976D2;
+            margin-bottom: 20px;
         }
-        .questions-panel::-webkit-scrollbar-thumb:hover,
-        .passage-panel::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .explanation-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #FF9800;
+        }
+        .explanation-item strong {
+            color: #FF9800;
         }
     </style>
 </head>
@@ -285,10 +236,9 @@
         <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
         <div id="error" class="error" style="display: none;"></div>
         
-        <div class="content-wrapper" id="contentWrapper" style="display: none;">
-            <div class="passage-panel" id="passagePanel"></div>
-            <div class="questions-panel" id="questionsPanel"></div>
-        </div>
+        <div id="passageContainer" style="display: none;"></div>
+        
+        <div class="explanation-section" id="explanationSection"></div>
         
         <div class="button-container">
             <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
@@ -412,100 +362,81 @@
 
         function renderSection(index) {
             const section = allSections[index];
+            userAnswers = {};
             
-            document.getElementById('contentWrapper').style.display = 'flex';
+            // Extract title from passage if exists
+            let passageText = section.passage;
+            let titleText = '';
+            const lines = passageText.split('\n');
+            if (lines.length > 0 && lines[0].trim().length < 50 && !lines[0].includes('(')) {
+                titleText = lines[0].trim();
+                passageText = lines.slice(1).join('\n');
+            }
             
-            // Render passage with blanks
-            const passagePanel = document.getElementById('passagePanel');
-            let passageHtml = section.passage;
+            // Create dropdowns for blanks
+            let passageHtml = passageText;
             
-            // Replace (1), (2), etc. with clickable blanks
             section.questions.forEach((q, qIdx) => {
                 const blankNum = qIdx + 1;
-                const regex = new RegExp(`\\(${blankNum}\\)|${blankNum}\\.\\s*\\.+`, 'g');
-                passageHtml = passageHtml.replace(regex, 
-                    `<span class="blank" data-question="${qIdx}" id="blank-${index}-${qIdx}">(${blankNum})</span>`);
-            });
-            
-            passagePanel.innerHTML = `<p>${passageHtml.replace(/\n\n/g, '</p><p>')}</p>`;
-            
-            // Add click handlers to blanks
-            document.querySelectorAll('.blank').forEach(blank => {
-                blank.addEventListener('click', () => {
-                    const qIdx = parseInt(blank.dataset.question);
-                    const questionDiv = document.querySelectorAll('.question')[qIdx];
-                    if (questionDiv) {
-                        questionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        questionDiv.style.background = '#fff3e0';
-                        setTimeout(() => questionDiv.style.background = 'white', 1000);
-                    }
-                });
-            });
-            
-            // Render questions
-            const questionsPanel = document.getElementById('questionsPanel');
-            questionsPanel.innerHTML = '';
-            
-            section.questions.forEach((q, qIdx) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question';
                 
+                // Shuffle options
                 const optionsWithIndices = q.options.map((opt, optIdx) => ({
                     text: opt,
                     originalIndex: optIdx
                 }));
-                
                 const shuffledOptions = shuffleArray(optionsWithIndices);
                 
-                const options = shuffledOptions.map((opt, displayIdx) => {
-                    const label = String.fromCharCode(65 + displayIdx);
-                    return `
-                        <div class="option" data-section="${index}" data-question="${qIdx}" data-answer="${opt.originalIndex}">
-                            <span class="option-label">${label}.</span>
-                            <span>${opt.text}</span>
-                        </div>
-                    `;
-                }).join('');
+                // Create dropdown HTML
+                const dropdownOptions = shuffledOptions.map(opt => 
+                    `<option value="${opt.originalIndex}">${opt.text}</option>`
+                ).join('');
                 
-                questionDiv.innerHTML = `
-                    <div class="question-number">${qIdx + 1}.</div>
-                    <div class="options">${options}</div>
-                `;
+                const dropdownHtml = `<span class="dropdown-blank"><select id="blank-${index}-${qIdx}" data-question="${qIdx}">
+                    <option value="" selected>(${blankNum})</option>
+                    ${dropdownOptions}
+                </select></span>`;
                 
-                questionsPanel.appendChild(questionDiv);
+                // Replace blanks with dropdowns
+                const regex = new RegExp(`\\(${blankNum}\\)[^)]*|${blankNum}\\.\\s*\\.+`, 'g');
+                passageHtml = passageHtml.replace(regex, dropdownHtml);
             });
-
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.addEventListener('click', handleOptionClick);
+            
+            // Render passage
+            const container = document.getElementById('passageContainer');
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div class="passage-container">
+                    ${titleText ? `<div class="passage-title">${titleText}</div>` : ''}
+                    <div>${passageHtml.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+            
+            // Add change event listeners
+            section.questions.forEach((q, qIdx) => {
+                const select = document.getElementById(`blank-${index}-${qIdx}`);
+                if (select) {
+                    select.addEventListener('change', (e) => handleDropdownChange(e, index, qIdx));
+                }
             });
             
             document.getElementById('submitBtn').style.display = 'inline-block';
             document.getElementById('result').classList.remove('show');
             document.getElementById('retryBtn').classList.remove('show');
+            document.getElementById('explanationSection').classList.remove('show');
         }
 
-        function handleOptionClick(e) {
-            const option = e.currentTarget;
-            const sectionIdx = option.dataset.section;
-            const questionIdx = option.dataset.question;
-            const answer = option.dataset.answer;
+        function handleDropdownChange(e, sectionIdx, questionIdx) {
+            const select = e.target;
+            const answer = select.value;
             
-            document.querySelectorAll(`.option[data-section="${sectionIdx}"][data-question="${questionIdx}"]`).forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            option.classList.add('selected');
-            
-            const key = `${sectionIdx}-${questionIdx}`;
-            userAnswers[key] = parseInt(answer);
-            
-            // Update blank in passage
-            const blank = document.getElementById(`blank-${sectionIdx}-${questionIdx}`);
-            if (blank) {
-                const section = allSections[currentSectionIndex];
-                const selectedOption = section.questions[questionIdx].options[parseInt(answer)];
-                blank.textContent = selectedOption;
-                blank.classList.add('filled');
+            if (answer !== '') {
+                const key = `${sectionIdx}-${questionIdx}`;
+                userAnswers[key] = parseInt(answer);
+                select.classList.add('answered');
+            } else {
+                const key = `${sectionIdx}-${questionIdx}`;
+                delete userAnswers[key];
+                select.classList.remove('answered');
             }
         }
 
@@ -525,6 +456,7 @@
             }
 
             let score = 0;
+            const explanations = [];
             
             section.questions.forEach((q, qIdx) => {
                 const key = `${currentSectionIndex}-${qIdx}`;
@@ -533,40 +465,50 @@
                 
                 if (isCorrect) score++;
 
-                // Mark options
-                document.querySelectorAll(`.option[data-section="${currentSectionIndex}"][data-question="${qIdx}"]`).forEach(opt => {
-                    opt.style.pointerEvents = 'none';
-                    const optAnswer = parseInt(opt.dataset.answer);
-                    
-                    if (optAnswer === q.answer) {
-                        opt.classList.add('correct');
-                    } else if (optAnswer === userAns && !isCorrect) {
-                        opt.classList.add('incorrect');
-                    }
-                });
-
-                // Mark blank in passage
-                const blank = document.getElementById(`blank-${currentSectionIndex}-${qIdx}`);
-                if (blank) {
-                    blank.style.pointerEvents = 'none';
+                // Mark dropdown
+                const select = document.getElementById(`blank-${currentSectionIndex}-${qIdx}`);
+                if (select) {
+                    select.disabled = true;
                     if (isCorrect) {
-                        blank.classList.add('correct');
+                        select.classList.add('correct');
+                        select.classList.remove('incorrect', 'answered');
                     } else {
-                        blank.classList.add('incorrect');
+                        select.classList.add('incorrect');
+                        select.classList.remove('correct', 'answered');
                     }
                 }
 
-                // Add explanation if available
+                // Collect explanations
                 if (q.explanation && q.explanation.trim() !== '') {
-                    const questionDiv = document.querySelectorAll('.question')[qIdx];
-                    const explanationDiv = document.createElement('div');
-                    explanationDiv.className = 'explanation';
-                    explanationDiv.innerHTML = `
-                        <strong>💡 Giải thích:</strong> ${q.explanation}
-                    `;
-                    questionDiv.appendChild(explanationDiv);
+                    const correctAnswer = q.options[q.answer];
+                    const userAnswer = q.options[userAns];
+                    explanations.push({
+                        num: qIdx + 1,
+                        correct: isCorrect,
+                        correctAnswer: correctAnswer,
+                        userAnswer: userAnswer,
+                        explanation: q.explanation
+                    });
                 }
             });
+
+            // Show explanations
+            if (explanations.length > 0) {
+                const explanationSection = document.getElementById('explanationSection');
+                explanationSection.innerHTML = `
+                    <h3>💡 Giải thích đáp án</h3>
+                    ${explanations.map(exp => `
+                        <div class="explanation-item">
+                            <strong>Câu ${exp.num}:</strong> 
+                            ${exp.correct ? '✓' : '✗'} 
+                            Đáp án đúng: <strong>${exp.correctAnswer}</strong>
+                            ${!exp.correct ? ` (Bạn chọn: ${exp.userAnswer})` : ''}
+                            <br>${exp.explanation}
+                        </div>
+                    `).join('')}
+                `;
+                explanationSection.classList.add('show');
+            }
 
             const percentage = Math.round((score / totalQuestions) * 100);
             const resultDiv = document.getElementById('result');
