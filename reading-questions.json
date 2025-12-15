@@ -122,5 +122,67 @@
         "explanation": "Đáp án C phù hợp nhất vì chương trình nói về lịch sử nghề nha khoa ('history of the dentist's profession') và tác động của đồ ăn đến răng ('what happens when we eat')."
       }
     ]
+  },
+  {
+    "id": "section5",
+    "title": "SECTION 5: Choose the best answer for each question",
+    "passage": "Thousands of people in Britain have a new hobby – line dancing. In almost every town, you will find clubs and classes for this new activity.\n\n‘Line dancing is easy to learn. If you have two feet and can walk, then you can do it!’ Fiona Lever, a teacher, (21) .................... “You don’t need a partner because you dance (22) .................... groups. It’s the best way to make new friends”. In my classes, (23) .................... are young and old people. The boys like it because they can make a lot of noise with their feet during the dances. When (24) .................... line dancing begin? Most people think it started about 15 years (25) .................... when American country music became famous in Britain.",
+    "questions": [
+      {
+        "question": "This passage as a whole is about New Year’s promises",
+        "options": [
+          "to complain about the time .",
+          "to ask for more television programmes .",
+          "to advise people to watch .",
+          "to persuade a television ."
+        ],
+        "answer": 3,
+        "explanation": "Sophie viết để thuyết phục (persuade) .'"
+      },
+      {
+        "question": "The Lunar New Year is an important Chinese holiday?",
+        "options": [
+          "They didn't know it was on.",
+          "They don't enjoy that type of programme.",
+          "Their parents wouldn't let them.",
+          "It wasn't shown on a channel they can receive."
+        ],
+        "answer": 0,
+        "explanation": "Bạn bè Sophie không xem vì 'the programme didn't appear in the TV Guide' - nghĩa là họ không biết chương trình có phát sóng."
+      },
+      {
+        "question": "What did Open wide say about toothache?",
+        "options": [
+          "In the past, nobody could make it stop.",
+          "Dentists used to help people who had it.",
+          "Hairdressers have it more than other people.",
+          "Ways of curing it have changed."
+        ],
+        "answer": 3,
+        "explanation": "Chương trình nói về 'how methods for helping people with toothache have developed over the centuries' - cách chữa trị đã thay đổi qua thời gian."
+      },
+      {
+        "question": "What does Sophie think about her parents now?",
+        "options": [
+          "They don't know as much as her about teeth.",
+          "Their advice is worth listening to.",
+          "They eat things which are bad for them.",
+          "They don't clean their teeth often enough."
+        ],
+        "answer": 1,
+        "explanation": "Sophie bây giờ nhận ra lời khuyên của bố mẹ là đúng: 'My parents were always saying... but I never paid much attention. Now I've seen what damage sugar can do... I'm going to change my habits.'"
+      },
+      {
+        "question": "Which of these gives information about the programme Sophie watched?",
+        "options": [
+          "A play about a 19th-century dentist and how he brought comfort to his patients.",
+          "The series about health care for teenagers. This week, good eating habits.",
+          "This history of the dentist's profession shows what happens when we eat.",
+          "We suggest how to prepare young children for that first visit to the dentist."
+        ],
+        "answer": 2,
+        "explanation": "Đáp án C phù hợp nhất vì chương trình nói về lịch sử nghề nha khoa ('history of the dentist's profession') và tác động của đồ ăn đến răng ('what happens when we eat')."
+      }
+    ]
   }
 ]
