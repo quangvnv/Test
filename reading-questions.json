@@ -61,4 +61,68 @@
       }
     ]
   }
+
+  {
+    "id": "section4",
+    "title": "SECTION 3: Choose the best answer for each question",
+    "passage": "The most important celebration holiday in China is the Lunar New Year. At this time, shops are closed. People celebrate by having parties, by paying friendly phone calls to their neighbors, and by visiting the temples or pagodas to make promises for the New Year. Children walk through the streets, carrying colorful lanterns and paper figures. Fireworks are also set off to light up the sky.\n\nThe time of the New Year is also the time at which Chinese people decorate their homes. For example, the windows, which are made of thick paper are torn down, and new ones are put up. This is also the time during which people pay their debts. Everyone tries to settle all his bills before the beginning of the New year. Before the New Year’s Eve, people make their homes attractive by decorating them with flowers and plants, and hanging brightly-coloured decoration.
+",
+    "questions": [
+      {
+        "question": "This passage as a whole is about New Year’s promises",
+        "options": [
+          "to complain about the time .",
+          "to ask for more television programmes .",
+          "to advise people to watch .",
+          "to persuade a television ."
+        ],
+        "answer": 3,
+        "explanation": "Sophie viết để thuyết phục (persuade) .'"
+      },
+      {
+        "question": "The Lunar New Year is an important Chinese holiday?",
+        "options": [
+          "They didn't know it was on.",
+          "They don't enjoy that type of programme.",
+          "Their parents wouldn't let them.",
+          "It wasn't shown on a channel they can receive."
+        ],
+        "answer": 0,
+        "explanation": "Bạn bè Sophie không xem vì 'the programme didn't appear in the TV Guide' - nghĩa là họ không biết chương trình có phát sóng."
+      },
+      {
+        "question": "What did Open wide say about toothache?",
+        "options": [
+          "In the past, nobody could make it stop.",
+          "Dentists used to help people who had it.",
+          "Hairdressers have it more than other people.",
+          "Ways of curing it have changed."
+        ],
+        "answer": 3,
+        "explanation": "Chương trình nói về 'how methods for helping people with toothache have developed over the centuries' - cách chữa trị đã thay đổi qua thời gian."
+      },
+      {
+        "question": "What does Sophie think about her parents now?",
+        "options": [
+          "They don't know as much as her about teeth.",
+          "Their advice is worth listening to.",
+          "They eat things which are bad for them.",
+          "They don't clean their teeth often enough."
+        ],
+        "answer": 1,
+        "explanation": "Sophie bây giờ nhận ra lời khuyên của bố mẹ là đúng: 'My parents were always saying... but I never paid much attention. Now I've seen what damage sugar can do... I'm going to change my habits.'"
+      },
+      {
+        "question": "Which of these gives information about the programme Sophie watched?",
+        "options": [
+          "A play about a 19th-century dentist and how he brought comfort to his patients.",
+          "The series about health care for teenagers. This week, good eating habits.",
+          "This history of the dentist's profession shows what happens when we eat.",
+          "We suggest how to prepare young children for that first visit to the dentist."
+        ],
+        "answer": 2,
+        "explanation": "Đáp án C phù hợp nhất vì chương trình nói về lịch sử nghề nha khoa ('history of the dentist's profession') và tác động của đồ ăn đến răng ('what happens when we eat')."
+      }
+    ]
+  }
 ]
