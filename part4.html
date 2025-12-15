@@ -396,9 +396,10 @@
                     ${dropdownOptions}
                 </select></span>`;
                 
-                // Replace blanks with dropdowns
-                const regex = new RegExp(`\\(${blankNum}\\)[^)]*|${blankNum}\\.\\s*\\.+`, 'g');
-                passageHtml = passageHtml.replace(regex, dropdownHtml);
+                // Replace blanks with dropdowns - more precise patterns
+                // Pattern 1: (1) with optional dots after: (1) ……
+                const pattern1 = new RegExp(`\\(${blankNum}\\)\\s*[…\\.]{0,}`, 'g');
+                passageHtml = passageHtml.replace(pattern1, dropdownHtml);
             });
             
             // Render passage
