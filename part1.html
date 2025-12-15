@@ -168,7 +168,7 @@
     </div>
 
     <script>
-        let questionBank = {};
+        let questionBank = [];
         let selectedQuestions = [];
         let userAnswers = {};
 
@@ -185,22 +185,27 @@
                 const arrayBuffer = await response.arrayBuffer();
                 const workbook = XLSX.read(arrayBuffer, { type: 'array' });
                 
-                // Đọc từng sheet trong Excel
-                workbook.SheetNames.forEach(sheetName => {
+                // Đọc từng sheet theo thứ tự và lưu vào mảng
+                questionBank = [];
+                workbook.SheetNames.forEach((sheetName, sheetIndex) => {
                     const worksheet = workbook.Sheets[sheetName];
                     const jsonData = XLSX.utils.sheet_to_json(worksheet);
                     
                     // Convert dữ liệu từ Excel sang format của quiz
-                    questionBank[sheetName] = jsonData.map(row => {
-                        // Giả sử Excel có các cột: question, option1, option2, option3, option4, answer, explanation
+                    const questions = jsonData.map(row => {
                         const opts = [row.option1, row.option2, row.option3, row.option4].filter(opt => opt);
                         return {
                             q: row.question,
                             opts: opts,
                             ans: row.answer,
-                            explanation: row.explanation || "Không có giải thích"
+                            explanation: row.explanation || "Không có giải thích",
+                            sheetName: sheetName,
+                            sheetIndex: sheetIndex
                         };
                     });
+                    
+                    // Lưu câu hỏi của sheet này vào mảng theo thứ tự
+                    questionBank.push(questions);
                 });
                 
                 document.getElementById('loading').style.display = 'none';
@@ -230,19 +235,18 @@
             selectedQuestions = [];
             userAnswers = {};
             
-            for (let cat in questionBank) {
-                const questions = questionBank[cat];
-                if (questions && questions.length > 0) {
-                    const randomQ = questions[Math.floor(Math.random() * questions.length)];
+            // Lấy 1 câu hỏi ngẫu nhiên từ mỗi sheet theo thứ tự
+            questionBank.forEach((sheetQuestions, index) => {
+                if (sheetQuestions && sheetQuestions.length > 0) {
+                    // Chọn ngẫu nhiên 1 câu từ sheet này
+                    const randomQ = sheetQuestions[Math.floor(Math.random() * sheetQuestions.length)];
+                    // Shuffle các options
                     selectedQuestions.push({
                         ...randomQ,
-                        category: cat,
-                        opts: shuffle(randomQ.opts)
+                        opts: shuffle([...randomQ.opts])
                     });
                 }
-            }
-
-            selectedQuestions = shuffle(selectedQuestions);
+            });
             
             if (selectedQuestions.length > 0) {
                 renderQuiz();
