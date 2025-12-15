@@ -17,7 +17,7 @@
             line-height: 1.8;
         }
         .container {
-            max-width: 1400px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 40px;
@@ -32,60 +32,27 @@
             border-bottom: 3px solid #2196F3;
             padding-bottom: 15px;
         }
-        .navigation {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-        .nav-btn {
-            padding: 12px 30px;
-            background: #e3f2fd;
-            border: 2px solid #2196F3;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
+        .section-title {
             color: #2196F3;
-            transition: all 0.3s;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
         }
-        .nav-btn:hover {
-            background: #2196F3;
-            color: white;
-        }
-        .nav-btn.active {
-            background: #2196F3;
-            color: white;
-        }
-        .content-wrapper {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        .questions-panel {
-            flex: 1;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
-        }
-        .passage-panel {
-            flex: 2;
-            padding: 25px;
+        .passage {
             background: #f9f9f9;
-            border-radius: 8px;
-            border: 2px solid #2196F3;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        .passage-panel p {
-            margin-bottom: 15px;
+            padding: 25px;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+            margin-bottom: 30px;
             font-size: 16px;
             line-height: 1.8;
             color: #333;
         }
-        .passage-panel em {
+        .passage p {
+            margin-bottom: 15px;
+        }
+        .passage em {
             font-style: italic;
             color: #555;
         }
@@ -104,26 +71,26 @@
             border-radius: 4px;
         }
         .question {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #fafafa;
             border-radius: 6px;
             border-left: 4px solid #4CAF50;
         }
         .question-text {
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: #333;
-            font-size: 16px;
+            font-size: 17px;
         }
         .options {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
         .option {
-            padding: 12px;
-            background: #f5f5f5;
+            padding: 15px;
+            background: white;
             border: 2px solid #ddd;
             border-radius: 6px;
             cursor: pointer;
@@ -131,18 +98,17 @@
             display: flex;
             align-items: flex-start;
             line-height: 1.6;
-            font-size: 14px;
         }
         .option-label {
             font-weight: 600;
-            margin-right: 8px;
+            margin-right: 10px;
             color: #2196F3;
-            min-width: 20px;
+            min-width: 25px;
         }
         .option:hover {
             border-color: #4CAF50;
             background: #f0f8f0;
-            transform: translateX(3px);
+            transform: translateX(5px);
         }
         .option.selected {
             border-color: #4CAF50;
@@ -157,26 +123,24 @@
             background: #ffcdd2;
         }
         .explanation {
-            margin-top: 15px;
-            padding: 12px;
+            margin-top: 20px;
+            padding: 15px;
             background: #fff3cd;
             border-left: 4px solid #ffc107;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 15px;
             color: #856404;
             line-height: 1.7;
         }
         .explanation strong {
             display: block;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
-        .button-container {
-            margin-top: 30px;
-            text-align: center;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
         .submit-btn {
-            padding: 18px 60px;
+            display: block;
+            width: 100%;
+            padding: 18px;
             background: #4CAF50;
             color: white;
             border: none;
@@ -184,6 +148,7 @@
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
+            margin-top: 30px;
             transition: background 0.3s;
         }
         .submit-btn:hover {
@@ -214,7 +179,8 @@
         }
         .retry-btn {
             display: none;
-            padding: 18px 60px;
+            width: 100%;
+            padding: 18px;
             background: #2196F3;
             color: white;
             border: none;
@@ -228,27 +194,31 @@
             background: #1976D2;
         }
         .retry-btn.show {
-            display: inline-block;
+            display: block;
         }
-        
-        /* Scrollbar styling */
-        .questions-panel::-webkit-scrollbar,
-        .passage-panel::-webkit-scrollbar {
-            width: 8px;
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
         }
-        .questions-panel::-webkit-scrollbar-track,
-        .passage-panel::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #2196F3;
+            transition: all 0.3s;
         }
-        .questions-panel::-webkit-scrollbar-thumb,
-        .passage-panel::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
+        .nav-btn:hover {
+            background: #2196F3;
+            color: white;
         }
-        .questions-panel::-webkit-scrollbar-thumb:hover,
-        .passage-panel::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .nav-btn.active {
+            background: #2196F3;
+            color: white;
         }
     </style>
 </head>
@@ -260,17 +230,10 @@
         
         <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
         <div id="error" class="error" style="display: none;"></div>
-        
-        <div class="content-wrapper" id="contentWrapper" style="display: none;">
-            <div class="questions-panel" id="questionsPanel"></div>
-            <div class="passage-panel" id="passagePanel"></div>
-        </div>
-        
-        <div class="button-container">
-            <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <div class="result" id="result"></div>
-            <button class="retry-btn" id="retryBtn">Làm lại</button>
-        </div>
+        <div id="testContent"></div>
+        <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
+        <div class="result" id="result"></div>
+        <button class="retry-btn" id="retryBtn">Làm lại</button>
     </div>
 
     <script>
@@ -278,6 +241,7 @@
         let currentSectionIndex = 0;
         let userAnswers = {};
 
+        // Đọc file JSON
         async function loadQuestions() {
             try {
                 const response = await fetch('reading-questions.json');
@@ -308,6 +272,7 @@
             }
         }
 
+        // Render navigation buttons
         function renderNavigation() {
             if (allSections.length <= 1) return;
             
@@ -315,64 +280,48 @@
             navDiv.style.display = 'flex';
             navDiv.innerHTML = allSections.map((section, idx) => `
                 <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
+                    ${section.title.split(':')[0]}
                 </button>
             `).join('');
         }
 
+        // Switch between sections
         function switchSection(index) {
             currentSectionIndex = index;
             renderSection(index);
             
+            // Update active button
             document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
                 btn.classList.toggle('active', idx === index);
             });
         }
 
-        // Shuffle array function
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
-
+        // Render a section
         function renderSection(index) {
             const section = allSections[index];
+            const content = document.getElementById('testContent');
             
-            // Show content wrapper
-            document.getElementById('contentWrapper').style.display = 'flex';
-            
-            // Render passage
-            const passagePanel = document.getElementById('passagePanel');
+            // Convert passage to paragraphs
             const paragraphs = section.passage.split('\n\n').map(p => `<p>${p}</p>`).join('');
-            passagePanel.innerHTML = paragraphs;
             
-            // Render questions
-            const questionsPanel = document.getElementById('questionsPanel');
-            questionsPanel.innerHTML = '';
+            content.innerHTML = `
+                <div class="section-title">${section.title}</div>
+                <div class="passage">${paragraphs}</div>
+                <div id="questions-${index}"></div>
+            `;
+            
+            const questionsDiv = document.getElementById(`questions-${index}`);
             
             section.questions.forEach((q, qIdx) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
                 
-                // Create array of options with original indices
-                const optionsWithIndices = q.options.map((opt, optIdx) => ({
-                    text: opt,
-                    originalIndex: optIdx
-                }));
-                
-                // Shuffle the options
-                const shuffledOptions = shuffleArray(optionsWithIndices);
-                
-                const options = shuffledOptions.map((opt, displayIdx) => {
-                    const label = String.fromCharCode(65 + displayIdx);
+                const options = q.options.map((opt, optIdx) => {
+                    const label = String.fromCharCode(65 + optIdx); // A, B, C, D
                     return `
-                        <div class="option" data-section="${index}" data-question="${qIdx}" data-answer="${opt.originalIndex}">
+                        <div class="option" data-section="${index}" data-question="${qIdx}" data-answer="${optIdx}">
                             <span class="option-label">${label}.</span>
-                            <span>${opt.text}</span>
+                            <span>${opt}</span>
                         </div>
                     `;
                 }).join('');
@@ -382,14 +331,15 @@
                     <div class="options">${options}</div>
                 `;
                 
-                questionsPanel.appendChild(questionDiv);
+                questionsDiv.appendChild(questionDiv);
             });
 
+            // Add event listeners
             document.querySelectorAll('.option').forEach(opt => {
                 opt.addEventListener('click', handleOptionClick);
             });
             
-            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('submitBtn').style.display = 'block';
             document.getElementById('result').classList.remove('show');
             document.getElementById('retryBtn').classList.remove('show');
         }
@@ -400,12 +350,15 @@
             const questionIdx = option.dataset.question;
             const answer = option.dataset.answer;
             
+            // Remove selection from other options in same question
             document.querySelectorAll(`.option[data-section="${sectionIdx}"][data-question="${questionIdx}"]`).forEach(opt => {
                 opt.classList.remove('selected');
             });
             
+            // Select this option
             option.classList.add('selected');
             
+            // Save answer
             const key = `${sectionIdx}-${questionIdx}`;
             userAnswers[key] = parseInt(answer);
         }
@@ -414,6 +367,7 @@
             const section = allSections[currentSectionIndex];
             const totalQuestions = section.questions.length;
             
+            // Check if all questions are answered
             let answeredCount = 0;
             for (let i = 0; i < totalQuestions; i++) {
                 const key = `${currentSectionIndex}-${i}`;
@@ -434,6 +388,7 @@
                 
                 if (isCorrect) score++;
 
+                // Mark all options
                 document.querySelectorAll(`.option[data-section="${currentSectionIndex}"][data-question="${qIdx}"]`).forEach(opt => {
                     opt.style.pointerEvents = 'none';
                     const optAnswer = parseInt(opt.dataset.answer);
@@ -445,6 +400,7 @@
                     }
                 });
 
+                // Add explanation
                 const questionDiv = document.querySelectorAll('.question')[qIdx];
                 const explanationDiv = document.createElement('div');
                 explanationDiv.className = 'explanation';
@@ -478,10 +434,14 @@
         });
 
         document.getElementById('retryBtn').addEventListener('click', () => {
+            // Reset answers
             userAnswers = {};
+            
+            // Re-render current section
             renderSection(currentSectionIndex);
         });
 
+        // Auto load when page loads
         window.addEventListener('load', loadQuestions);
     </script>
 </body>
