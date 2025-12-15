@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Learning Platform</title>
+    <title>Website của tôi</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             height: 100vh;
             overflow: hidden;
@@ -32,7 +32,6 @@
             padding: 0 20px 20px;
             border-bottom: 2px solid #34495e;
             margin-bottom: 20px;
-            font-size: 20px;
         }
 
         .menu-item {
@@ -108,111 +107,56 @@
             margin-bottom: 8px;
             line-height: 1.6;
         }
-
-        .home-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .home-card {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .home-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .home-card h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .home-card p {
-            color: #666;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h2>📚 English Tests</h2>
+        <h2>Menu</h2>
         <div class="menu-item active" onclick="showContent('home')">
             🏠 Trang chủ
         </div>
-        <div class="menu-item" onclick="showContent('sentence-rewrite')">
-            ✏️ Viết lại câu
+        <div class="menu-item" onclick="showContent('english-test-2')">
+            ℹ️ Viết lại câu
         </div>
-        <div class="menu-item" onclick="showContent('mini-test')">
+        <div class="menu-item" onclick="showContent('english-test')">
             📝 English Mini Test
         </div>
-        <div class="menu-item" onclick="showContent('reading-test')">
-            📖 Reading Comprehension
+        <div class="menu-item" onclick="showContent('reading-test')"">
+            ⚙️ Section 3
         </div>
-        <div class="menu-item" onclick="showContent('cloze-test')">
-            📋 Cloze Test
+        <div class="menu-item" onclick="showContent('contact')">
+            📧 Section 4
         </div>
     </div>
 
     <div class="content">
         <div id="home" class="content-section active">
-            <h1>🎓 Chào mừng đến với English Learning Platform</h1>
-            <p>Hệ thống học tiếng Anh trực tuyến với nhiều dạng bài tập đa dạng. Chọn một trong các bài test bên trái để bắt đầu.</p>
-            
-            <div class="home-grid">
-                <div class="home-card">
-                    <h3>✏️ Viết lại câu</h3>
-                    <p>Luyện tập kỹ năng viết lại câu với nhiều cấu trúc ngữ pháp khác nhau.</p>
-                </div>
-                
-                <div class="home-card">
-                    <h3>📝 English Mini Test</h3>
-                    <p>Bài kiểm tra trắc nghiệm ngắn về ngữ pháp và từ vựng tiếng Anh.</p>
-                </div>
-                
-                <div class="home-card">
-                    <h3>📖 Reading Comprehension</h3>
-                    <p>Đọc hiểu đoạn văn và trả lời câu hỏi. Rèn luyện kỹ năng đọc hiểu.</p>
-                </div>
-                
-                <div class="home-card">
-                    <h3>📋 Cloze Test</h3>
-                    <p>Điền từ vào chỗ trống trong đoạn văn. Luyện tập ngữ cảnh và từ vựng.</p>
-                </div>
-            </div>
-
-            <h2 style="margin-top: 40px; color: #2c3e50;">✨ Tính năng</h2>
+            <h1>Chào mừng đến với Website</h1>
+            <p>Đây là trang chủ của website. Bạn có thể thay đổi nội dung này theo ý muốn.</p>
+            <p>Website này được thiết kế đơn giản với menu bên trái và nội dung bên phải. Bấm vào các mục menu để xem nội dung tương ứng.</p>
             <ul>
                 <li>Thiết kế đơn giản, dễ sử dụng</li>
                 <li>Hoàn toàn tĩnh, không cần server</li>
                 <li>Dễ dàng tùy chỉnh và mở rộng</li>
                 <li>Có thể nhúng các file HTML khác</li>
                 <li>Tương thích SCORM</li>
-                <li>Hỗ trợ nhiều dạng bài tập</li>
-                <li>Tự động chấm điểm và giải thích</li>
             </ul>
         </div>
 
-        <div id="sentence-rewrite" class="content-section iframe-container">
+        <div id="english-test-2" class="content-section iframe-container">
             <iframe src="part2.html"></iframe>
         </div>
 
-        <div id="mini-test" class="content-section iframe-container">
+        <div id="english-test" class="content-section iframe-container">
             <iframe src="part1.html"></iframe>
         </div>
 
         <div id="reading-test" class="content-section iframe-container">
-            <iframe src="reading-test.html"></iframe>
+    		<iframe src="reading-test.html"></iframe>
         </div>
 
         <div id="cloze-test" class="content-section iframe-container">
-            <iframe src="part4.html"></iframe>
+    		<iframe src="part4.html"></iframe>
         </div>
     </div>
 
@@ -236,7 +180,7 @@
                 theAPI = findAPI(window.opener);
             }
             if (theAPI == null) {
-                console.log("SCORM API not found - running in standalone mode");
+                console.log("SCORM API not found");
             }
             return theAPI;
         }
@@ -276,19 +220,16 @@
         });
 
         function showContent(sectionId) {
-            // Hide all sections
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Remove active class from all menu items
             const menuItems = document.querySelectorAll('.menu-item');
             menuItems.forEach(item => {
                 item.classList.remove('active');
             });
 
-            // Show selected section
             document.getElementById(sectionId).classList.add('active');
             event.currentTarget.classList.add('active');
             
