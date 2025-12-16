@@ -14,67 +14,48 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
 
-        .navbar {
+        .sidebar {
+            width: 250px;
             background-color: #2c3e50;
             color: white;
-            padding: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
+            padding: 20px 0;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+            height: 100%;
+            overflow-y: auto;
         }
 
-        .navbar-brand {
-            padding: 15px 30px;
+        .sidebar h2 {
+            padding: 0 20px 20px;
+            border-bottom: 2px solid #34495e;
+            margin-bottom: 20px;
             font-size: 20px;
-            font-weight: bold;
-            border-right: 1px solid #34495e;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .navbar-menu {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            flex: 1;
         }
 
         .menu-item {
-            padding: 15px 25px;
+            padding: 15px 20px;
             cursor: pointer;
             transition: background-color 0.3s;
-            border-bottom: 3px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            border-left: 4px solid transparent;
         }
 
         .menu-item:hover {
             background-color: #34495e;
-            border-bottom-color: #3498db;
+            border-left-color: #3498db;
         }
 
         .menu-item.active {
             background-color: #34495e;
-            border-bottom-color: #3498db;
+            border-left-color: #3498db;
         }
 
         .content {
-            margin-top: 53px;
-            width: 100%;
-            height: calc(100vh - 53px);
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            height: 100vh;
             overflow: hidden;
         }
 
@@ -157,67 +138,32 @@
             color: #666;
             font-size: 14px;
         }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-            }
-
-            .navbar-brand {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #34495e;
-            }
-
-            .navbar-menu {
-                width: 100%;
-                flex-wrap: wrap;
-            }
-
-            .menu-item {
-                flex: 1;
-                min-width: 150px;
-                justify-content: center;
-                padding: 12px 15px;
-                font-size: 14px;
-            }
-
-            .content {
-                margin-top: 100px;
-                height: calc(100vh - 100px);
-            }
-        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-brand">
-            📚 English Tests
+    <div class="sidebar">
+        <h2>📚 English Tests</h2>
+        <div class="menu-item active" onclick="showContent('home')">
+            🏠 Trang chủ
         </div>
-        <ul class="navbar-menu">
-            <li class="menu-item active" onclick="showContent('home')">
-                🏠 Trang chủ
-            </li>
-            <li class="menu-item" onclick="showContent('sentence-rewrite')">
-                ✏️ Viết lại câu
-            </li>
-            <li class="menu-item" onclick="showContent('mini-test')">
-                📝 English Mini Test
-            </li>
-            <li class="menu-item" onclick="showContent('reading-test')">
-                📖 Reading Comprehension
-            </li>
-            <li class="menu-item" onclick="showContent('cloze-test')">
-                📋 Cloze Test
-            </li>
-        </ul>
-    </nav>
+        <div class="menu-item" onclick="showContent('sentence-rewrite')">
+            ✏️ Viết lại câu
+        </div>
+        <div class="menu-item" onclick="showContent('mini-test')">
+            📝 English Mini Test
+        </div>
+        <div class="menu-item" onclick="showContent('reading-test')">
+            📖 Reading Comprehension
+        </div>
+        <div class="menu-item" onclick="showContent('cloze-test')">
+            📋 Cloze Test
+        </div>
+    </div>
 
     <div class="content">
         <div id="home" class="content-section active">
             <h1>🎓 Chào mừng đến với English Learning Platform</h1>
-            <p>Hệ thống học tiếng Anh trực tuyến với nhiều dạng bài tập đa dạng. Chọn một trong các bài test trên thanh điều hướng để bắt đầu.</p>
+            <p>Hệ thống học tiếng Anh trực tuyến với nhiều dạng bài tập đa dạng. Chọn một trong các bài test bên trái để bắt đầu.</p>
             
             <div class="home-grid">
                 <div class="home-card">
