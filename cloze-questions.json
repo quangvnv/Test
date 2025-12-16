@@ -30,7 +30,9 @@
         "question": "",
         "options": [
           "more",
-          "most"
+          "most",
+          "much",
+          "many"
         ],
         "answer": 3,
         "explanation": ""
@@ -51,7 +53,8 @@
         "options": [
           "Every",
           "Either",
-          "Each"
+          "Each",
+          "None"
         ],
         "answer": 3,
         "explanation": ""
@@ -144,7 +147,9 @@
         "question": "",
         "options": [
           "more",
-          "most"
+          "most",
+          "much",
+          "many"
         ],
         "answer": 3,
         "explanation": ""
@@ -165,7 +170,8 @@
         "options": [
           "Every",
           "Either",
-          "Each"
+          "Each",
+          "None"
         ],
         "answer": 3,
         "explanation": ""
@@ -258,7 +264,9 @@
         "question": "",
         "options": [
           "more",
-          "most"
+          "most",
+          "much",
+          "many"
         ],
         "answer": 3,
         "explanation": ""
@@ -279,7 +287,8 @@
         "options": [
           "Every",
           "Either",
-          "Each"
+          "Each",
+          "None"
         ],
         "answer": 3,
         "explanation": ""
@@ -489,7 +498,9 @@
         "question": "",
         "options": [
           "more",
-          "most"
+          "most",
+          "much",
+          "many"
         ],
         "answer": 3,
         "explanation": ""
@@ -510,7 +521,8 @@
         "options": [
           "Every",
           "Either",
-          "Each"
+          "Each",
+          "Both"
         ],
         "answer": 3,
         "explanation": ""
@@ -603,7 +615,9 @@
         "question": "",
         "options": [
           "more",
-          "most"
+          "most",
+          "much",
+          "many"
         ],
         "answer": 3,
         "explanation": ""
@@ -624,7 +638,8 @@
         "options": [
           "Every",
           "Either",
-          "Each"
+          "Each",
+          "Both"
         ],
         "answer": 3,
         "explanation": ""
