@@ -229,7 +229,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📝 Cloze Test - Fill in the Blanks</h1>
+        <h1>Cloze Test - Fill in the Blanks</h1>
         
         <div class="navigation" id="navigation" style="display: none;"></div>
         
@@ -397,8 +397,8 @@
                 </select></span>`;
                 
                 // Replace blanks with dropdowns - more precise patterns
-                // Pattern 1: (1) with optional dots after: (1) ……
-                const pattern1 = new RegExp(`\\(${blankNum}\\)\\s*[…\\.]{0,}`, 'g');
+                // Pattern 1: (1) with optional dots after: (1) ......
+                const pattern1 = new RegExp(`\\(${blankNum}\\)\\s*[\\.…]{0,}`, 'g');
                 passageHtml = passageHtml.replace(pattern1, dropdownHtml);
             });
             
@@ -501,7 +501,7 @@
                     ${explanations.map(exp => `
                         <div class="explanation-item">
                             <strong>Câu ${exp.num}:</strong> 
-                            ${exp.correct ? '✓' : '✗'} 
+                            ${exp.correct ? '✔' : '✗'} 
                             Đáp án đúng: <strong>${exp.correctAnswer}</strong>
                             ${!exp.correct ? ` (Bạn chọn: ${exp.userAnswer})` : ''}
                             <br>${exp.explanation}
