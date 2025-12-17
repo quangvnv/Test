@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writing Practice - Sentence Rewriting</title>
+    <title>Writing Test - Sentence Rewriting</title>
 
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
@@ -18,7 +20,7 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: auto;
             background: white;
             padding: 30px;
@@ -28,23 +30,41 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             border-bottom: 3px solid #9c27b0;
             padding-bottom: 10px;
-            color: #333;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            display: none;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            border: 2px solid #9c27b0;
+            background: #f3e5f5;
+            color: #9c27b0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-btn.active {
+            background: #9c27b0;
+            color: white;
         }
 
         .question {
-            background: #fafafa;
+            margin-bottom: 30px;
             padding: 20px;
-            margin-bottom: 25px;
+            background: #fafafa;
             border-radius: 8px;
             border-left: 4px solid #9c27b0;
-        }
-
-        .original-sentence {
-            margin-bottom: 10px;
-            font-size: 16px;
         }
 
         .question-number {
@@ -63,8 +83,8 @@
             width: 100%;
             padding: 12px;
             font-size: 16px;
-            border-radius: 6px;
             border: 2px solid #ddd;
+            border-radius: 6px;
         }
 
         .answer-input:focus {
@@ -86,12 +106,12 @@
         }
 
         .button-container {
-            text-align: center;
             margin-top: 30px;
+            text-align: center;
         }
 
         button {
-            padding: 15px 50px;
+            padding: 15px 60px;
             font-size: 18px;
             border: none;
             border-radius: 6px;
@@ -111,20 +131,27 @@
         .retry-btn.show {
             display: inline-block;
         }
+
+        .loading {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
     </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>✍️ Writing Practice: Sentence Rewriting</h1>
+    <h1>✍️ Writing Test: Sentence Rewriting</h1>
 
-    <div id="loading">Đang tải câu hỏi...</div>
+    <div id="navigation" class="navigation"></div>
+    <div id="loading" class="loading">Đang tải đề...</div>
     <div id="questionsContainer"></div>
 
     <div class="button-container">
-        <button class="submit-btn" id="submitBtn">Hoàn thành</button>
-        <button class="retry-btn" id="retryBtn">Làm lại</button>
+        <button id="submitBtn" class="submit-btn">Nộp bài</button>
+        <button id="retryBtn" class="retry-btn">Làm lại</button>
     </div>
 </div>
 
@@ -137,14 +164,34 @@
         allSections = await res.json();
 
         document.getElementById('loading').style.display = 'none';
-        renderSection();
+
+        if (allSections.length > 1) renderNavigation();
+        renderSection(0);
     }
 
-    function renderSection() {
+    function renderNavigation() {
+        const nav = document.getElementById('navigation');
+        nav.style.display = 'flex';
+
+        nav.innerHTML = allSections.map((_, i) =>
+            `<button class="nav-btn ${i === 0 ? 'active' : ''}" onclick="switchSection(${i})">Test ${i + 1}</button>`
+        ).join('');
+    }
+
+    function switchSection(index) {
+        currentSectionIndex = index;
+        renderSection(index);
+
+        document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === index);
+        });
+    }
+
+    function renderSection(index) {
         const container = document.getElementById('questionsContainer');
         container.innerHTML = '';
 
-        const section = allSections[currentSectionIndex];
+        const section = allSections[index];
 
         section.questions.forEach((q, qIdx) => {
             const starterWord = q.incompleteSentence.split(/\.{3,}/)[0].trim();
@@ -153,7 +200,7 @@
             div.className = 'question';
 
             div.innerHTML = `
-                <div class="original-sentence">
+                <div>
                     <span class="question-number">${qIdx + 1}.</span>
                     ${q.originalSentence}
                 </div>
@@ -171,6 +218,9 @@
 
             container.appendChild(div);
         });
+
+        document.getElementById('submitBtn').style.display = 'inline-block';
+        document.getElementById('retryBtn').classList.remove('show');
     }
 
     document.getElementById('submitBtn').addEventListener('click', () => {
