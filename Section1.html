@@ -60,15 +60,6 @@
         .section-container {
             margin-bottom: 30px;
         }
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1976D2;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: #e3f2fd;
-            border-radius: 6px;
-        }
         .question-item {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -228,7 +219,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📝 Image-Based Multiple Choice Test</h1>
+        <h1>📝 Choose the best answer for each note, message or email</h1>
         
         <div class="navigation" id="navigation" style="display: none;"></div>
         
@@ -296,7 +287,7 @@
             navDiv.style.display = 'flex';
             navDiv.innerHTML = allSections.map((section, idx) => `
                 <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
+                    Section ${idx + 1}
                 </button>
             `).join('');
         }
@@ -328,7 +319,6 @@
             
             container.innerHTML = `
                 <div class="section-container">
-                    <div class="section-title">${section.title || 'Section ' + (index + 1)}</div>
                     ${section.questions.map((q, qIdx) => {
                         const shuffledOptions = shuffledQuestionsData[qIdx];
                         return `
