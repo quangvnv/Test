@@ -82,12 +82,12 @@
         }
         .audio-player {
             flex: 1;
-            min-width: 300px;
+            max-width: 400px;
         }
         .audio-player audio {
             width: 100%;
-            height: 50px;
-            border-radius: 25px;
+            height: 40px;
+            border-radius: 20px;
             outline: none;
         }
         .audio-player audio::-webkit-media-controls-panel {
@@ -112,6 +112,10 @@
             overflow: hidden;
             transition: all 0.3s;
             background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
         }
         .option-item:hover {
             border-color: #4CAF50;
@@ -132,31 +136,15 @@
         }
         .option-image {
             width: 100%;
-            aspect-ratio: 4/3;
+            max-width: 250px;
+            height: auto;
             object-fit: contain;
             background: #fafafa;
-            padding: 10px;
-        }
-        .option-label {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: white;
-            border: 2px solid #333;
-            width: 40px;
-            height: 40px;
+            padding: 5px;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 20px;
-            color: #333;
+            margin-bottom: 10px;
         }
         .option-checkbox {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
             width: 30px;
             height: 30px;
             border: 3px solid #666;
@@ -262,6 +250,9 @@
             .question-header {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            .audio-player {
+                max-width: 100%;
             }
         }
     </style>
@@ -386,8 +377,7 @@
                                 ${shuffledOptions.map((opt, displayIdx) => `
                                     <div class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}"
                                          onclick="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
-                                        <img src="${opt.image}" alt="Option ${String.fromCharCode(65 + displayIdx)}" class="option-image">
-                                        <div class="option-label">${String.fromCharCode(65 + displayIdx)}</div>
+                                        <img src="${opt.image}" alt="Option ${displayIdx + 1}" class="option-image">
                                         <div class="option-checkbox"></div>
                                     </div>
                                 `).join('')}
