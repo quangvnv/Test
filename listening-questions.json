@@ -1,11 +1,11 @@
 [
   {
     "id": "section1",
-    "title": "SECTION 1: \n\n1. Where are the women going to go tomorrow evening? A",
+    "title": "SECTION 1",
     "questions": [
       {
         "audio": "audio/section1-q1.mp3",
-        "question": "Where are the women going to go tomorrow evening? A",
+        "question": "Where are the women going to go tomorrow evening?",
         "images": [
           "listening_images/section1-q1-A.png",
           "listening_images/section1-q1-B.png",
@@ -15,7 +15,7 @@
       },
       {
         "audio": "audio/section1-q2.mp3",
-        "question": "What did the boy get for his birthday? B",
+        "question": "What did the boy get for his birthday?",
         "images": [
           "listening_images/section1-q2-A.png",
           "listening_images/section1-q2-B.png",
@@ -25,7 +25,7 @@
       },
       {
         "audio": "audio/section1-q3.mp3",
-        "question": "What did the girl hear last night? C",
+        "question": "What did the girl hear last night?",
         "images": [
           "listening_images/section1-q3-A.png",
           "listening_images/section1-q3-B.png",
@@ -35,7 +35,7 @@
       },
       {
         "audio": "audio/section1-q4.mp3",
-        "question": "What musical instrument is the boy going to learn? C",
+        "question": "What musical instrument is the boy going to learn?",
         "images": [
           "listening_images/section1-q4-A.png",
           "listening_images/section1-q4-B.png",
@@ -45,7 +45,7 @@
       },
       {
         "audio": "audio/section1-q5.mp3",
-        "question": "What did the girl see yesterday? A",
+        "question": "What did the girl see yesterday?",
         "images": [
           "listening_images/section1-q5-A.png",
           "listening_images/section1-q5-B.png",
@@ -55,7 +55,7 @@
       },
       {
         "audio": "audio/section1-q6.mp3",
-        "question": "Where does the man usually listen to music? A",
+        "question": "Where does the man usually listen to music?",
         "images": [
           "listening_images/section1-q6-A.png",
           "listening_images/section1-q6-B.png",
@@ -65,81 +65,87 @@
       },
       {
         "audio": "audio/section1-q7.mp3",
-        "question": "What hobby did they have as children? C ---",
+        "question": "What hobby did they have as children?",
         "images": [
           "listening_images/section1-q7-A.png",
           "listening_images/section1-q7-B.png",
           "listening_images/section1-q7-C.png"
         ],
         "answer": 2
-      },
+      }
+    ]
+  },
+  {
+    "id": "section2",
+    "title": "SECTION 2",
+    "questions": [
       {
-        "audio": "audio/section1-q1.mp3",
-        "question": "Where are the women going to go tomorrow evening? A",
+        "audio": "audio/section2-q1.mp3",
+        "question": "Where are the women going to go tomorrow evening?",
         "images": [
-          "listening_images/section1-q1-A.png",
-          "listening_images/section1-q1-B.png",
-          "listening_images/section1-q1-C.png"
+          "listening_images/section2-q1-A.png",
+          "listening_images/section2-q1-B.png",
+          "listening_images/section2-q1-C.png"
         ],
         "answer": 0
       },
       {
-        "audio": "audio/section1-q2.mp3",
-        "question": "What did the boy get for his birthday? B",
+        "audio": "audio/section2-q2.mp3",
+        "question": "What did the boy get for his birthday?",
         "images": [
-          "listening_images/section1-q2-A.png",
-          "listening_images/section1-q2-B.png",
-          "listening_images/section1-q2-C.png"
+          "listening_images/section2-q2-A.png",
+          "listening_images/section2-q2-B.png",
+          "listening_images/section2-q2-C.png"
         ],
         "answer": 2
       },
       {
-        "audio": "audio/section1-q3.mp3",
-        "question": "What did the girl hear last night? C",
+        "audio": "audio/section2-q3.mp3",
+        "question": "What did the girl hear last night?",
         "images": [
-          "listening_images/section1-q3-A.png",
-          "listening_images/section1-q3-B.png",
-          "listening_images/section1-q3-C.png"
+          "listening_images/section2-q3-A.png",
+          "listening_images/section2-q3-B.png",
+          "listening_images/section2-q3-C.png"
         ],
         "answer": 1
       },
       {
-        "audio": "audio/section1-q4.mp3",
-        "question": "What musical instrument is the boy going to learn? C",
+        "audio": "audio/section2-q4.mp3",
+        "question": "What musical instrument is the boy going to learn?",
         "images": [
-          "listening_images/section1-q4-A.png",
-          "listening_images/section1-q4-B.png",
-          "listening_images/section1-q4-C.png"
+          "listening_images/section2-q4-A.png",
+          "listening_images/section2-q4-B.png",
+          "listening_images/section2-q4-C.png"
         ],
         "answer": 0
       },
       {
-        "audio": "audio/section1-q5.mp3",
-        "question": "What did the girl see yesterday? A",
+        "audio": "audio/section2-q5.mp3",
+        "question": "What did the girl see yesterday?",
         "images": [
-          "listening_images/section1-q5-A.png",
-          "listening_images/section1-q5-B.png",
-          "listening_images/section1-q5-C.png"
+          "listening_images/section2-q5-A.png",
+          "listening_images/section2-q5-B.png",
+          "listening_images/section2-q5-C.png"
         ],
         "answer": 2
       },
       {
-        "audio": "audio/section1-q6.mp3",
-        "question": "Where does the man usually listen to music? A",
+        "audio": "audio/section2-q6.mp3",
+        "question": "Where does the man usually listen to music?",
         "images": [
-          "listening_images/section1-q6-A.png",
-          "listening_images/section1-q6-B.png",
-          "listening_images/section1-q6-C.png"
+          "listening_images/section2-q6-A.png",
+          "listening_images/section2-q6-B.png",
+          "listening_images/section2-q6-C.png"
         ],
         "answer": 0
       },
       {
-        "audio": "audio/section1-q7.mp3",
-        "question": "What hobby did they have as children? C ---",
+        "audio": "audio/section2-q7.mp3",
+        "question": "What hobby did they have as children?",
         "images": [
-          "listening_images/section1-q7-A.png",
-          "listening_images/section1-q7-B.png",
-          "listening_images/section1-q7-C.png"
+          "listening_images/section2-q7-A.png",
+          "listening_images/section2-q7-B.png",
+          "listening_images/section2-q7-C.png"
         ],
         "answer": 2
       }
