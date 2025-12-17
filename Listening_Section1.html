@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Listening Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 28px;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            padding: 12px 30px;
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4CAF50;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            background: #4CAF50;
+            color: white;
+        }
+        .nav-btn.active {
+            background: #4CAF50;
+            color: white;
+        }
+        .section-container {
+            margin-bottom: 30px;
+        }
+        .question-item {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .question-number {
+            font-weight: 700;
+            color: #2e7d32;
+            font-size: 20px;
+        }
+        .audio-player {
+            flex: 1;
+            min-width: 300px;
+        }
+        .audio-player audio {
+            width: 100%;
+            height: 50px;
+            border-radius: 25px;
+            outline: none;
+        }
+        .audio-player audio::-webkit-media-controls-panel {
+            background: linear-gradient(to right, #4CAF50, #66BB6A);
+        }
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .option-item {
+            position: relative;
+            cursor: pointer;
+            border: 3px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+        }
+        .option-item:hover {
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+        .option-item.selected {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        .option-item.correct {
+            border-color: #4CAF50;
+            background: #c8e6c9;
+        }
+        .option-item.incorrect {
+            border-color: #f44336;
+            background: #ffcdd2;
+        }
+        .option-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: contain;
+            background: #fafafa;
+            padding: 10px;
+        }
+        .option-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            border: 2px solid #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: #333;
+        }
+        .option-checkbox {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #666;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .option-item.selected .option-checkbox {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .option-item.selected .option-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+        .error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #c62828;
+            border-radius: 4px;
+        }
+        .button-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .submit-btn {
+            padding: 18px 60px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background: #45a049;
+        }
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 25px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            display: none;
+            border: 2px solid #4CAF50;
+        }
+        .result.show {
+            display: block;
+        }
+        .result .score {
+            font-size: 32px;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+        .retry-btn {
+            display: none;
+            padding: 18px 60px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .retry-btn:hover {
+            background: #F57C00;
+        }
+        .retry-btn.show {
+            display: inline-block;
+        }
+        @media (max-width: 1024px) {
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎧 Listening Test</h1>
+        
+        <div class="navigation" id="navigation" style="display: none;"></div>
+        
+        <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="sectionsContainer" style="display: none;"></div>
+        
+        <div class="button-container">
+            <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
+            <div class="result" id="result"></div>
+            <button class="retry-btn" id="retryBtn">Làm lại</button>
+        </div>
+    </div>
+
+    <script>
+        let allSections = [];
+        let currentSectionIndex = 0;
+        let userAnswers = {};
+
+        // Shuffle array function
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch('listening-questions.json');
+                
+                if (!response.ok) {
+                    throw new Error('Không tìm thấy file listening-questions.json');
+                }
+                
+                allSections = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (allSections.length === 0) {
+                    throw new Error('File JSON không có dữ liệu');
+                }
+                
+                renderNavigation();
+                renderSection(0);
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').innerHTML = `
+                    <strong>Lỗi:</strong> ${error.message}<br>
+                    <small>Hãy đảm bảo file "listening-questions.json" nằm cùng thư mục với file HTML này.</small>
+                `;
+                console.error('Error loading JSON:', error);
+            }
+        }
+
+        function renderNavigation() {
+            if (allSections.length <= 1) return;
+            
+            const navDiv = document.getElementById('navigation');
+            navDiv.style.display = 'flex';
+            navDiv.innerHTML = allSections.map((section, idx) => `
+                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
+                    Test ${idx + 1}
+                </button>
+            `).join('');
+        }
+
+        function switchSection(index) {
+            currentSectionIndex = index;
+            renderSection(index);
+            
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === index);
+            });
+        }
+
+        function renderSection(index) {
+            const section = allSections[index];
+            userAnswers = {};
+            
+            const container = document.getElementById('sectionsContainer');
+            container.style.display = 'block';
+            
+            // Create shuffled options mapping for each question
+            const shuffledQuestionsData = section.questions.map(q => {
+                const optionsWithIndices = q.images.map((img, idx) => ({
+                    image: img,
+                    originalIndex: idx
+                }));
+                return shuffleArray(optionsWithIndices);
+            });
+            
+            container.innerHTML = `
+                <div class="section-container">
+                    ${section.questions.map((q, qIdx) => {
+                        const shuffledOptions = shuffledQuestionsData[qIdx];
+                        return `
+                        <div class="question-item">
+                            <div class="question-header">
+                                <div class="question-number">${qIdx + 1}</div>
+                                <div class="audio-player">
+                                    <audio controls preload="metadata">
+                                        <source src="${q.audio}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            </div>
+                            <div class="question-text">${q.question}</div>
+                            <div class="options-grid">
+                                ${shuffledOptions.map((opt, displayIdx) => `
+                                    <div class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}"
+                                         onclick="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
+                                        <img src="${opt.image}" alt="Option ${String.fromCharCode(65 + displayIdx)}" class="option-image">
+                                        <div class="option-label">${String.fromCharCode(65 + displayIdx)}</div>
+                                        <div class="option-checkbox"></div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `}).join('')}
+                </div>
+            `;
+            
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('retryBtn').classList.remove('show');
+        }
+
+        function handleAnswer(sectionIdx, questionIdx, optionIdx) {
+            const key = `${sectionIdx}-${questionIdx}`;
+            const section = allSections[sectionIdx];
+            
+            // Remove selected class from all options
+            section.questions[questionIdx].images.forEach((_, idx) => {
+                const optionElem = document.getElementById(`option-${sectionIdx}-${questionIdx}-${idx}`);
+                if (optionElem) {
+                    optionElem.classList.remove('selected');
+                }
+            });
+            
+            // Add selected class to clicked option
+            const optionElem = document.getElementById(`option-${sectionIdx}-${questionIdx}-${optionIdx}`);
+            if (optionElem) {
+                optionElem.classList.add('selected');
+            }
+            
+            userAnswers[key] = optionIdx;
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const section = allSections[currentSectionIndex];
+            const totalQuestions = section.questions.length;
+            
+            let answeredCount = 0;
+            for (let i = 0; i < totalQuestions; i++) {
+                const key = `${currentSectionIndex}-${i}`;
+                if (userAnswers[key] !== undefined) answeredCount++;
+            }
+            
+            if (answeredCount < totalQuestions) {
+                alert('Vui lòng trả lời tất cả các câu hỏi!');
+                return;
+            }
+
+            let score = 0;
+            
+            section.questions.forEach((q, qIdx) => {
+                const key = `${currentSectionIndex}-${qIdx}`;
+                const userAns = userAnswers[key];
+                const isCorrect = userAns === q.answer;
+                
+                if (isCorrect) score++;
+
+                // Mark options
+                q.images.forEach((_, optIdx) => {
+                    const optionElem = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${optIdx}`);
+                    
+                    if (optionElem) {
+                        optionElem.style.cursor = 'not-allowed';
+                        optionElem.onclick = null;
+                        
+                        if (optIdx === q.answer) {
+                            optionElem.classList.add('correct');
+                            optionElem.classList.remove('selected', 'incorrect');
+                        } else if (optIdx === userAns && !isCorrect) {
+                            optionElem.classList.add('incorrect');
+                            optionElem.classList.remove('selected', 'correct');
+                        } else {
+                            optionElem.classList.remove('selected');
+                        }
+                    }
+                });
+            });
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const resultDiv = document.getElementById('result');
+            
+            let emoji = '🎉';
+            let message = 'Xuất sắc!';
+            if (percentage < 50) {
+                emoji = '📚';
+                message = 'Cố gắng lên!';
+            } else if (percentage < 80) {
+                emoji = '👍';
+                message = 'Khá tốt!';
+            }
+            
+            resultDiv.innerHTML = `
+                <div>${emoji} ${message}</div>
+                <div class="score">${score}/${totalQuestions}</div>
+                <div>Điểm số: ${percentage}%</div>
+            `;
+            resultDiv.classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('retryBtn').classList.add('show');
+        });
+
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            userAnswers = {};
+            renderSection(currentSectionIndex);
+        });
+
+        window.addEventListener('load', loadQuestions);
+    </script>
+</body>
+</html>
