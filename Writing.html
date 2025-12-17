@@ -88,28 +88,22 @@
             font-weight: 700;
             color: #9c27b0;
             font-size: 18px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .original-sentence {
-            background: #e8eaf6;
-            padding: 15px;
-            border-radius: 6px;
             margin-bottom: 15px;
-            font-size: 16px;
             color: #333;
-            border-left: 3px solid #5e35b1;
-        }
-        .original-sentence strong {
-            color: #5e35b1;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        .incomplete-sentence {
             font-size: 16px;
-            color: #555;
-            margin-bottom: 15px;
-            line-height: 2;
+        }
+        .rewrite-section {
+            margin-top: 15px;
+        }
+        .starter-word {
+            display: inline-block;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 5px;
+            font-size: 16px;
         }
         .answer-input {
             width: 100%;
@@ -331,23 +325,24 @@
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
                 
+                // Extract starter word from incomplete sentence
+                const incompleteParts = q.incompleteSentence.split(/\.{3,}/);
+                const starterWord = incompleteParts[0].trim();
+                
                 questionDiv.innerHTML = `
-                    <div class="question-number">Question ${qIdx + 1}:</div>
-                    <div class="original-sentence">
-                        <strong>Original sentence:</strong>
-                        ${q.originalSentence}
+                    <div class="question-number">Question ${qIdx + 1}</div>
+                    <div class="original-sentence">${q.originalSentence}</div>
+                    <div class="rewrite-section">
+                        <div class="starter-word">${starterWord}</div>
+                        <input 
+                            type="text" 
+                            class="answer-input" 
+                            data-section="${index}" 
+                            data-question="${qIdx}"
+                            placeholder="Type your answer here..."
+                        />
+                        <div class="answer-feedback"></div>
                     </div>
-                    <div class="incomplete-sentence">
-                        ${q.incompleteSentence.replace(/\.{3,}/g, '_____')}
-                    </div>
-                    <input 
-                        type="text" 
-                        class="answer-input" 
-                        data-section="${index}" 
-                        data-question="${qIdx}"
-                        placeholder="Type your answer here..."
-                    />
-                    <div class="answer-feedback"></div>
                 `;
                 
                 sectionDiv.appendChild(questionDiv);
