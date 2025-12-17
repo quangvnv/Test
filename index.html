@@ -49,6 +49,7 @@
             margin: 0;
             padding: 0;
             flex: 1;
+            overflow-x: auto;
         }
 
         .menu-item {
@@ -59,6 +60,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .menu-item:hover {
@@ -158,7 +160,6 @@
             font-size: 14px;
         }
 
-        /* Mobile responsive */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -200,7 +201,16 @@
                 🏠 Trang chủ
             </li>
             <li class="menu-item" onclick="showContent('image-mcq')">
-                🖼️ Image MCQ
+                🖼️ Section 1
+            </li>
+            <li class="menu-item" onclick="showContent('grammar-test')">
+                📚 Section 2
+            </li>
+            <li class="menu-item" onclick="showContent('reading-test')">
+                📖 Section 3
+            </li>
+            <li class="menu-item" onclick="showContent('cloze-test')">
+                📋 Section 4
             </li>
             <li class="menu-item" onclick="showContent('sentence-rewrite')">
                 ✏️ Viết lại câu
@@ -208,12 +218,8 @@
             <li class="menu-item" onclick="showContent('mini-test')">
                 📝 English Mini Test
             </li>
-            <li class="menu-item" onclick="showContent('reading-test')">
-                📖 Reading Comprehension
-            </li>
-            <li class="menu-item" onclick="showContent('cloze-test')">
-                📋 Cloze Test
-            </li>
+
+
         </ul>
     </nav>
 
@@ -223,6 +229,11 @@
             <p>Hệ thống học tiếng Anh trực tuyến với nhiều dạng bài tập đa dạng. Chọn một trong các bài test trên thanh điều hướng để bắt đầu.</p>
             
             <div class="home-grid">
+                <div class="home-card">
+                    <h3>📚 Grammar Test</h3>
+                    <p>Bài kiểm tra trắc nghiệm ngữ pháp và từ vựng. Luyện tập các cấu trúc câu và thì trong tiếng Anh.</p>
+                </div>
+
                 <div class="home-card">
                     <h3>🖼️ Image MCQ</h3>
                     <p>Bài kiểm tra trắc nghiệm dựa trên hình ảnh. Đọc tin nhắn, thông báo và chọn đáp án đúng.</p>
@@ -259,7 +270,12 @@
                 <li>Hỗ trợ nhiều dạng bài tập</li>
                 <li>Tự động chấm điểm và giải thích</li>
                 <li>Hỗ trợ hình ảnh và multimedia</li>
+                <li>Trộn đáp án ngẫu nhiên</li>
             </ul>
+        </div>
+
+        <div id="grammar-test" class="content-section iframe-container">
+            <iframe src="Section2.html"></iframe>
         </div>
 
         <div id="image-mcq" class="content-section iframe-container">
@@ -343,23 +359,19 @@
         });
 
         function showContent(sectionId) {
-            // Hide all sections
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Remove active class from all menu items
             const menuItems = document.querySelectorAll('.menu-item');
             menuItems.forEach(item => {
                 item.classList.remove('active');
             });
 
-            // Show selected section
             document.getElementById(sectionId).classList.add('active');
             event.currentTarget.classList.add('active');
             
-            // Track progress in SCORM
             if (API != null) {
                 API.LMSSetValue("cmi.core.lesson_location", sectionId);
                 API.LMSCommit("");
