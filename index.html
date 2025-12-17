@@ -96,7 +96,8 @@
         }
 
         .dropdown:hover .dropdown-content,
-        .dropdown-content:hover {
+        .dropdown-content:hover,
+        .dropdown.show .dropdown-content {
             display: block;
         }
 
@@ -412,6 +413,12 @@
             if (clickedItem) {
                 clickedItem.classList.add('active');
             }
+            
+            // Close dropdown after selection
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
             
             if (API != null) {
                 API.LMSSetValue("cmi.core.lesson_location", sectionId);
