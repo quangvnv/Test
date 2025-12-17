@@ -235,11 +235,7 @@
     <div class="container">
         <h1>✍️ Writing Test: Sentence Rewriting</h1>
         
-        <div class="instructions">
-            <h3>📝 Instructions:</h3>
-            <p>Rewrite each sentence using the given beginning. Your answer should have the same meaning as the original sentence. Pay attention to grammar, word order, and tense.</p>
-        </div>
-        
+      
         <div class="navigation" id="navigation" style="display: none;"></div>
         
         <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
@@ -331,7 +327,7 @@
                 
                 questionDiv.innerHTML = `
                     <div class="original-sentence">
-    			${qIdx + 1} ${q.originalSentence}
+    			<span class="question-number">${qIdx + 1}.</span> ${q.originalSentence}
 		    </div>
 
                     <div class="rewrite-section">
