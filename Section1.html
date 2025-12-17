@@ -249,6 +249,16 @@
         let currentSectionIndex = 0;
         let userAnswers = {};
 
+        // Shuffle array function
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         async function loadQuestions() {
             try {
                 const response = await fetch('image-mcq-questions.json');
@@ -307,10 +317,21 @@
             const container = document.getElementById('sectionsContainer');
             container.style.display = 'block';
             
+            // Create shuffled options mapping for each question
+            const shuffledQuestionsData = section.questions.map(q => {
+                const optionsWithIndices = q.options.map((opt, idx) => ({
+                    text: opt,
+                    originalIndex: idx
+                }));
+                return shuffleArray(optionsWithIndices);
+            });
+            
             container.innerHTML = `
                 <div class="section-container">
                     <div class="section-title">${section.title || 'Section ' + (index + 1)}</div>
-                    ${section.questions.map((q, qIdx) => `
+                    ${section.questions.map((q, qIdx) => {
+                        const shuffledOptions = shuffledQuestionsData[qIdx];
+                        return `
                         <div class="question-item">
                             <div class="question-image">
                                 ${q.image ? 
@@ -321,19 +342,19 @@
                             <div>
                                 <div class="question-number">Question ${qIdx + 1}</div>
                                 <div class="options-container">
-                                    ${q.options.map((opt, optIdx) => `
-                                        <label class="option-item" id="option-${index}-${qIdx}-${optIdx}">
+                                    ${shuffledOptions.map((opt, displayIdx) => `
+                                        <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}">
                                             <input type="radio" 
                                                    name="q-${index}-${qIdx}" 
-                                                   value="${optIdx}"
-                                                   onchange="handleAnswer(${index}, ${qIdx}, ${optIdx})">
-                                            <span class="option-label">${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+                                                   value="${opt.originalIndex}"
+                                                   onchange="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
+                                            <span class="option-label">${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
                                         </label>
                                     `).join('')}
                                 </div>
                             </div>
                         </div>
-                    `).join('')}
+                    `}).join('')}
                 </div>
             `;
             
@@ -383,7 +404,7 @@
                 // Mark options
                 q.options.forEach((_, optIdx) => {
                     const optionElem = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${optIdx}`);
-                    const radioInput = optionElem.querySelector('input[type="radio"]');
+                    const radioInput = optionElem ? optionElem.querySelector('input[type="radio"]') : null;
                     
                     if (optionElem && radioInput) {
                         radioInput.disabled = true;
