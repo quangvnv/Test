@@ -5,52 +5,62 @@
     "questions": [
       {
         "originalSentence": "Hurricanes destroy a great deal of property each year.",
-        "incompleteSentence": "",
+        "incompleteSentence": "A great deal of property …………………………………",
+        "starterWord": "A great deal of property",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "My sister has to finish her geography project by Monday.",
-        "incompleteSentence": "",
+        "incompleteSentence": "My sister is …………………………………",
+        "starterWord": "My sister is",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-        "incompleteSentence": "",
+        "incompleteSentence": "The shop assistant …………………………………",
+        "starterWord": "The shop assistant",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-        "incompleteSentence": "",
+        "incompleteSentence": "Before we…………………………………",
+        "starterWord": "Before we",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
-        "incompleteSentence": "",
+        "incompleteSentence": "They…………………………………",
+        "starterWord": "They",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "My husband gave me a new cell phone on my birthday.",
-        "incompleteSentence": "",
+        "incompleteSentence": "I…………………………………",
+        "starterWord": "I",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "We should wear suitable clothes when we go skiing.",
-        "incompleteSentence": "",
+        "incompleteSentence": "We are …………………………………",
+        "starterWord": "We are",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "The glasses are kept in this cupboard by my mother.",
-        "incompleteSentence": "",
+        "incompleteSentence": "My mother …………………………………",
+        "starterWord": "My mother",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
-        "incompleteSentence": "",
+        "incompleteSentence": "After Milani …………………………………",
+        "starterWord": "After Milani",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "The students can’t understand this chapter because it’s so complex.",
-        "incompleteSentence": "",
+        "incompleteSentence": "The students aren’t …………………………………",
+        "starterWord": "The students aren’t",
         "suggestedAnswer": ""
       }
     ]
@@ -61,52 +71,62 @@
     "questions": [
       {
         "originalSentence": "Hurricanes destroy a great deal of property each year.",
-        "incompleteSentence": "",
+        "incompleteSentence": "A great deal of property …………………………………",
+        "starterWord": "A great deal of property",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "My sister has to finish her geography project by Monday.",
-        "incompleteSentence": "",
+        "incompleteSentence": "My sister is …………………………………",
+        "starterWord": "My sister is",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-        "incompleteSentence": "",
+        "incompleteSentence": "The shop assistant …………………………………",
+        "starterWord": "The shop assistant",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-        "incompleteSentence": "",
+        "incompleteSentence": "Before we…………………………………",
+        "starterWord": "Before we",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
-        "incompleteSentence": "",
+        "incompleteSentence": "They…………………………………",
+        "starterWord": "They",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "My husband gave me a new cell phone on my birthday.",
-        "incompleteSentence": "",
+        "incompleteSentence": "I…………………………………",
+        "starterWord": "I",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "We should wear suitable clothes when we go skiing.",
-        "incompleteSentence": "",
+        "incompleteSentence": "We are …………………………………",
+        "starterWord": "We are",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "The glasses are kept in this cupboard by my mother.",
-        "incompleteSentence": "",
+        "incompleteSentence": "My mother …………………………………",
+        "starterWord": "My mother",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
-        "incompleteSentence": "",
+        "incompleteSentence": "After Milani …………………………………",
+        "starterWord": "After Milani",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "The students can’t understand this chapter because it’s so complex.",
-        "incompleteSentence": "",
+        "incompleteSentence": "The students aren’t …………………………………",
+        "starterWord": "The students aren’t",
         "suggestedAnswer": ""
       }
     ]
@@ -117,52 +137,62 @@
     "questions": [
       {
         "originalSentence": "Hurricanes destroy a great deal of property each year.",
-        "incompleteSentence": "",
+        "incompleteSentence": "A great deal of property …………………………………",
+        "starterWord": "A great deal of property",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "My sister has to finish her geography project by Monday.",
-        "incompleteSentence": "",
+        "incompleteSentence": "My sister is …………………………………",
+        "starterWord": "My sister is",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-        "incompleteSentence": "",
+        "incompleteSentence": "The shop assistant …………………………………",
+        "starterWord": "The shop assistant",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-        "incompleteSentence": "",
+        "incompleteSentence": "Before we…………………………………",
+        "starterWord": "Before we",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
-        "incompleteSentence": "",
+        "incompleteSentence": "They…………………………………",
+        "starterWord": "They",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "My husband gave me a new cell phone on my birthday.",
-        "incompleteSentence": "",
+        "incompleteSentence": "I…………………………………",
+        "starterWord": "I",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "We should wear suitable clothes when we go skiing.",
-        "incompleteSentence": "",
+        "incompleteSentence": "We are …………………………………",
+        "starterWord": "We are",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "The glasses are kept in this cupboard by my mother.",
-        "incompleteSentence": "",
+        "incompleteSentence": "My mother …………………………………",
+        "starterWord": "My mother",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
-        "incompleteSentence": "",
+        "incompleteSentence": "After Milani …………………………………",
+        "starterWord": "After Milani",
         "suggestedAnswer": ""
       },
       {
         "originalSentence": "The students can’t understand this chapter because it’s so complex.",
-        "incompleteSentence": "",
+        "incompleteSentence": "The students aren’t …………………………………",
+        "starterWord": "The students aren’t",
         "suggestedAnswer": ""
       }
     ]
