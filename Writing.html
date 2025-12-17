@@ -330,8 +330,10 @@
                 const starterWord = incompleteParts[0].trim();
                 
                 questionDiv.innerHTML = `
-                    <div class="question-number">Question ${qIdx + 1}</div>
-                    <div class="original-sentence">${q.originalSentence}</div>
+                    <div class="original-sentence">
+    			${qIdx + 1} ${q.originalSentence}
+		    </div>
+
                     <div class="rewrite-section">
                         <div class="starter-word">${starterWord}</div>
                         <input 
