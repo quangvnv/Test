@@ -31,16 +31,7 @@
             left: 0;
             right: 0;
             z-index: 1000;
-        }
-
-        .navbar-brand {
-            padding: 15px 30px;
-            font-size: 20px;
-            font-weight: bold;
-            border-right: 1px solid #34495e;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            overflow: visible;
         }
 
         .navbar-menu {
@@ -49,10 +40,11 @@
             margin: 0;
             padding: 0;
             flex: 1;
-            overflow-x: auto;
+            overflow: visible;
         }
 
         .menu-item {
+            position: relative;
             padding: 15px 25px;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -71,6 +63,50 @@
         .menu-item.active {
             background-color: #34495e;
             border-bottom-color: #3498db;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #34495e;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1001;
+            margin-top: 3px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #2c3e50;
+            border-left-color: #3498db;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown-content:hover {
+            display: block;
+        }
+
+        .dropdown:hover {
+            background-color: #34495e;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            font-size: 12px;
         }
 
         .content {
@@ -161,18 +197,7 @@
         }
 
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-            }
-
-            .navbar-brand {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #34495e;
-            }
-
             .navbar-menu {
-                width: 100%;
                 flex-wrap: wrap;
             }
 
@@ -184,6 +209,16 @@
                 font-size: 14px;
             }
 
+            .dropdown-content {
+                position: relative;
+                display: none;
+                box-shadow: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
             .content {
                 margin-top: 100px;
                 height: calc(100vh - 100px);
@@ -193,33 +228,34 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-brand">
-            📚 English Tests
-        </div>
         <ul class="navbar-menu">
             <li class="menu-item active" onclick="showContent('home')">
                 🏠 Trang chủ
             </li>
-            <li class="menu-item" onclick="showContent('image-mcq')">
-                🖼️ Section 1
+            <li class="dropdown">
+                <div class="menu-item">
+                    📖 Reading Tests <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" onclick="event.preventDefault(); showContent('image-mcq')">Section 1</a>
+                    <a href="#" onclick="event.preventDefault(); showContent('grammar-test')">Section 2</a>
+                    <a href="#" onclick="event.preventDefault(); showContent('reading-test')">Section 3</a>
+                    <a href="#" onclick="event.preventDefault(); showContent('cloze-test')">Section 4</a>
+                </div>
             </li>
-            <li class="menu-item" onclick="showContent('grammar-test')">
-                📚 Section 2
+            <li class="menu-item">
+                ✍️ Writing
             </li>
-            <li class="menu-item" onclick="showContent('reading-test')">
-                📖 Section 3
+            <li class="dropdown">
+                <div class="menu-item">
+                    🎧 Listening Tests <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" onclick="event.preventDefault(); showContent('sentence-rewrite')">Section 1</a>
+                    <a href="#" onclick="event.preventDefault();">Section 2</a>
+                    <a href="#" onclick="event.preventDefault();">Section 3</a>
+                </div>
             </li>
-            <li class="menu-item" onclick="showContent('cloze-test')">
-                📋 Section 4
-            </li>
-            <li class="menu-item" onclick="showContent('sentence-rewrite')">
-                ✏️ Listening - Section 1
-            </li>
-            <li class="menu-item" onclick="showContent('mini-test')">
-                📝 English Mini Test
-            </li>
-
-
         </ul>
     </nav>
 
@@ -240,7 +276,7 @@
                 </div>
                 
                 <div class="home-card">
-                    <h3>✏️ Viết lại câu</h3>
+                    <h3>✍️ Viết lại câu</h3>
                     <p>Luyện tập kỹ năng viết lại câu với nhiều cấu trúc ngữ pháp khác nhau.</p>
                 </div>
                 
@@ -370,13 +406,28 @@
             });
 
             document.getElementById(sectionId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            
+            // Highlight the parent menu item if clicking from dropdown
+            const clickedItem = event.target.closest('.menu-item');
+            if (clickedItem) {
+                clickedItem.classList.add('active');
+            }
             
             if (API != null) {
                 API.LMSSetValue("cmi.core.lesson_location", sectionId);
                 API.LMSCommit("");
             }
         }
+
+        // Mobile dropdown toggle
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                const dropdown = e.target.closest('.dropdown');
+                if (dropdown) {
+                    dropdown.classList.toggle('active');
+                }
+            }
+        });
     </script>
 </body>
 </html>
