@@ -149,7 +149,7 @@
     <div id="questionsContainer"></div>
 
     <div class="button-container">
-        <button id="submitBtn" class="submit-btn">Nộp bài</button>
+        <button id="submitBtn" class="submit-btn">Xem gợi ý</button>
         <button id="retryBtn" class="retry-btn">Làm lại</button>
     </div>
 </div>
@@ -173,7 +173,9 @@
         nav.style.display = 'flex';
 
         nav.innerHTML = allSections.map((_, i) =>
-            `<button class="nav-btn ${i === 0 ? 'active' : ''}" onclick="switchSection(${i})">Test ${i + 1}</button>`
+            `<button class="nav-btn ${i === 0 ? 'active' : ''}" onclick="switchSection(${i})">
+                Test ${i + 1}
+            </button>`
         ).join('');
     }
 
@@ -222,7 +224,7 @@
         document.getElementById('retryBtn').classList.remove('show');
     }
 
-    // 👉 NỘP BÀI: hiển thị suggestedAnswer
+    // 👉 XEM GỢI Ý
     document.getElementById('submitBtn').addEventListener('click', () => {
         document.querySelectorAll('.answer-input').forEach(input => {
             input.disabled = true;
@@ -236,7 +238,7 @@
         document.getElementById('retryBtn').classList.add('show');
     });
 
-    // 👉 LÀM LẠI: ẩn đáp án, cho nhập lại
+    // 👉 LÀM LẠI BÀI
     document.getElementById('retryBtn').addEventListener('click', () => {
         document.querySelectorAll('.answer-input').forEach(input => {
             input.value = '';
@@ -246,6 +248,9 @@
         document.querySelectorAll('.answer-feedback').forEach(fb => {
             fb.style.display = 'none';
         });
+
+        document.getElementById('submitBtn').style.display = 'inline-block';
+        document.getElementById('retryBtn').classList.remove('show');
     });
 
     window.onload = loadQuestions;
