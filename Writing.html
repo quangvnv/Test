@@ -36,12 +36,11 @@
         }
 
         .navigation {
-            display: flex;
+            display: none;
             gap: 15px;
             margin-bottom: 30px;
             justify-content: center;
             flex-wrap: wrap;
-            display: none;
         }
 
         .nav-btn {
@@ -223,15 +222,21 @@
         document.getElementById('retryBtn').classList.remove('show');
     }
 
+    // 👉 NỘP BÀI: hiển thị suggestedAnswer
     document.getElementById('submitBtn').addEventListener('click', () => {
         document.querySelectorAll('.answer-input').forEach(input => {
             input.disabled = true;
+        });
+
+        document.querySelectorAll('.answer-feedback').forEach(fb => {
+            fb.style.display = 'block';
         });
 
         document.getElementById('submitBtn').style.display = 'none';
         document.getElementById('retryBtn').classList.add('show');
     });
 
+    // 👉 LÀM LẠI: ẩn đáp án, cho nhập lại
     document.getElementById('retryBtn').addEventListener('click', () => {
         document.querySelectorAll('.answer-input').forEach(input => {
             input.value = '';
@@ -239,7 +244,7 @@
         });
 
         document.querySelectorAll('.answer-feedback').forEach(fb => {
-            fb.style.display = 'block';
+            fb.style.display = 'none';
         });
     });
 
