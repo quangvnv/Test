@@ -173,9 +173,8 @@
         nav.style.display = 'flex';
 
         nav.innerHTML = allSections.map((_, i) =>
-            `<button class="nav-btn ${i === 0 ? 'active' : ''}" onclick="switchSection(${i})">
-                Test ${i + 1}
-            </button>`
+            `<button class="nav-btn ${i === 0 ? 'active' : ''}"
+                onclick="switchSection(${i})">Test ${i + 1}</button>`
         ).join('');
     }
 
@@ -224,11 +223,23 @@
         document.getElementById('retryBtn').classList.remove('show');
     }
 
-    // 👉 XEM GỢI Ý
+    // 👉 XEM GỢI Ý (PHẢI LÀM ĐỦ CÂU)
     document.getElementById('submitBtn').addEventListener('click', () => {
-        document.querySelectorAll('.answer-input').forEach(input => {
-            input.disabled = true;
+        const inputs = document.querySelectorAll('.answer-input');
+        let allAnswered = true;
+
+        inputs.forEach(input => {
+            if (input.value.trim() === '') {
+                allAnswered = false;
+            }
         });
+
+        if (!allAnswered) {
+            alert('Vui lòng hoàn thành tất cả các câu trước khi xem gợi ý.');
+            return;
+        }
+
+        inputs.forEach(input => input.disabled = true);
 
         document.querySelectorAll('.answer-feedback').forEach(fb => {
             fb.style.display = 'block';
@@ -238,7 +249,7 @@
         document.getElementById('retryBtn').classList.add('show');
     });
 
-    // 👉 LÀM LẠI BÀI
+    // 👉 LÀM LẠI
     document.getElementById('retryBtn').addEventListener('click', () => {
         document.querySelectorAll('.answer-input').forEach(input => {
             input.value = '';
