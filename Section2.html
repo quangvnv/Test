@@ -260,7 +260,7 @@
             navDiv.style.display = 'flex';
             navDiv.innerHTML = allSections.map((section, idx) => `
                 <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    ${section.title || `Test ${idx + 1}`}
+                    Test ${idx + 1}
                 </button>
             `).join('');
         }
