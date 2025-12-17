@@ -3,486 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writing Test - Sentence Rewriting</title>
+    <title>Writing Practice - Sentence Rewriting</title>
+
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
             padding: 20px;
             line-height: 1.8;
         }
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1100px;
+            margin: auto;
             background: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 28px;
+            margin-bottom: 25px;
             border-bottom: 3px solid #9c27b0;
             padding-bottom: 10px;
+            color: #333;
         }
-        .navigation {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .nav-btn {
-            padding: 12px 30px;
-            background: #f3e5f5;
-            border: 2px solid #9c27b0;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #9c27b0;
-            transition: all 0.3s;
-        }
-        .nav-btn:hover {
-            background: #9c27b0;
-            color: white;
-        }
-        .nav-btn.active {
-            background: #9c27b0;
-            color: white;
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 18px;
-        }
-        .error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #c62828;
-            border-radius: 4px;
-        }
-        .questions-container {
-            display: none;
-        }
-        .questions-container.active {
-            display: block;
-        }
+
         .question {
-            margin-bottom: 35px;
-            padding: 25px;
             background: #fafafa;
+            padding: 20px;
+            margin-bottom: 25px;
             border-radius: 8px;
             border-left: 4px solid #9c27b0;
         }
-        .question-number {
-            font-weight: 700;
-            color: #9c27b0;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
+
         .original-sentence {
-            margin-bottom: 15px;
-            color: #333;
+            margin-bottom: 10px;
             font-size: 16px;
         }
-        .rewrite-section {
-            margin-top: 15px;
+
+        .question-number {
+            font-weight: bold;
+            color: #9c27b0;
+            margin-right: 6px;
         }
+
         .starter-word {
-            display: inline-block;
             font-weight: bold;
             color: #2196F3;
-            margin-bottom: 5px;
-            font-size: 16px;
+            margin-bottom: 6px;
         }
+
         .answer-input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px;
             font-size: 16px;
-            border: 2px solid #ddd;
             border-radius: 6px;
-            transition: all 0.3s;
-            font-family: inherit;
+            border: 2px solid #ddd;
         }
+
         .answer-input:focus {
             outline: none;
             border-color: #9c27b0;
-            box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.1);
         }
-        .answer-input.correct {
-            border-color: #4CAF50;
-            background: #e8f5e9;
-        }
-        .answer-input.incorrect {
-            border-color: #f44336;
-            background: #ffebee;
-        }
+
         .answer-feedback {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 6px;
+            margin-top: 10px;
             display: none;
         }
-        .answer-feedback.show {
-            display: block;
-        }
-        .answer-feedback.correct {
-            background: #c8e6c9;
-            color: #2e7d32;
-            border-left: 4px solid #4CAF50;
-        }
-        .answer-feedback.incorrect {
-            background: #ffcdd2;
-            color: #c62828;
-            border-left: 4px solid #f44336;
-        }
-        .answer-feedback strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
+
         .suggested-answer {
-            margin-top: 8px;
-            padding: 10px;
             background: #fff3cd;
-            border-radius: 4px;
+            padding: 10px;
+            border-radius: 5px;
             font-style: italic;
             color: #856404;
         }
+
         .button-container {
-            margin-top: 40px;
             text-align: center;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
+            margin-top: 30px;
         }
-        .submit-btn, .retry-btn {
-            padding: 18px 60px;
-            background: #9c27b0;
-            color: white;
+
+        button {
+            padding: 15px 50px;
+            font-size: 18px;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            color: white;
         }
-        .submit-btn:hover, .retry-btn:hover {
-            background: #7b1fa2;
+
+        .submit-btn {
+            background: #9c27b0;
         }
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
+
         .retry-btn {
             background: #2196F3;
             display: none;
         }
-        .retry-btn:hover {
-            background: #1976D2;
-        }
+
         .retry-btn.show {
             display: inline-block;
         }
-        .result {
-            margin-top: 25px;
-            padding: 25px;
-            background: #f3e5f5;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            display: none;
-            border: 2px solid #9c27b0;
-        }
-        .result.show {
-            display: block;
-        }
-        .result .score {
-            font-size: 32px;
-            color: #9c27b0;
-            margin: 10px 0;
-        }
-        .instructions {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid #2196F3;
-        }
-        .instructions h3 {
-            color: #1976D2;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        .instructions p {
-            color: #555;
-            line-height: 1.8;
-        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>✍️ Writing Test: Sentence Rewriting</h1>
-        
-      
-        <div class="navigation" id="navigation" style="display: none;"></div>
-        
-        <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
-        <div id="error" class="error" style="display: none;"></div>
-        
-        <div id="questionsContainer"></div>
-        
-        <div class="button-container" id="buttonContainer" style="display: none;">
-            <button class="submit-btn" id="submitBtn">Nộp bài</button>
-            <button class="retry-btn" id="retryBtn">Làm lại</button>
-        </div>
-        
-        <div class="result" id="result"></div>
+
+<div class="container">
+    <h1>✍️ Writing Practice: Sentence Rewriting</h1>
+
+    <div id="loading">Đang tải câu hỏi...</div>
+    <div id="questionsContainer"></div>
+
+    <div class="button-container">
+        <button class="submit-btn" id="submitBtn">Hoàn thành</button>
+        <button class="retry-btn" id="retryBtn">Làm lại</button>
     </div>
+</div>
 
-    <script>
-        let allSections = [];
-        let currentSectionIndex = 0;
-        let userAnswers = {};
+<script>
+    let allSections = [];
+    let currentSectionIndex = 0;
 
-        async function loadQuestions() {
-            try {
-                const response = await fetch('writing-questions.json');
-                
-                if (!response.ok) {
-                    throw new Error('Không tìm thấy file writing-questions.json');
-                }
-                
-                allSections = await response.json();
-                
-                document.getElementById('loading').style.display = 'none';
-                
-                if (allSections.length === 0) {
-                    throw new Error('File JSON không có dữ liệu');
-                }
-                
-                renderNavigation();
-                renderSection(0);
-                
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').innerHTML = `
-                    <strong>Lỗi:</strong> ${error.message}<br>
-                    <small>Hãy đảm bảo file "writing-questions.json" nằm cùng thư mục với file HTML này.</small>
-                `;
-                console.error('Error loading JSON:', error);
-            }
-        }
+    async function loadQuestions() {
+        const res = await fetch('writing-questions.json');
+        allSections = await res.json();
 
-        function renderNavigation() {
-            if (allSections.length <= 1) return;
-            
-            const navDiv = document.getElementById('navigation');
-            navDiv.style.display = 'flex';
-            navDiv.innerHTML = allSections.map((section, idx) => `
-                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
-                </button>
-            `).join('');
-        }
+        document.getElementById('loading').style.display = 'none';
+        renderSection();
+    }
 
-        function switchSection(index) {
-            currentSectionIndex = index;
-            renderSection(index);
-            
-            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === index);
-            });
-        }
+    function renderSection() {
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
 
-        function renderSection(index) {
-            const section = allSections[index];
-            const container = document.getElementById('questionsContainer');
-            
-            container.innerHTML = '';
-            
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'questions-container active';
-            sectionDiv.dataset.section = index;
-            
-            section.questions.forEach((q, qIdx) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question';
-                
-                // Extract starter word from incomplete sentence
-                const incompleteParts = q.incompleteSentence.split(/\.{3,}/);
-                const starterWord = incompleteParts[0].trim();
-                
-                questionDiv.innerHTML = `
-                    <div class="original-sentence">
-    			<span class="question-number">${qIdx + 1}.</span> ${q.originalSentence}
-		    </div>
+        const section = allSections[currentSectionIndex];
 
-                    <div class="rewrite-section">
-                        <div class="starter-word">${starterWord}</div>
-                        <input 
-                            type="text" 
-                            class="answer-input" 
-                            data-section="${index}" 
-                            data-question="${qIdx}"
-                            placeholder="Type your answer here..."
-                        />
-                        <div class="answer-feedback"></div>
+        section.questions.forEach((q, qIdx) => {
+            const starterWord = q.incompleteSentence.split(/\.{3,}/)[0].trim();
+
+            const div = document.createElement('div');
+            div.className = 'question';
+
+            div.innerHTML = `
+                <div class="original-sentence">
+                    <span class="question-number">${qIdx + 1}.</span>
+                    ${q.originalSentence}
+                </div>
+
+                <div class="starter-word">${starterWord}</div>
+
+                <input type="text" class="answer-input">
+
+                <div class="answer-feedback">
+                    <div class="suggested-answer">
+                        Suggested answer: ${q.suggestedAnswer || '—'}
                     </div>
-                `;
-                
-                sectionDiv.appendChild(questionDiv);
-            });
-            
-            container.appendChild(sectionDiv);
-            
-            // Add event listeners to inputs
-            document.querySelectorAll('.answer-input').forEach(input => {
-                input.addEventListener('input', handleAnswerInput);
-            });
-            
-            document.getElementById('buttonContainer').style.display = 'flex';
-            document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('retryBtn').classList.remove('show');
-            document.getElementById('result').classList.remove('show');
-        }
-
-        function handleAnswerInput(e) {
-            const input = e.target;
-            const sectionIdx = input.dataset.section;
-            const questionIdx = input.dataset.question;
-            const key = `${sectionIdx}-${questionIdx}`;
-            
-            userAnswers[key] = input.value.trim();
-        }
-
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            const section = allSections[currentSectionIndex];
-            const totalQuestions = section.questions.length;
-            
-            let answeredCount = 0;
-            for (let i = 0; i < totalQuestions; i++) {
-                const key = `${currentSectionIndex}-${i}`;
-                if (userAnswers[key] && userAnswers[key].length > 0) {
-                    answeredCount++;
-                }
-            }
-            
-            if (answeredCount < totalQuestions) {
-                alert('Vui lòng trả lời tất cả các câu hỏi!');
-                return;
-            }
-
-            let score = 0;
-            
-            section.questions.forEach((q, qIdx) => {
-                const key = `${currentSectionIndex}-${qIdx}`;
-                const userAnswer = userAnswers[key] || '';
-                const input = document.querySelector(`.answer-input[data-section="${currentSectionIndex}"][data-question="${qIdx}"]`);
-                const feedbackDiv = input.nextElementSibling;
-                
-                // Simple similarity check (you can make this more sophisticated)
-                const suggestedAnswer = q.suggestedAnswer.toLowerCase().trim();
-                const userAnswerLower = userAnswer.toLowerCase().trim();
-                
-                // Check if answers are similar (basic comparison)
-                const isCorrect = suggestedAnswer && (
-                    userAnswerLower === suggestedAnswer ||
-                    checkSimilarity(userAnswerLower, suggestedAnswer)
-                );
-                
-                if (isCorrect) {
-                    score++;
-                    input.classList.add('correct');
-                    input.classList.remove('incorrect');
-                    feedbackDiv.className = 'answer-feedback correct show';
-                    feedbackDiv.innerHTML = `
-                        <strong>✓ Correct!</strong>
-                        Your answer is acceptable.
-                    `;
-                } else {
-                    input.classList.add('incorrect');
-                    input.classList.remove('correct');
-                    feedbackDiv.className = 'answer-feedback incorrect show';
-                    feedbackDiv.innerHTML = `
-                        <strong>✗ Not quite right</strong>
-                        ${suggestedAnswer ? `<div class="suggested-answer">Suggested answer: ${q.suggestedAnswer}</div>` : '<div class="suggested-answer">Please check with your teacher.</div>'}
-                    `;
-                }
-                
-                input.disabled = true;
-            });
-
-            const percentage = Math.round((score / totalQuestions) * 100);
-            const resultDiv = document.getElementById('result');
-            
-            let emoji = '🎉';
-            let message = 'Excellent!';
-            if (percentage < 50) {
-                emoji = '📚';
-                message = 'Keep practicing!';
-            } else if (percentage < 80) {
-                emoji = '👍';
-                message = 'Good job!';
-            }
-            
-            resultDiv.innerHTML = `
-                <div>${emoji} ${message}</div>
-                <div class="score">${score}/${totalQuestions}</div>
-                <div>Score: ${percentage}%</div>
+                </div>
             `;
-            resultDiv.classList.add('show');
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('retryBtn').classList.add('show');
+
+            container.appendChild(div);
+        });
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+        document.querySelectorAll('.answer-input').forEach(input => {
+            input.disabled = true;
         });
 
-        function checkSimilarity(answer1, answer2) {
-            // Remove extra spaces and punctuation for comparison
-            const clean1 = answer1.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s+/g, ' ');
-            const clean2 = answer2.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s+/g, ' ');
-            
-            // Calculate simple word overlap
-            const words1 = clean1.split(' ');
-            const words2 = clean2.split(' ');
-            
-            const commonWords = words1.filter(word => words2.includes(word));
-            const similarity = commonWords.length / Math.max(words1.length, words2.length);
-            
-            return similarity > 0.7; // 70% similarity threshold
-        }
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('retryBtn').classList.add('show');
+    });
 
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            userAnswers = {};
-            
-            // Re-enable all inputs and clear feedback
-            document.querySelectorAll('.answer-input').forEach(input => {
-                input.value = '';
-                input.disabled = false;
-                input.classList.remove('correct', 'incorrect');
-            });
-            
-            document.querySelectorAll('.answer-feedback').forEach(feedback => {
-                feedback.classList.remove('show');
-            });
-            
-            document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('retryBtn').classList.remove('show');
-            document.getElementById('result').classList.remove('show');
+    document.getElementById('retryBtn').addEventListener('click', () => {
+        document.querySelectorAll('.answer-input').forEach(input => {
+            input.value = '';
+            input.disabled = false;
         });
 
-        window.addEventListener('load', loadQuestions);
-    </script>
+        document.querySelectorAll('.answer-feedback').forEach(fb => {
+            fb.style.display = 'block';
+        });
+    });
+
+    window.onload = loadQuestions;
+</script>
+
 </body>
 </html>
