@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image-Based Multiple Choice Test</title>
+    <title>Grammar Multiple Choice Test</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
             line-height: 1.6;
         }
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 40px;
@@ -61,44 +61,27 @@
             margin-bottom: 30px;
         }
         .question-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-            padding: 25px;
+            margin-bottom: 25px;
+            padding: 20px;
             background: #fafafa;
             border-radius: 8px;
             border-left: 4px solid #2196F3;
         }
-        .question-image {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            padding: 20px;
-            border-radius: 6px;
-            border: 2px solid #e0e0e0;
-        }
-        .question-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        .question-image .placeholder {
-            color: #999;
-            text-align: center;
-            padding: 60px 20px;
+        .question-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.8;
         }
         .question-number {
-            font-weight: 700;
             color: #1976D2;
-            margin-bottom: 15px;
-            font-size: 18px;
+            font-weight: 700;
         }
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         .option-item {
             display: flex;
@@ -210,16 +193,11 @@
         .retry-btn.show {
             display: inline-block;
         }
-        @media (max-width: 768px) {
-            .question-item {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📝 Section 2: Choose the best answer for each question</h1>
+        <h1>📝 Choose the best answer for each question</h1>
         
         <div class="navigation" id="navigation" style="display: none;"></div>
         
@@ -251,10 +229,10 @@
 
         async function loadQuestions() {
             try {
-                const response = await fetch('image-mcq-questions.json');
+                const response = await fetch('grammar-mcq-questions.json');
                 
                 if (!response.ok) {
-                    throw new Error('Không tìm thấy file image-mcq-questions.json');
+                    throw new Error('Không tìm thấy file grammar-mcq-questions.json');
                 }
                 
                 allSections = await response.json();
@@ -273,7 +251,7 @@
                 document.getElementById('error').style.display = 'block';
                 document.getElementById('error').innerHTML = `
                     <strong>Lỗi:</strong> ${error.message}<br>
-                    <small>Hãy đảm bảo file "image-mcq-questions.json" nằm cùng thư mục với file HTML này.</small>
+                    <small>Hãy đảm bảo file "grammar-mcq-questions.json" nằm cùng thư mục với file HTML này.</small>
                 `;
                 console.error('Error loading JSON:', error);
             }
@@ -286,7 +264,7 @@
             navDiv.style.display = 'flex';
             navDiv.innerHTML = allSections.map((section, idx) => `
                 <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    ${section.title || `Test ${idx + 1}`}
+                    ${section.title || `Section ${idx + 1}`}
                 </button>
             `).join('');
         }
@@ -321,25 +299,19 @@
                         const shuffledOptions = shuffledQuestionsData[qIdx];
                         return `
                         <div class="question-item">
-                            <div class="question-image">
-                                ${q.image ? 
-                                    `<img src="${q.image}" alt="Question ${qIdx + 1}">` : 
-                                    `<div class="placeholder">🖼️<br>Image for Question ${qIdx + 1}</div>`
-                                }
+                            <div class="question-text">
+                                <span class="question-number">${qIdx + 1}.</span> ${q.question}
                             </div>
-                            <div>
-                                <div class="question-number">Question ${qIdx + 1}</div>
-                                <div class="options-container">
-                                    ${shuffledOptions.map((opt, displayIdx) => `
-                                        <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}">
-                                            <input type="radio" 
-                                                   name="q-${index}-${qIdx}" 
-                                                   value="${opt.originalIndex}"
-                                                   onchange="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
-                                            <span class="option-label">${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
-                                        </label>
-                                    `).join('')}
-                                </div>
+                            <div class="options-container">
+                                ${shuffledOptions.map((opt, displayIdx) => `
+                                    <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}">
+                                        <input type="radio" 
+                                               name="q-${index}-${qIdx}" 
+                                               value="${opt.originalIndex}"
+                                               onchange="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
+                                        <span class="option-label">${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
+                                    </label>
+                                `).join('')}
                             </div>
                         </div>
                     `}).join('')}
