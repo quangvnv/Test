@@ -302,152 +302,266 @@
         }
     </style>
 </head>
-
 <body>
-<div class="container">
-    <h1>✏️ Section 3: Listen and fill in the blanks</h1>
-
-    <div class="navigation" id="navigation" style="display: none;"></div>
-
-    <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
-    <div id="error" class="error" style="display: none;"></div>
-
-    <div id="sectionsContainer" style="display: none;"></div>
-
-    <div class="button-container">
-        <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-        <div class="result" id="result"></div>
-        <button class="retry-btn" id="retryBtn">Làm lại</button>
+    <div class="container">
+        <h1>✏️ Section 3: Listen and fill in the blanks</h1>
+        
+        <div class="navigation" id="navigation" style="display: none;"></div>
+        
+        <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="sectionsContainer" style="display: none;"></div>
+        
+        <div class="button-container">
+            <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
+            <div class="result" id="result"></div>
+            <button class="retry-btn" id="retryBtn">Làm lại</button>
+        </div>
     </div>
-</div>
 
-<script>
-    let allSections = [];
-    let currentSectionIndex = 0;
-    let userAnswers = {};
-    let audioSection = null;
-    let audioPlaceholder = null;
-    let navBar = null;
+    <script>
+        let allSections = [];
+        let currentSectionIndex = 0;
+        let userAnswers = {};
+        let audioSection = null;
+        let audioPlaceholder = null;
+        let navBar = null;
 
-    /* ===== CHỈ THÊM 2 BIẾN NÀY ===== */
-    let originalAudioTop = null;
-    let stickyScrollBound = false;
+        async function loadQuestions() {
+            try {
+                const response = await fetch('listening-s3-questions.json');
+                
+                if (!response.ok) {
+                    throw new Error('Không tìm thấy file listening-s3-questions.json');
+                }
+                
+                allSections = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (allSections.length === 0) {
+                    throw new Error('File JSON không có dữ liệu');
+                }
+                
+                renderNavigation();
+                renderSection(0);
+                setupStickyAudio();
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').innerHTML = `
+                    <strong>Lỗi:</strong> ${error.message}<br>
+                    <small>Hãy đảm bảo file "listening-s3-questions.json" nằm cùng thư mục với file HTML này.</small>
+                `;
+                console.error('Error loading JSON:', error);
+            }
+        }
 
-    async function loadQuestions() {
-        try {
-            const response = await fetch('listening-s3-questions.json');
-            if (!response.ok) throw new Error('Không tìm thấy file listening-s3-questions.json');
-            allSections = await response.json();
+        function renderNavigation() {
+            if (allSections.length <= 1) return;
+            
+            const navDiv = document.getElementById('navigation');
+            navDiv.style.display = 'flex';
+            navDiv.innerHTML = allSections.map((section, idx) => `
+                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
+                    Test ${idx + 1}
+                </button>
+            `).join('');
+            navBar = navDiv;
+        }
 
-            document.getElementById('loading').style.display = 'none';
-            renderNavigation();
-            renderSection(0);
+        function switchSection(index) {
+            currentSectionIndex = index;
+            renderSection(index);
+            
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === index);
+            });
+            
             setupStickyAudio();
-        } catch (error) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').innerHTML = `<strong>Lỗi:</strong> ${error.message}`;
-        }
-    }
-
-    function renderNavigation() {
-        if (allSections.length <= 1) return;
-
-        const navDiv = document.getElementById('navigation');
-        navDiv.style.display = 'flex';
-        navDiv.innerHTML = allSections.map((section, idx) => `
-            <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                Test ${idx + 1}
-            </button>
-        `).join('');
-        navBar = navDiv;
-    }
-
-    function switchSection(index) {
-        currentSectionIndex = index;
-        renderSection(index);
-        setupStickyAudio();
-        document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-        	btn.classList.toggle('active', idx === index);
-        });
-    }
-
-    function renderSection(index) {
-        const section = allSections[index];
-        userAnswers = {};
-
-        const container = document.getElementById('sectionsContainer');
-        container.style.display = 'block';
-
-        let passageHTML = '';
-        if (section.passage) {
-            passageHTML = section.passage.replace(/\((\d+)\)\s*\.{2,}/g, (m, n) =>
-                `<input type="text" class="passage-blank" placeholder="(${n})"
-                        oninput="handleInput(${index}, ${n - 1}, this.value)">`
-            );
         }
 
-        container.innerHTML = `
-            <div class="section-container">
-                ${section.description ? `<div class="test-description">${section.description}</div>` : ''}
-
-                <div class="audio-placeholder" id="audioPlaceholder"></div>
-
-                <div class="audio-section" id="audioSection">
-                    <div class="audio-player">
-                        <audio controls preload="metadata">
-                            <source src="${section.audio}" type="audio/mpeg">
-                        </audio>
+        function renderSection(index) {
+            const section = allSections[index];
+            userAnswers = {};
+            
+            const container = document.getElementById('sectionsContainer');
+            container.style.display = 'block';
+            
+            // Generate passage HTML with inline input blanks
+            let passageHTML = '';
+            if (section.passage) {
+                passageHTML = section.passage;
+                // Replace (1) ......, (2) ......, etc. with input fields
+                passageHTML = passageHTML.replace(/\((\d+)\)\s*\.{2,}/g, (match, num) => {
+                    const blankIndex = parseInt(num) - 1;
+                    return `<input type="text" 
+                                   class="passage-blank" 
+                                   id="blank-${index}-${blankIndex}"
+                                   placeholder="(${num})"
+                                   autocomplete="off"
+                                   oninput="handleInput(${index}, ${blankIndex}, this.value)">`;
+                });
+            }
+            
+            container.innerHTML = `
+                <div class="section-container">
+                    ${section.description ? `<div class="test-description">${section.description}</div>` : ''}
+                    
+                    <div class="audio-placeholder" id="audioPlaceholder"></div>
+                    
+                    <div class="audio-section" id="audioSection">
+                        <div class="audio-player">
+                            <audio controls preload="metadata" id="audioElement">
+                                <source src="${section.audio}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+                    
+                    <div class="blanks-container">
+                        ${passageHTML ? `<div class="passage-text">${passageHTML}</div>` : ''}
+                        ${section.blanks.map((blank, idx) => `
+                            <div class="blank-item" style="${passageHTML ? 'display:none;' : ''}">
+                                <div class="blank-number">${idx + 1}.</div>
+                                <input type="text" 
+                                       class="blank-input" 
+                                       id="blank-fallback-${index}-${idx}"
+                                       placeholder="Type your answer here..."
+                                       autocomplete="off"
+                                       oninput="handleInput(${index}, ${idx}, this.value)">
+                                <div class="correct-answer" id="answer-${index}-${idx}">✓ ${blank}</div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
+            `;
+            
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('retryBtn').classList.remove('show');
+        }
 
-                <div class="blanks-container">
-                    ${passageHTML ? `<div class="passage-text">${passageHTML}</div>` : ''}
-                </div>
-            </div>
-        `;
-
-        document.getElementById('submitBtn').style.display = 'inline-block';
-    }
-
-    /* ===== CHỈ SỬA 2 HÀM DƯỚI ĐÂY ===== */
-
-    function setupStickyAudio() {
-        audioSection = document.getElementById('audioSection');
-        audioPlaceholder = document.getElementById('audioPlaceholder');
-
-        if (!audioSection || !audioPlaceholder) return;
-
-        // LƯU VỊ TRÍ GỐC CỦA AUDIO (TRƯỚC KHI STICKY)
-        originalAudioTop = audioSection.getBoundingClientRect().top + window.scrollY;
-
-        if (!stickyScrollBound) {
+        function setupStickyAudio() {
+            audioSection = document.getElementById('audioSection');
+            audioPlaceholder = document.getElementById('audioPlaceholder');
+            
+            if (!audioSection) return;
+            
             window.addEventListener('scroll', handleScroll);
-            stickyScrollBound = true;
+            handleScroll();
         }
 
-        handleScroll();
-    }
-
-    function handleScroll() {
-        if (!audioSection || originalAudioTop === null) return;
-
-        const navHeight = navBar ? navBar.offsetHeight : 0;
-
-        if (window.scrollY > originalAudioTop - navHeight) {
-            audioSection.classList.add('sticky');
-            audioPlaceholder.classList.add('active');
-        } else {
-            audioSection.classList.remove('sticky');
-            audioPlaceholder.classList.remove('active');
+        function handleScroll() {
+            if (!audioSection || !audioPlaceholder) return;
+            
+            const navHeight = navBar ? navBar.offsetHeight : 0;
+            const audioRect = audioSection.getBoundingClientRect();
+            const audioTop = audioSection.offsetTop;
+            
+            if (window.scrollY > audioTop - navHeight) {
+                audioSection.classList.add('sticky');
+                audioPlaceholder.classList.add('active');
+            } else {
+                audioSection.classList.remove('sticky');
+                audioPlaceholder.classList.remove('active');
+            }
         }
-    }
 
-    function handleInput(sectionIdx, blankIdx, value) {
-        userAnswers[`${sectionIdx}-${blankIdx}`] = value.trim();
-    }
+        function handleInput(sectionIdx, blankIdx, value) {
+            const key = `${sectionIdx}-${blankIdx}`;
+            userAnswers[key] = value.trim();
+        }
 
-    window.addEventListener('load', loadQuestions);
-</script>
+        function normalizeAnswer(text) {
+            return text.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const section = allSections[currentSectionIndex];
+            const totalBlanks = section.blanks.length;
+            
+            let answeredCount = 0;
+            for (let i = 0; i < totalBlanks; i++) {
+                const key = `${currentSectionIndex}-${i}`;
+                if (userAnswers[key] && userAnswers[key] !== '') answeredCount++;
+            }
+            
+            if (answeredCount < totalBlanks) {
+                alert('Vui lòng điền tất cả các ô trống!');
+                return;
+            }
+
+            let score = 0;
+            
+            section.blanks.forEach((correctAnswer, blankIdx) => {
+                const key = `${currentSectionIndex}-${blankIdx}`;
+                const userAns = userAnswers[key] || '';
+                
+                const normalizedUser = normalizeAnswer(userAns);
+                const normalizedCorrect = normalizeAnswer(correctAnswer);
+                const isCorrect = normalizedUser === normalizedCorrect;
+                
+                if (isCorrect) score++;
+
+                const inputElem = document.getElementById(`blank-${currentSectionIndex}-${blankIdx}`);
+                const answerElem = document.getElementById(`answer-${currentSectionIndex}-${blankIdx}`);
+                
+                if (inputElem) {
+                    inputElem.disabled = true;
+                    
+                    if (isCorrect) {
+                        inputElem.classList.add('correct');
+                        inputElem.classList.remove('incorrect');
+                    } else {
+                        inputElem.classList.add('incorrect');
+                        inputElem.classList.remove('correct');
+                        // Show correct answer next to the input
+                        if (section.passage) {
+                            inputElem.insertAdjacentHTML('afterend', 
+                                `<span style="color: #4CAF50; font-weight: 600; margin-left: 5px;">✓ ${correctAnswer}</span>`);
+                        }
+                    }
+                }
+                
+                // For fallback list view
+                if (answerElem && !isCorrect) {
+                    answerElem.classList.add('show');
+                }
+            });
+
+            const percentage = Math.round((score / totalBlanks) * 100);
+            const resultDiv = document.getElementById('result');
+            
+            let emoji = '🎉';
+            let message = 'Xuất sắc!';
+            if (percentage < 50) {
+                emoji = '📚';
+                message = 'Cố gắng lên!';
+            } else if (percentage < 80) {
+                emoji = '👍';
+                message = 'Khá tốt!';
+            }
+            
+            resultDiv.innerHTML = `
+                <div>${emoji} ${message}</div>
+                <div class="score">${score}/${totalBlanks}</div>
+                <div>Điểm số: ${percentage}%</div>
+            `;
+            resultDiv.classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('retryBtn').classList.add('show');
+        });
+
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            userAnswers = {};
+            renderSection(currentSectionIndex);
+            setupStickyAudio();
+        });
+
+        window.addEventListener('load', loadQuestions);
+    </script>
 </body>
 </html>
