@@ -394,5 +394,113 @@
         "suggestedAnswer": ""
       }
     ]
+  },
+  {
+    "id": "section7",
+    "title": "1. Hurricanes destroy a great deal of property each year.",
+    "questions": [
+      {
+        "originalSentence": "Hurricanes destroy a great deal of property each year.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "We should wear suitable clothes when we go skiing.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      }
+    ]
+  },
+  {
+    "id": "section8",
+    "title": "1. Hurricanes destroy a great deal of property each year.",
+    "questions": [
+      {
+        "originalSentence": "Hurricanes destroy a great deal of property each year.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "We should wear suitable clothes when we go skiing.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      }
+    ]
+  },
+  {
+    "id": "section9",
+    "title": "1. Hurricanes destroy a great deal of property each year.",
+    "questions": [
+      {
+        "originalSentence": "Hurricanes destroy a great deal of property each year.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "We should wear suitable clothes when we go skiing.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      },
+      {
+        "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
+        "incompleteSentence": "",
+        "starterWord": "",
+        "suggestedAnswer": ""
+      }
+    ]
   }
 ]
