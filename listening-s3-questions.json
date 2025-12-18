@@ -1,0 +1,18 @@
+[
+  {
+    "id": "test1",
+    "description": "Test description: You will hear some information about a museum.",
+    "audio": "audio_s3/section3-t1.mp3",
+    "blanks": [
+      "countryside",
+      "coach",
+      "giraffes",
+      "safety",
+      "picnics",
+      "October",
+      "education",
+      "car park",
+      "Saturday"
+    ]
+  }
+]
