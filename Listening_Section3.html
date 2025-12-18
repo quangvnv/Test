@@ -367,6 +367,9 @@
         currentSectionIndex = index;
         renderSection(index);
         setupStickyAudio();
+        document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+        	btn.classList.toggle('active', idx === index);
+        });
     }
 
     function renderSection(index) {
