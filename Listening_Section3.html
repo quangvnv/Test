@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Section 3: Listen and Fill in the Blanks</title>
+    <title>Listening - Section 3 - Word to JSON Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -12,494 +13,634 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
+            background: linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%);
             padding: 20px;
-            line-height: 1.6;
+            min-height: 100vh;
         }
         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         h1 {
             text-align: center;
             color: #333;
-            margin-top: 0px;
             margin-bottom: 15px;
-            font-size: 28px;
-            border-bottom: 3px solid #9C27B0;
-            padding-bottom: 0px;
-        }
-        .navigation {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .nav-btn {
-            padding: 12px 30px;
-            background: #f3e5f5;
-            border: 2px solid #9C27B0;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #9C27B0;
-            transition: all 0.3s;
-        }
-        .nav-btn:hover {
-            background: #9C27B0;
-            color: white;
-        }
-        .nav-btn.active {
-            background: #9C27B0;
-            color: white;
-        }
-        .section-container {
-            margin-bottom: 30px;
-        }
-        .test-description {
-            background: #f3e5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #6A1B9A;
-            text-align: center;
-            border-left: 4px solid #9C27B0;
-        }
-        .audio-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        .audio-section.sticky {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            margin: 0;
-            border-radius: 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            background: transparent;
-        }
-        .audio-placeholder {
-            height: 0;
-            display: none;
-        }
-        .audio-placeholder.active {
-            display: block;
-            height: 80px;
-        }
-        .audio-player {
-            width: 100%;
-            max-width: 500px;
-        }
-        .audio-player audio {
-            width: 100%;
-            height: 40px;
-            border-radius: 20px;
-            outline: none;
-        }
-        .blanks-container {
-            background: #fafafa;
-            padding: 30px;
-            border-radius: 8px;
-            border-left: 4px solid #9C27B0;
-            margin-bottom: 25px;
-        }
-        .blanks-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .blank-item {
+            font-size: 32px;
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            justify-content: center;
             gap: 15px;
         }
-        .blank-number {
-            font-weight: 700;
-            color: #9C27B0;
-            min-width: 40px;
-            font-size: 16px;
-        }
-        .blank-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            transition: all 0.3s;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .blank-input:focus {
-            outline: none;
-            border-color: #9C27B0;
-            background: #f9f9f9;
-        }
-        .blank-input.correct {
-            background: #c8e6c9;
-            border-color: #4CAF50;
-        }
-        .blank-input.incorrect {
-            background: #ffcdd2;
-            border-color: #f44336;
-        }
-        .blank-input:disabled {
-            background: #f5f5f5;
-            cursor: not-allowed;
-        }
-        .correct-answer {
-            display: none;
-            color: #4CAF50;
-            font-weight: 600;
-            font-size: 14px;
-            min-width: 150px;
-        }
-        .correct-answer.show {
-            display: block;
-        }
-        .loading {
+        .subtitle {
             text-align: center;
-            padding: 40px;
             color: #666;
-            font-size: 18px;
+            margin-bottom: 40px;
+            font-size: 16px;
         }
-        .error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #c62828;
-            border-radius: 4px;
+        .upload-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: stretch;
         }
-        .button-container {
-            margin-top: 30px;
+        .upload-area {
+            flex: 1;
+            border: 3px solid #9C27B0;
+            border-radius: 12px;
+            padding: 60px 30px;
             text-align: center;
-        }
-        .submit-btn {
-            padding: 18px 60px;
-            background: #9C27B0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
+            background: #f8f9fa;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .submit-btn:hover {
-            background: #7B1FA2;
+        .upload-area:hover {
+            background: #f3e5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.2);
         }
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
+        .upload-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
-        .result {
-            margin-top: 25px;
-            padding: 25px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            text-align: center;
+        .upload-text {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .upload-hint {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .result-area {
+            display: none;
+            margin-top: 30px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .result-title {
             font-size: 20px;
             font-weight: 600;
-            display: none;
-            border: 2px solid #4CAF50;
+            color: #333;
         }
-        .result.show {
-            display: block;
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        .result .score {
-            font-size: 32px;
-            color: #4CAF50;
-            margin: 10px 0;
-        }
-        .retry-btn {
-            display: none;
-            padding: 18px 60px;
-            background: #FF9800;
-            color: white;
+        .btn {
+            padding: 12px 24px;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 15px;
+            transition: all 0.3s;
+            font-size: 14px;
         }
-        .retry-btn:hover {
+        .btn-download {
+            background: #9C27B0;
+            color: white;
+        }
+        .btn-download:hover {
+            background: #7B1FA2;
+        }
+        .btn-copy {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-copy:hover {
+            background: #45a049;
+        }
+        .btn-reset {
+            background: #FF9800;
+            color: white;
+        }
+        .btn-reset:hover {
             background: #F57C00;
         }
-        .retry-btn.show {
-            display: inline-block;
+        .json-output {
+            background: #263238;
+            color: #aed581;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
-        @media (max-width: 768px) {
-            .audio-player {
-                max-width: 100%;
-            }
-            .blank-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .blank-number {
-                min-width: auto;
-            }
-            .correct-answer {
-                min-width: auto;
-            }
+        .instructions {
+            background: #f3e5f5;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 4px solid #9C27B0;
+        }
+        .instructions h3 {
+            color: #6A1B9A;
+            margin-bottom: 15px;
+        }
+        .instructions ul, .instructions ol {
+            margin-left: 20px;
+            line-height: 2;
+        }
+        .instructions code {
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d32f2f;
+        }
+        .instructions pre {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+            text-align: center;
+        }
+        .modal-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .modal-body {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .modal-body strong {
+            color: #f44336;
+            font-weight: 700;
+        }
+        .modal-footer {
+            text-align: center;
+        }
+        .modal-btn {
+            padding: 14px 40px;
+            background: #9C27B0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .modal-btn:hover {
+            background: #7B1FA2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+        }
+        .modal-content.success .modal-icon {
+            color: #4CAF50;
+        }
+        .modal-content.success .modal-title {
+            color: #4CAF50;
+        }
+        .modal-content.success .modal-btn {
+            background: #4CAF50;
+        }
+        .modal-content.success .modal-btn:hover {
+            background: #45a049;
+        }
+        .modal-content.warning .modal-icon {
+            color: #f44336;
+        }
+        .modal-content.warning .modal-title {
+            color: #f44336;
+        }
+        .modal-content.warning .modal-btn {
+            background: #f44336;
+        }
+        .modal-content.warning .modal-btn:hover {
+            background: #d32f2f;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>✍️ Section 3: Listen and fill in the blanks</h1>
-        
-        <div class="navigation" id="navigation" style="display: none;"></div>
-        
-        <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
-        <div id="error" class="error" style="display: none;"></div>
-        
-        <div id="sectionsContainer" style="display: none;"></div>
-        
-        <div class="button-container">
-            <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <div class="result" id="result"></div>
-            <button class="retry-btn" id="retryBtn">Làm lại</button>
+        <h1>
+            <span>✏️</span>
+            <span>Listening - Section 3 - Word to JSON Converter</span>
+        </h1>
+        <p class="subtitle" id="subtitle">Có thể tạo JSON mới hoặc thêm section vào JSON có sẵn</p>
+
+        <div class="upload-container">
+            <!-- JSON UPLOAD (OPTIONAL) -->
+            <div class="upload-area" id="jsonUpload">
+                <div class="upload-icon">📦</div>
+                <div class="upload-text">Tải listening-s3-questions.json (không bắt buộc)</div>
+                <div class="upload-hint">Nếu không tải, hệ thống sẽ tạo JSON mới</div>
+                <input type="file" id="jsonInput" accept=".json" style="display: none;">
+            </div>
+
+            <!-- WORD UPLOAD -->
+            <div class="upload-area" id="wordUpload">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Tải file Word (.docx)</div>
+                <div class="upload-hint">Section sẽ được tự động đánh số</div>
+                <input type="file" id="wordInput" accept=".docx" style="display: none;">
+            </div>
+        </div>
+
+        <div class="result-area" id="resultArea">
+            <div class="result-header">
+                <div class="result-title">📄 Kết quả JSON:</div>
+                <div class="btn-group">
+                    <button class="btn btn-copy" id="copyBtn">📋 Copy</button>
+                    <button class="btn btn-download" id="downloadBtn">💾 Tải xuống JSON</button>
+                    <button class="btn btn-reset" id="resetBtn">🔄 Reset</button>
+                </div>
+            </div>
+            <div class="json-output" id="jsonOutput"></div>
+        </div>
+
+        <div class="instructions">
+            <h3>📖 Hướng dẫn định dạng Word:</h3>
+            <ol>
+                <li>Mỗi section bắt đầu với <code>SECTION 3:</code> hoặc <code>SECTION 4:</code>, v.v.</li>
+                <li>Dòng tiếp theo là mô tả bài test (ví dụ: "You will hear a talk about a Safari Park.")</li>
+                <li>Văn bản có các chỗ trống đánh số: <code>(1) ......</code>, <code>(2) ......</code></li>
+                <li>Thêm dòng <code>ANSWERS: 1. countryside, 2. coach, 3. giraffes, ...</code> ở cuối mỗi section</li>
+                <li>Phân cách sections bằng <code>---</code></li>
+            </ol>
+        </div>
+
+        <div class="instructions" style="background: #e8f5e9; border-left-color: #4CAF50;">
+            <h3>📝 Ví dụ định dạng Word:</h3>
+            <pre><code>SECTION 3:
+
+You will hear a talk about a Safari Park.
+
+An interesting place to visit is Woburn Safari Park. 
+The animals are living in a large piece of English (1) ......, 
+only an hour away from the centre of London.
+
+You're not taken round in a (2) ......, you can take 
+your own car around a special route.
+
+ANSWERS: 1. countryside, 2. coach, 3. giraffes, 4. safety
+
+---
+
+SECTION 4:
+
+You will hear some information about a museum.
+
+Text with blanks (1) ...... and (2) ......
+
+ANSWERS: 1. answer1, 2. answer2</code></pre>
+        </div>
+
+        <div class="instructions" style="background: #fff3e0; border-left-color: #FF9800;">
+            <h3>📂 Quy ước đặt tên file:</h3>
+            <ul>
+                <li><strong>Audio files:</strong> <code>audio_s3/section3-t1.mp3</code>, <code>audio_s3/section3-t2.mp3</code>, <code>audio_s3/section3-t3.mp3</code>, ...</li>
+                <li>Mỗi section có 1 file audio duy nhất</li>
+                <li>Hỗ trợ: .mp3, .wav, .ogg cho audio</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-icon" id="modalIcon">⚠️</div>
+            <div class="modal-title" id="modalTitle">Tiêu đề</div>
+            <div class="modal-body" id="modalBody">Nội dung</div>
+            <div class="modal-footer">
+                <button class="modal-btn" id="closeModal">Đóng</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let allSections = [];
-        let currentSectionIndex = 0;
-        let userAnswers = {};
-        let audioSection = null;
-        let audioPlaceholder = null;
-        let navBar = null;
+        let existingData = null;
+        let jsonData = null;
+        let finalData = [];
 
-        async function loadQuestions() {
+        const jsonInput = document.getElementById('jsonInput');
+        const wordInput = document.getElementById('wordInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+        const resultArea = document.getElementById('resultArea');
+        const subtitle = document.getElementById('subtitle');
+
+        document.getElementById('jsonUpload').onclick = () => jsonInput.click();
+        document.getElementById('wordUpload').onclick = () => wordInput.click();
+
+        jsonInput.onchange = loadJson;
+        wordInput.onchange = loadWord;
+
+        document.getElementById('closeModal').onclick = () => {
+            document.getElementById('modal').classList.remove('show');
+        };
+
+        function showModal(type, title, body) {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalContent.className = 'modal-content ' + type;
+            
+            if (type === 'success') {
+                modalIcon.textContent = '✅';
+            } else if (type === 'warning') {
+                modalIcon.textContent = '⚠️';
+            }
+
+            modalTitle.textContent = title;
+            modalBody.innerHTML = body;
+            modal.classList.add('show');
+        }
+
+        async function loadJson(e) {
             try {
-                const response = await fetch('listening-s3-questions.json');
+                const file = e.target.files[0];
                 
-                if (!response.ok) {
-                    throw new Error('Không tìm thấy file listening-s3-questions.json');
+                if (file.name !== 'listening-s3-questions.json') {
+                    existingData = null;
+                    jsonInput.value = '';
+                    showModal('warning', 'File JSON không đúng tên', 
+                        '<p>Tên file phải là: <strong>listening-s3-questions.json</strong></p><p>Vui lòng đổi tên file hoặc tạo JSON mới.</p>');
+                    return;
                 }
                 
-                allSections = await response.json();
+                const data = JSON.parse(await file.text());
                 
-                document.getElementById('loading').style.display = 'none';
-                
-                if (allSections.length === 0) {
-                    throw new Error('File JSON không có dữ liệu');
+                if (!Array.isArray(data)) {
+                    throw new Error('Invalid JSON');
                 }
                 
-                renderNavigation();
-                renderSection(0);
-                setupStickyAudio();
-                
+                existingData = data;
+                subtitle.textContent = `JSON loaded - Có ${existingData.length} sections`;
+            } catch {
+                existingData = null;
+                jsonInput.value = '';
+                showModal('warning', 'Lỗi đọc file', 
+                    '<p>Không thể đọc file JSON. Vui lòng kiểm tra lại định dạng.</p>');
+            }
+        }
+
+        async function loadWord(e) {
+            try {
+                const buffer = await e.target.files[0].arrayBuffer();
+                const text = (await mammoth.extractRawText({ arrayBuffer: buffer })).value;
+
+                jsonData = parseWordContent(text);
+
+                if (jsonData.length === 0) {
+                    showModal('warning', 'Không tìm thấy dữ liệu', 
+                        '<p>Không tìm thấy dữ liệu hợp lệ trong file Word.</p>');
+                    return;
+                }
+
+                const startIdx = existingData ? existingData.length : 0;
+
+                jsonData.forEach((section, localIdx) => {
+                    const globalIdx = startIdx + localIdx;
+                    const testNum = globalIdx + 1;
+                    section.audio = `audio_s3/section3-t${testNum}.mp3`;
+                });
+
+                finalData = existingData ? addAsNewSections(existingData, jsonData) : createNewJson(jsonData);
+                displayResult(finalData);
+
+                if (existingData) {
+                    const addedCount = jsonData.length;
+                    showModal('success', 'Thêm sections thành công!', 
+                        `<p>Đã thêm <strong>${addedCount} section${addedCount > 1 ? 's' : ''}</strong> vào JSON.</p><p>Tổng số sections: <strong>${finalData.length}</strong></p><p style="margin-top: 15px; color: #666;">Đặt audio vào thư mục <code>audio_s3/</code> theo quy ước đặt tên.</p>`);
+                } else {
+                    const totalCount = jsonData.length;
+                    showModal('success', 'Tạo JSON thành công!', 
+                        `<p>Đã tạo JSON mới với <strong>${totalCount} section${totalCount > 1 ? 's' : ''}</strong>.</p><p style="margin-top: 15px; color: #666;">Đặt audio vào thư mục <code>audio_s3/</code> theo quy ước đặt tên.</p>`);
+                }
             } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').innerHTML = `
-                    <strong>Lỗi:</strong> ${error.message}<br>
-                    <small>Hãy đảm bảo file "listening-s3-questions.json" nằm cùng thư mục với file HTML này.</small>
-                `;
-                console.error('Error loading JSON:', error);
+                showModal('warning', 'Lỗi xử lý file', 
+                    '<p>Lỗi khi xử lý file Word: ' + error.message + '</p>');
             }
         }
 
-        function renderNavigation() {
-            if (allSections.length <= 1) return;
-            
-            const navDiv = document.getElementById('navigation');
-            navDiv.style.display = 'flex';
-            navDiv.innerHTML = allSections.map((section, idx) => `
-                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
-                </button>
-            `).join('');
-            navBar = navDiv;
-        }
+        function parseAnswersFromLine(answerLine) {
+            const answers = [];
+            if (!answerLine || answerLine.trim() === '') return answers;
 
-        function switchSection(index) {
-            currentSectionIndex = index;
-            renderSection(index);
+            let cleanLine = answerLine.replace(/ANSWERS?\s*:\s*/i, '').trim();
             
-            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === index);
-            });
+            const pattern = /(\d+)\.\s*([^,\d]+?)(?=\s*,\s*\d+\.|$)/g;
+            let match;
             
-            setupStickyAudio();
-        }
-
-        function renderSection(index) {
-            const section = allSections[index];
-            userAnswers = {};
-            
-            const container = document.getElementById('sectionsContainer');
-            container.style.display = 'block';
-            
-            container.innerHTML = `
-                <div class="section-container">
-                    ${section.description ? `<div class="test-description">${section.description}</div>` : ''}
-                    
-                    <div class="audio-placeholder" id="audioPlaceholder"></div>
-                    
-                    <div class="audio-section" id="audioSection">
-                        <div class="audio-player">
-                            <audio controls preload="metadata" id="audioElement">
-                                <source src="${section.audio}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                    
-                    <div class="blanks-container">
-                        <div class="blanks-title">📝 Fill in the blanks with the words you hear</div>
-                        ${section.blanks.map((blank, idx) => `
-                            <div class="blank-item">
-                                <div class="blank-number">${idx + 1}.</div>
-                                <input type="text" 
-                                       class="blank-input" 
-                                       id="blank-${index}-${idx}"
-                                       placeholder="Type your answer here..."
-                                       autocomplete="off"
-                                       oninput="handleInput(${index}, ${idx}, this.value)">
-                                <div class="correct-answer" id="answer-${index}-${idx}">✓ ${blank}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('result').classList.remove('show');
-            document.getElementById('retryBtn').classList.remove('show');
-        }
-
-        function setupStickyAudio() {
-            audioSection = document.getElementById('audioSection');
-            audioPlaceholder = document.getElementById('audioPlaceholder');
-            
-            if (!audioSection) return;
-            
-            window.addEventListener('scroll', handleScroll);
-            handleScroll();
-        }
-
-        function handleScroll() {
-            if (!audioSection || !audioPlaceholder) return;
-            
-            const navHeight = navBar ? navBar.offsetHeight : 0;
-            const audioRect = audioSection.getBoundingClientRect();
-            const audioTop = audioSection.offsetTop;
-            
-            if (window.scrollY > audioTop - navHeight) {
-                audioSection.classList.add('sticky');
-                audioPlaceholder.classList.add('active');
-            } else {
-                audioSection.classList.remove('sticky');
-                audioPlaceholder.classList.remove('active');
-            }
-        }
-
-        function handleInput(sectionIdx, blankIdx, value) {
-            const key = `${sectionIdx}-${blankIdx}`;
-            userAnswers[key] = value.trim();
-        }
-
-        function normalizeAnswer(text) {
-            return text.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
-        }
-
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            const section = allSections[currentSectionIndex];
-            const totalBlanks = section.blanks.length;
-            
-            let answeredCount = 0;
-            for (let i = 0; i < totalBlanks; i++) {
-                const key = `${currentSectionIndex}-${i}`;
-                if (userAnswers[key] && userAnswers[key] !== '') answeredCount++;
+            while ((match = pattern.exec(cleanLine)) !== null) {
+                const num = parseInt(match[1]);
+                const answer = match[2].trim().replace(/,\s*$/, '');
+                if (answer) {
+                    answers.push({
+                        number: num,
+                        answer: answer
+                    });
+                }
             }
             
-            if (answeredCount < totalBlanks) {
-                alert('Vui lòng điền tất cả các ô trống!');
-                return;
-            }
+            answers.sort((a, b) => a.number - b.number);
+            return answers;
+        }
 
-            let score = 0;
+        function parseWordContent(text) {
+            const sections = [];
+            let sectionTexts = text.split(/\n-{3,}\n/);
             
-            section.blanks.forEach((correctAnswer, blankIdx) => {
-                const key = `${currentSectionIndex}-${blankIdx}`;
-                const userAns = userAnswers[key] || '';
+            if (sectionTexts.length === 1) {
+                sectionTexts = text.split(/(?=SECTION\s+\d+)/i);
+            }
+            
+            sectionTexts.forEach((sectionText) => {
+                sectionText = sectionText.trim();
+                if (!sectionText) return;
                 
-                const normalizedUser = normalizeAnswer(userAns);
-                const normalizedCorrect = normalizeAnswer(correctAnswer);
-                const isCorrect = normalizedUser === normalizedCorrect;
+                const sectionMatch = sectionText.match(/SECTION\s+\d+[:\s]*/i);
+                if (!sectionMatch) return;
                 
-                if (isCorrect) score++;
-
-                const inputElem = document.getElementById(`blank-${currentSectionIndex}-${blankIdx}`);
-                const answerElem = document.getElementById(`answer-${currentSectionIndex}-${blankIdx}`);
+                const lines = sectionText.split('\n').map(l => l.trim()).filter(l => l);
                 
-                if (inputElem) {
-                    inputElem.disabled = true;
-                    
-                    if (isCorrect) {
-                        inputElem.classList.add('correct');
-                        inputElem.classList.remove('incorrect');
-                    } else {
-                        inputElem.classList.add('incorrect');
-                        inputElem.classList.remove('correct');
-                        if (answerElem) {
-                            answerElem.classList.add('show');
-                        }
+                let description = '';
+                let descStarted = false;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].match(/^SECTION\s+\d+[:\s]*/i)) {
+                        descStarted = true;
+                        continue;
+                    }
+                    if (descStarted && !lines[i].match(/^ANSWERS?\s*:/i) && !lines[i].match(/\(\d+\)/)) {
+                        description = lines[i];
+                        break;
                     }
                 }
+                
+                let answersLine = '';
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].match(/^ANSWERS?\s*:/i)) {
+                        answersLine = lines[i];
+                        let j = i + 1;
+                        while (j < lines.length && !lines[j].match(/^SECTION\s+\d+/i)) {
+                            answersLine += ' ' + lines[j];
+                            j++;
+                        }
+                        break;
+                    }
+                }
+                
+                const answersData = parseAnswersFromLine(answersLine);
+                
+                // Extract passage text with blanks
+                let passageText = '';
+                let foundAnswers = false;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].match(/^SECTION\s+\d+[:\s]*/i)) continue;
+                    if (lines[i].match(/^Test description:/i)) continue;
+                    if (lines[i].match(/^ANSWERS?\s*:/i)) {
+                        foundAnswers = true;
+                        break;
+                    }
+                    if (description && lines[i] === description) continue;
+                    
+                    // Add line to passage if it contains blanks
+                    if (lines[i].match(/\(\d+\)\s*\.{2,}/)) {
+                        passageText += (passageText ? ' ' : '') + lines[i];
+                    }
+                }
+                
+                const blankPattern = /\((\d+)\)\s*\.{2,}/g;
+                const blankMatches = [...sectionText.matchAll(blankPattern)];
+                
+                if (blankMatches.length > 0 && answersData.length > 0) {
+                    const blanks = answersData.map(a => a.answer);
+                    
+                    sections.push({
+                        description: description || '',
+                        audio: "",
+                        passage: passageText,
+                        blanks: blanks
+                    });
+                }
+            });
+            
+            return sections;
+        }
+
+        function createNewJson(sections) {
+            return sections.map((sec, index) => ({
+                id: `test${index + 1}`,
+                description: sec.description || '',
+                audio: sec.audio,
+                passage: sec.passage || '',
+                blanks: sec.blanks
+            }));
+        }
+
+        function addAsNewSections(existing, incoming) {
+            const result = [...existing];
+            let testIndex = result.length + 1;
+
+            incoming.forEach(sec => {
+                result.push({
+                    id: `test${testIndex}`,
+                    description: sec.description || '',
+                    audio: sec.audio,
+                    passage: sec.passage || '',
+                    blanks: sec.blanks
+                });
+                testIndex++;
             });
 
-            const percentage = Math.round((score / totalBlanks) * 100);
-            const resultDiv = document.getElementById('result');
-            
-            let emoji = '🎉';
-            let message = 'Xuất sắc!';
-            if (percentage < 50) {
-                emoji = '📚';
-                message = 'Cố gắng lên!';
-            } else if (percentage < 80) {
-                emoji = '👍';
-                message = 'Khá tốt!';
-            }
-            
-            resultDiv.innerHTML = `
-                <div>${emoji} ${message}</div>
-                <div class="score">${score}/${totalBlanks}</div>
-                <div>Điểm số: ${percentage}%</div>
-            `;
-            resultDiv.classList.add('show');
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('retryBtn').classList.add('show');
+            return result;
+        }
+
+        function displayResult(data) {
+            jsonOutput.textContent = JSON.stringify(data, null, 2);
+            resultArea.style.display = 'block';
+        }
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Đã copy!';
+                setTimeout(() => btn.textContent = originalText, 2000);
+            });
         });
 
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            userAnswers = {};
-            renderSection(currentSectionIndex);
-            setupStickyAudio();
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const blob = new Blob([jsonOutput.textContent], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'listening-s3-questions.json';
+            a.click();
+            URL.revokeObjectURL(url);
         });
 
-        window.addEventListener('load', loadQuestions);
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            location.reload();
+        });
     </script>
 </body>
 </html>

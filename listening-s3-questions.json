@@ -3,6 +3,7 @@
     "id": "test1",
     "description": "Test description: You will hear some information about a museum.",
     "audio": "audio_s3/section3-t1.mp3",
+    "passage": "The Redfern Museum is closed today. Our opening hours are from half past one to half past four Monday to (1) ..................... The museum has things for you to see from the (2) .................... century - the downstairs room shows the (3) .................... of two hundred years ago. For example, you can see what children wore at (4) ....................  and what families wore for dinner. Upstairs, we are showing some important paintings by (5) .................... artists of the time. There’s a short film about this (6) ....................  every afternoon and there will be talks about some of these pictures in November. In the Garden Room, there will be free concerts all through (7) ....................  for visitors to the museum. A ticket to the museum costs five pounds for adults, (8) .................... for students and two pounds fifty for children. We welcome school group visits. Please phone our Schools Officer for further information on (9) ...................., between nine and five every day. Come to Redfern Museum (10) ..................... Thank you for calling.",
     "blanks": [
       "countryside",
       "coach",
