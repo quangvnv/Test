@@ -444,31 +444,36 @@
             document.getElementById('retryBtn').classList.remove('show');
         }
 
-        function setupStickyAudio() {
-            audioSection = document.getElementById('audioSection');
-            audioPlaceholder = document.getElementById('audioPlaceholder');
-            
-            if (!audioSection) return;
-            
+    function setupStickyAudio() {
+        audioSection = document.getElementById('audioSection');
+        audioPlaceholder = document.getElementById('audioPlaceholder');
+
+        if (!audioSection || !audioPlaceholder) return;
+
+        // LƯU VỊ TRÍ GỐC CỦA AUDIO (TRƯỚC KHI STICKY)
+        originalAudioTop = audioSection.getBoundingClientRect().top + window.scrollY;
+
+        if (!stickyScrollBound) {
             window.addEventListener('scroll', handleScroll);
-            handleScroll();
+            stickyScrollBound = true;
         }
 
-        function handleScroll() {
-            if (!audioSection || !audioPlaceholder) return;
-            
-            const navHeight = navBar ? navBar.offsetHeight : 0;
-            const audioRect = audioSection.getBoundingClientRect();
-            const audioTop = audioSection.offsetTop;
-            
-            if (window.scrollY > audioTop - navHeight) {
-                audioSection.classList.add('sticky');
-                audioPlaceholder.classList.add('active');
-            } else {
-                audioSection.classList.remove('sticky');
-                audioPlaceholder.classList.remove('active');
-            }
+        handleScroll();
+    }
+
+    function handleScroll() {
+        if (!audioSection || originalAudioTop === null) return;
+
+        const navHeight = navBar ? navBar.offsetHeight : 0;
+
+        if (window.scrollY > originalAudioTop - navHeight) {
+            audioSection.classList.add('sticky');
+            audioPlaceholder.classList.add('active');
+        } else {
+            audioSection.classList.remove('sticky');
+            audioPlaceholder.classList.remove('active');
         }
+    }
 
         function handleInput(sectionIdx, blankIdx, value) {
             const key = `${sectionIdx}-${blankIdx}`;
