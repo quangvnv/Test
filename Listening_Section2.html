@@ -460,7 +460,7 @@
                                 <span>Tapescript</span>
                             </div>
                             <div class="tapescript-content" id="tapescriptContent">
-                                ${section.tapescript || 'No tapescript available.'}
+                                ${(section.tapescript && section.tapescript.trim()) ? section.tapescript.replace(/\\n/g, '\n') : 'No tapescript available.'}
                             </div>
                         </div>
                     </div>
