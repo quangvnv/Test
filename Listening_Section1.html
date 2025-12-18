@@ -294,10 +294,10 @@
 
         async function loadQuestions() {
             try {
-                const response = await fetch('listening-questions.json');
+                const response = await fetch('listening-s1-questions.json');
                 
                 if (!response.ok) {
-                    throw new Error('Không tìm thấy file listening-questions.json');
+                    throw new Error('Không tìm thấy file listening-s1-questions.json');
                 }
                 
                 allSections = await response.json();
@@ -316,7 +316,7 @@
                 document.getElementById('error').style.display = 'block';
                 document.getElementById('error').innerHTML = `
                     <strong>Lỗi:</strong> ${error.message}<br>
-                    <small>Hãy đảm bảo file "listening-questions.json" nằm cùng thư mục với file HTML này.</small>
+                    <small>Hãy đảm bảo file "listening-s1-questions.json" nằm cùng thư mục với file HTML này.</small>
                 `;
                 console.error('Error loading JSON:', error);
             }
