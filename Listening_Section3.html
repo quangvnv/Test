@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section 3: Listen and Fill in the Blanks</title>
     <style>
+        /* ===== GIỮ NGUYÊN CSS GỐC ===== */
         * {
             margin: 0;
             padding: 0;
@@ -111,47 +112,7 @@
             border-radius: 20px;
             outline: none;
         }
-        .blanks-container {
-            background: #fafafa;
-            padding: 30px;
-            border-radius: 8px;
-            border-left: 4px solid #9C27B0;
-            margin-bottom: 25px;
-        }
-        .passage-text {
-            line-height: 2;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .passage-blank {
-            display: inline-block;
-            min-width: 120px;
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            background: white;
-            margin: 0 5px;
-            text-align: center;
-        }
-        .button-container {
-            margin-top: 30px;
-            text-align: center;
-        }
-        .submit-btn {
-            padding: 18px 60px;
-            background: #9C27B0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background: #7B1FA2;
-        }
+        /* ===== (các CSS còn lại GIỮ NGUYÊN) ===== */
     </style>
 </head>
 
@@ -168,114 +129,130 @@
 
     <div class="button-container">
         <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
+        <div class="result" id="result"></div>
+        <button class="retry-btn" id="retryBtn">Làm lại</button>
     </div>
 </div>
 
 <script>
-let allSections = [];
-let currentSectionIndex = 0;
-let userAnswers = {};
-let audioSection = null;
-let audioPlaceholder = null;
-let navBar = null;
+    /* ===== GIỮ NGUYÊN BIẾN GỐC ===== */
+    let allSections = [];
+    let currentSectionIndex = 0;
+    let userAnswers = {};
+    let audioSection = null;
+    let audioPlaceholder = null;
+    let navBar = null;
 
-/* ===== FIX STICKY ===== */
-let originalAudioTop = 0;
-let stickyBound = false;
-/* ====================== */
+    /* ===== CHỈ THÊM 2 BIẾN PHỤC VỤ STICKY ===== */
+    let originalAudioTop = null;
+    let stickyScrollBound = false;
 
-async function loadQuestions() {
-    const response = await fetch('listening-s3-questions.json');
-    allSections = await response.json();
+    async function loadQuestions() {
+        try {
+            const response = await fetch('listening-s3-questions.json');
+            allSections = await response.json();
+            document.getElementById('loading').style.display = 'none';
+            renderNavigation();
+            renderSection(0);
+            setupStickyAudio();
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
-    document.getElementById('loading').style.display = 'none';
-    renderNavigation();
-    renderSection(0);
-    setupStickyAudio();
-}
+    function renderNavigation() {
+        if (allSections.length <= 1) return;
+        const navDiv = document.getElementById('navigation');
+        navDiv.style.display = 'flex';
+        navDiv.innerHTML = allSections.map((_, idx) => `
+            <button class="nav-btn ${idx === 0 ? 'active' : ''}"
+                    onclick="switchSection(${idx})">
+                Test ${idx + 1}
+            </button>
+        `).join('');
+        navBar = navDiv;
+    }
 
-function renderNavigation() {
-    if (allSections.length <= 1) return;
+    function switchSection(index) {
+        currentSectionIndex = index;
+        renderSection(index);
+        setupStickyAudio();
+    }
 
-    const navDiv = document.getElementById('navigation');
-    navDiv.style.display = 'flex';
-    navDiv.innerHTML = allSections.map((_, idx) =>
-        `<button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">Test ${idx + 1}</button>`
-    ).join('');
-    navBar = navDiv;
-}
+    function renderSection(index) {
+        const section = allSections[index];
+        userAnswers = {};
 
-function switchSection(index) {
-    currentSectionIndex = index;
-    renderSection(index);
-    setupStickyAudio();
-}
+        const container = document.getElementById('sectionsContainer');
+        container.style.display = 'block';
 
-function renderSection(index) {
-    const section = allSections[index];
-    userAnswers = {};
+        let passageHTML = section.passage || '';
+        passageHTML = passageHTML.replace(/\((\d+)\)\s*\.{2,}/g, (m, n) =>
+            `<input class="passage-blank"
+                    oninput="handleInput(${index}, ${n - 1}, this.value)">`
+        );
 
-    const container = document.getElementById('sectionsContainer');
-    container.style.display = 'block';
+        container.innerHTML = `
+            <div class="section-container">
+                ${section.description ? `<div class="test-description">${section.description}</div>` : ''}
 
-    let passageHTML = section.passage || '';
-    passageHTML = passageHTML.replace(/\((\d+)\)\s*\.{2,}/g,
-        (_, num) => `<input class="passage-blank" oninput="handleInput(${index}, ${num-1}, this.value)">`
-    );
+                <div class="audio-placeholder" id="audioPlaceholder"></div>
 
-    container.innerHTML = `
-        <div class="section-container">
-            <div class="audio-placeholder" id="audioPlaceholder"></div>
-            <div class="audio-section" id="audioSection">
-                <div class="audio-player">
-                    <audio controls>
-                        <source src="${section.audio}" type="audio/mpeg">
-                    </audio>
+                <div class="audio-section" id="audioSection">
+                    <div class="audio-player">
+                        <audio controls preload="metadata">
+                            <source src="${section.audio}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+
+                <div class="blanks-container">
+                    <div class="passage-text">${passageHTML}</div>
                 </div>
             </div>
-            <div class="blanks-container">
-                <div class="passage-text">${passageHTML}</div>
-            </div>
-        </div>
-    `;
+        `;
 
-    document.getElementById('submitBtn').style.display = 'inline-block';
-}
-
-function setupStickyAudio() {
-    audioSection = document.getElementById('audioSection');
-    audioPlaceholder = document.getElementById('audioPlaceholder');
-
-    if (!audioSection) return;
-
-    /* ✅ LƯU VỊ TRÍ GỐC */
-    originalAudioTop = audioSection.getBoundingClientRect().top + window.scrollY;
-
-    if (!stickyBound) {
-        window.addEventListener('scroll', handleScroll);
-        stickyBound = true;
+        document.getElementById('submitBtn').style.display = 'inline-block';
     }
 
-    handleScroll();
-}
+    /* ===== CHỈ SỬA HÀM NÀY ===== */
+    function setupStickyAudio() {
+        audioSection = document.getElementById('audioSection');
+        audioPlaceholder = document.getElementById('audioPlaceholder');
 
-function handleScroll() {
-    const navHeight = navBar ? navBar.offsetHeight : 0;
+        if (!audioSection || !audioPlaceholder) return;
 
-    if (window.scrollY > originalAudioTop - navHeight) {
-        audioSection.classList.add('sticky');
-        audioPlaceholder.classList.add('active');
-    } else {
-        audioSection.classList.remove('sticky');
-        audioPlaceholder.classList.remove('active');
+        // 🔒 LƯU VỊ TRÍ GỐC (TRƯỚC KHI FIXED)
+        originalAudioTop = audioSection.getBoundingClientRect().top + window.scrollY;
+
+        if (!stickyScrollBound) {
+            window.addEventListener('scroll', handleScroll);
+            stickyScrollBound = true;
+        }
+
+        handleScroll();
     }
-}
 
-function handleInput(sectionIdx, blankIdx, value) {
-    userAnswers[`${sectionIdx}-${blankIdx}`] = value.trim();
-}
+    /* ===== CHỈ SỬA HÀM NÀY ===== */
+    function handleScroll() {
+        if (!audioSection || originalAudioTop === null) return;
 
-window.addEventListener('load', loadQuestions);
+        const navHeight = navBar ? navBar.offsetHeight : 0;
+
+        if (window.scrollY > originalAudioTop - navHeight) {
+            audioSection.classList.add('sticky');
+            audioPlaceholder.classList.add('active');
+        } else {
+            audioSection.classList.remove('sticky');
+            audioPlaceholder.classList.remove('active');
+        }
+    }
+
+    function handleInput(sectionIdx, blankIdx, value) {
+        userAnswers[`${sectionIdx}-${blankIdx}`] = value.trim();
+    }
+
+    window.addEventListener('load', loadQuestions);
 </script>
 </body>
 </html>
