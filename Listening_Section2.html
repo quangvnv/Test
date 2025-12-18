@@ -306,6 +306,31 @@
                 flex: 1;
             }
         }
+
+/* ===============================
+   SPLIT VIEW: Questions & Tapescript
+   =============================== */
+
+/* Khung chứa 2 panel có chiều cao cố định */
+.content-wrapper.split-view {
+    align-items: stretch;
+    height: calc(100vh - 260px); /* chỉnh nếu cần */
+}
+
+/* Panel câu hỏi cuộn độc lập */
+.content-wrapper.split-view .questions-panel {
+    flex: 0 0 48%;
+    max-height: 100%;
+    overflow-y: auto;
+    padding-right: 12px;
+}
+
+/* Panel tapescript cuộn độc lập */
+.content-wrapper.split-view .tapescript-panel {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
     </style>
 </head>
 <body>
