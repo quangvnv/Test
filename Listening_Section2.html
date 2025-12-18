@@ -72,6 +72,14 @@
             text-align: center;
             border-left: 4px solid #2196F3;
         }
+        .audio-placeholder {
+            height: 0;
+            display: none;
+        }
+        .audio-placeholder.active {
+            display: block;
+            height: 80px;
+        }
         .audio-section {
             margin-bottom: 30px;
             padding: 20px;
@@ -80,6 +88,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: all 0.3s;
+        }
+        .audio-section.sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            background: #fafafa;
         }
         .audio-player {
             width: 100%;
@@ -93,6 +113,51 @@
         }
         .audio-player audio::-webkit-media-controls-panel {
             background: linear-gradient(to right, #2196F3, #42A5F5);
+        }
+        .content-wrapper {
+            display: flex;
+            gap: 30px;
+            transition: all 0.3s;
+        }
+        .content-wrapper.split-view {
+            gap: 30px;
+        }
+        .questions-panel {
+            flex: 1;
+            transition: all 0.3s;
+        }
+        .content-wrapper.split-view .questions-panel {
+            flex: 0 0 48%;
+        }
+        .tapescript-panel {
+            flex: 0 0 48%;
+            display: none;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .tapescript-panel.show {
+            display: block;
+        }
+        .tapescript-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .tapescript-content {
+            line-height: 2;
+            font-size: 15px;
+            color: #333;
+            white-space: pre-wrap;
         }
         .question-item {
             margin-bottom: 25px;
@@ -231,6 +296,15 @@
             .audio-player {
                 max-width: 100%;
             }
+            .content-wrapper.split-view {
+                flex-direction: column;
+            }
+            .content-wrapper.split-view .questions-panel {
+                flex: 1;
+            }
+            .tapescript-panel {
+                flex: 1;
+            }
         }
     </style>
 </head>
@@ -256,6 +330,11 @@
         let allSections = [];
         let currentSectionIndex = 0;
         let userAnswers = {};
+        let audioSection = null;
+        let audioPlaceholder = null;
+        let navBar = null;
+        let originalAudioTop = null;
+        let stickyScrollBound = false;
 
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -284,6 +363,7 @@
                 
                 renderNavigation();
                 renderSection(0);
+                setupStickyAudio();
                 
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
@@ -306,6 +386,7 @@
                     Test ${idx + 1}
                 </button>
             `).join('');
+            navBar = navDiv;
         }
 
         function switchSection(index) {
@@ -315,6 +396,8 @@
             document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
                 btn.classList.toggle('active', idx === index);
             });
+            
+            setupStickyAudio();
         }
 
         function renderSection(index) {
@@ -336,7 +419,9 @@
                 <div class="section-container">
                     ${section.description ? `<div class="test-description">${section.description}</div>` : ''}
                     
-                    <div class="audio-section">
+                    <div class="audio-placeholder" id="audioPlaceholder"></div>
+                    
+                    <div class="audio-section" id="audioSection">
                         <div class="audio-player">
                             <audio controls preload="metadata">
                                 <source src="${section.audio}" type="audio/mpeg">
@@ -345,32 +430,76 @@
                         </div>
                     </div>
                     
-                    ${section.questions.map((q, qIdx) => {
-                        const shuffledOptions = shuffledQuestionsData[qIdx];
-                        return `
-                        <div class="question-item">
-                            <div class="question-text">
-                                <span class="question-number">${qIdx + 1}.</span> ${q.question}
+                    <div class="content-wrapper" id="contentWrapper">
+                        <div class="questions-panel" id="questionsPanel">
+                            ${section.questions.map((q, qIdx) => {
+                                const shuffledOptions = shuffledQuestionsData[qIdx];
+                                return `
+                                <div class="question-item">
+                                    <div class="question-text">
+                                        <span class="question-number">${qIdx + 1}.</span> ${q.question}
+                                    </div>
+                                    <div class="options-container">
+                                        ${shuffledOptions.map((opt, displayIdx) => `
+                                            <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}">
+                                                <input type="radio" 
+                                                       name="q-${index}-${qIdx}" 
+                                                       value="${opt.originalIndex}"
+                                                       onchange="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
+                                                <span class="option-label">${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
+                                            </label>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `}).join('')}
+                        </div>
+                        
+                        <div class="tapescript-panel" id="tapescriptPanel">
+                            <div class="tapescript-title">
+                                <span>📝</span>
+                                <span>Tapescript</span>
                             </div>
-                            <div class="options-container">
-                                ${shuffledOptions.map((opt, displayIdx) => `
-                                    <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}">
-                                        <input type="radio" 
-                                               name="q-${index}-${qIdx}" 
-                                               value="${opt.originalIndex}"
-                                               onchange="handleAnswer(${index}, ${qIdx}, ${opt.originalIndex})">
-                                        <span class="option-label">${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
-                                    </label>
-                                `).join('')}
+                            <div class="tapescript-content" id="tapescriptContent">
+                                ${section.tapescript || 'No tapescript available.'}
                             </div>
                         </div>
-                    `}).join('')}
+                    </div>
                 </div>
             `;
             
             document.getElementById('submitBtn').style.display = 'inline-block';
             document.getElementById('result').classList.remove('show');
             document.getElementById('retryBtn').classList.remove('show');
+        }
+
+        function setupStickyAudio() {
+            audioSection = document.getElementById('audioSection');
+            audioPlaceholder = document.getElementById('audioPlaceholder');
+
+            if (!audioSection || !audioPlaceholder) return;
+
+            originalAudioTop = audioSection.getBoundingClientRect().top + window.scrollY;
+
+            if (!stickyScrollBound) {
+                window.addEventListener('scroll', handleScroll);
+                stickyScrollBound = true;
+            }
+
+            handleScroll();
+        }
+
+        function handleScroll() {
+            if (!audioSection || originalAudioTop === null) return;
+
+            const navHeight = navBar ? navBar.offsetHeight : 0;
+
+            if (window.scrollY > originalAudioTop - navHeight) {
+                audioSection.classList.add('sticky');
+                audioPlaceholder.classList.add('active');
+            } else {
+                audioSection.classList.remove('sticky');
+                audioPlaceholder.classList.remove('active');
+            }
         }
 
         function handleAnswer(sectionIdx, questionIdx, optionIdx) {
@@ -431,6 +560,13 @@
                 });
             });
 
+            // Show tapescript in split view
+            const contentWrapper = document.getElementById('contentWrapper');
+            const tapescriptPanel = document.getElementById('tapescriptPanel');
+            
+            contentWrapper.classList.add('split-view');
+            tapescriptPanel.classList.add('show');
+
             const percentage = Math.round((score / totalQuestions) * 100);
             const resultDiv = document.getElementById('result');
             
@@ -456,7 +592,16 @@
 
         document.getElementById('retryBtn').addEventListener('click', () => {
             userAnswers = {};
+            
+            // Hide tapescript and restore normal view
+            const contentWrapper = document.getElementById('contentWrapper');
+            const tapescriptPanel = document.getElementById('tapescriptPanel');
+            
+            contentWrapper.classList.remove('split-view');
+            tapescriptPanel.classList.remove('show');
+            
             renderSection(currentSectionIndex);
+            setupStickyAudio();
         });
 
         window.addEventListener('load', loadQuestions);

@@ -1,8 +1,9 @@
 [
   {
     "id": "test1",
-    "description": "You will hear an interview with a champion called Maria Anderson.",
+    "description": "You will hear part of a radio programme about classical music.",
     "audio": "audio_s2/section2-t1.mp3",
+    "tapescript": "",
     "questions": [
       {
         "question": "Maria decided to take up gymnastics…",
@@ -62,8 +63,9 @@
   },
   {
     "id": "test2",
-    "description": "You will hear an interview with a gymnast called Maria Anderson.",
+    "description": "You will hear a radio programme in which young people from different parts of the country are interviewed.",
     "audio": "audio_s2/section2-t2.mp3",
+    "tapescript": "Man:   Hello and welcome to our series about young people living in different parts of the country. Today you’ll hear Mike Davis, who lives in Hereford, telling you something about his life.\n\nBoy:   Hello. I’m 13 years old and I go to Stanley School. I’m in Form 3, and I’m really interested in science but I find maths and especially English a bit hard. I’m good at running and I’ve run for the school team in the 800 metres.\n\nMy dad sells farm machinery. We live in the country about four miles from school, so I get to school by bicycle. My uncle has a farm and I spend most of my free time helping out there. He’s got 50 cows and I like to help him with them. I help to do the milking every Saturday and sometimes I have to clean the cowshed. It’s hard work, but it’s good to see everything looking clean. I painted it white last summer – I’m good at painting. My uncle’s got a tractor and he says I can drive it when I’m 15. I’m looking forward to that.\n\nOn Mondays I go to the Young Farmers’ Group which I’ve belonged to since I was 10. It’s mostly fun but we also learn things, like how to look after animals properly.\n\nI definitely want to work in the countryside when I leave school. I wouldn’t like to live in a town or sit in an office all day. My father thinks I should work in his business, but I want to be like my uncle and have my own farm one day. My mother says I’ll have to go to agricultural college first, so I’m going to work hard to pass all my exams.\n\nMan:   Thank you, Mike, …",
     "questions": [
       {
         "question": "Maria decided to take up gymnastics…",
@@ -125,6 +127,7 @@
     "id": "test3",
     "description": "You will hear an interview with Maria Anderson.",
     "audio": "audio_s2/section2-t3.mp3",
+    "tapescript": "",
     "questions": [
       {
         "question": "Maria decided to take up gymnastics…",
