@@ -327,7 +327,8 @@
         let audioSection = null;
         let audioPlaceholder = null;
         let navBar = null;
-
+        let originalAudioTop = null;
+        let stickyScrollBound = false;
         async function loadQuestions() {
             try {
                 const response = await fetch('listening-s3-questions.json');
