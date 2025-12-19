@@ -121,9 +121,11 @@
             gap: 30px;
             transition: all 0.3s;
             min-height: 500px;
+            margin-bottom: 20px;
         }
         .content-wrapper.split-view {
             gap: 30px;
+            min-height: calc(100vh - 320px);
         }
         .questions-panel {
             flex: 1;
@@ -132,7 +134,7 @@
         }
         .content-wrapper.split-view .questions-panel {
             flex: 0 0 48%;
-            max-height: calc(100vh - 280px);
+            max-height: calc(100vh - 320px);
             padding-right: 12px;
         }
         .tapescript-panel {
@@ -145,7 +147,7 @@
             overflow-y: auto;
         }
         .content-wrapper.split-view .tapescript-panel {
-            max-height: calc(100vh - 280px);
+            max-height: calc(100vh - 320px);
         }
         .tapescript-panel.show {
             display: block;
@@ -242,9 +244,9 @@
             border-radius: 4px;
         }
         .button-container {
-            margin-top: 20px;
+            margin-top: 0px;
             text-align: center;
-            padding: 15px 0;
+            padding: 10px 0 15px 0;
         }
         .submit-btn {
             padding: 18px 60px;
