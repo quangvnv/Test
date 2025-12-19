@@ -95,19 +95,18 @@
             border-left-color: #3498db;
         }
 
-        .dropdown:hover .dropdown-content,
-        .dropdown-content:hover,
         .dropdown.show .dropdown-content {
             display: block;
-        }
-
-        .dropdown:hover {
-            background-color: #34495e;
         }
 
         .dropdown-arrow {
             margin-left: 5px;
             font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        .dropdown.show .dropdown-arrow {
+            transform: rotate(180deg);
         }
 
         .content {
@@ -216,7 +215,7 @@
                 box-shadow: none;
             }
 
-            .dropdown.active .dropdown-content {
+            .dropdown.show .dropdown-content {
                 display: block;
             }
 
@@ -233,33 +232,33 @@
             <li class="menu-item active" onclick="showContent('home')">
                 🏠 Trang chủ
             </li>
-            <li class="dropdown">
+            <li class="dropdown" onclick="toggleDropdown(this, event)">
                 <div class="menu-item">
                     📖 Reading Tests <span class="dropdown-arrow">▼</span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="#" onclick="event.preventDefault(); showContent('image-mcq')">Section 1</a>
-                    <a href="#" onclick="event.preventDefault(); showContent('grammar-test')">Section 2</a>
-                    <a href="#" onclick="event.preventDefault(); showContent('reading-test')">Section 3</a>
-                    <a href="#" onclick="event.preventDefault(); showContent('cloze-test')">Section 4</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('image-mcq')">Section 1</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('grammar-test')">Section 2</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('reading-test')">Section 3</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('cloze-test')">Section 4</a>
                 </div>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" onclick="toggleDropdown(this, event)">
                 <div class="menu-item">
                 ✍️ Writing <span class="dropdown-arrow">▼</span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="#" onclick="event.preventDefault(); showContent('writing-test')">Writing</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('writing-test')">Writing</a>
                 </div>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" onclick="toggleDropdown(this, event)">
                 <div class="menu-item">
                     🎧 Listening Tests <span class="dropdown-arrow">▼</span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="#" onclick="event.preventDefault(); showContent('listening-section1')">Section 1</a>
-                    <a href="#" onclick="event.preventDefault(); showContent('listening-section2')">Section 2</a>
-                    <a href="#" onclick="event.preventDefault(); showContent('listening-section3')">Section 3</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section1')">Section 1</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section2')">Section 2</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section3')">Section 3</a>
                 </div>
             </li>
         </ul>
@@ -412,6 +411,21 @@
             terminateSCORM();
         });
 
+        function toggleDropdown(dropdownElement, event) {
+            event.stopPropagation();
+            
+            // Close all other dropdowns
+            const allDropdowns = document.querySelectorAll('.dropdown');
+            allDropdowns.forEach(dropdown => {
+                if (dropdown !== dropdownElement) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdownElement.classList.toggle('show');
+        }
+
         function showContent(sectionId) {
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
@@ -425,13 +439,7 @@
 
             document.getElementById(sectionId).classList.add('active');
             
-            // Highlight the parent menu item if clicking from dropdown
-            const clickedItem = event.target.closest('.menu-item');
-            if (clickedItem) {
-                clickedItem.classList.add('active');
-            }
-            
-            // Close dropdown after selection
+            // Close all dropdowns after selection
             const dropdowns = document.querySelectorAll('.dropdown');
             dropdowns.forEach(dropdown => {
                 dropdown.classList.remove('show');
@@ -443,13 +451,13 @@
             }
         }
 
-        // Mobile dropdown toggle
+        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                const dropdown = e.target.closest('.dropdown');
-                if (dropdown) {
-                    dropdown.classList.toggle('active');
-                }
+            if (!e.target.closest('.dropdown')) {
+                const dropdowns = document.querySelectorAll('.dropdown');
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
             }
         });
     </script>
