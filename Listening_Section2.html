@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section 2: Listen and Choose Answer</title>
+    
     <style>
         * {
             margin: 0;
@@ -47,7 +48,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
-	    font-size: 14px; 
+            font-size: 14px; 
             color: #2196F3;
             transition: all 0.3s;
         }
@@ -60,7 +61,7 @@
             color: white;
         }
         .section-container {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
         .test-description {
             background: #e3f2fd;
@@ -72,7 +73,6 @@
             color: #1976D2;
             text-align: center;
             border-left: 4px solid #2196F3;
-	    display: none;
         }
         .audio-placeholder {
             height: 0;
@@ -120,6 +120,7 @@
             display: flex;
             gap: 30px;
             transition: all 0.3s;
+            min-height: 500px;
         }
         .content-wrapper.split-view {
             gap: 30px;
@@ -127,9 +128,12 @@
         .questions-panel {
             flex: 1;
             transition: all 0.3s;
+            overflow-y: auto;
         }
         .content-wrapper.split-view .questions-panel {
             flex: 0 0 48%;
+            max-height: calc(100vh - 280px);
+            padding-right: 12px;
         }
         .tapescript-panel {
             flex: 0 0 48%;
@@ -138,8 +142,10 @@
             padding: 25px;
             border-radius: 8px;
             border-left: 4px solid #4CAF50;
-            max-height: 600px;
             overflow-y: auto;
+        }
+        .content-wrapper.split-view .tapescript-panel {
+            max-height: calc(100vh - 280px);
         }
         .tapescript-panel.show {
             display: block;
@@ -236,8 +242,9 @@
             border-radius: 4px;
         }
         .button-container {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
+            padding: 15px 0;
         }
         .submit-btn {
             padding: 18px 60px;
@@ -257,25 +264,6 @@
             background: #ccc;
             cursor: not-allowed;
         }
-        .result {
-            margin-top: 25px;
-            padding: 25px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            display: none;
-            border: 2px solid #4CAF50;
-        }
-        .result.show {
-            display: block;
-        }
-        .result .score {
-            font-size: 32px;
-            color: #4CAF50;
-            margin: 10px 0;
-        }
         .retry-btn {
             display: none;
             padding: 18px 60px;
@@ -286,7 +274,6 @@
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 15px;
         }
         .retry-btn:hover {
             background: #F57C00;
@@ -294,6 +281,78 @@
         .retry-btn.show {
             display: inline-block;
         }
+        
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: slideIn 0.3s;
+        }
+        .modal-content .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .modal-content .message {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .modal-content .score {
+            font-size: 48px;
+            color: #4CAF50;
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        .modal-content .percentage {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .modal-close-btn {
+            padding: 15px 50px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .modal-close-btn:hover {
+            background: #1976D2;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .audio-player {
                 max-width: 100%;
@@ -303,36 +362,13 @@
             }
             .content-wrapper.split-view .questions-panel {
                 flex: 1;
+                max-height: none;
             }
             .tapescript-panel {
                 flex: 1;
+                max-height: 400px;
             }
         }
-
-/* ===============================
-   SPLIT VIEW: Questions & Tapescript
-   =============================== */
-
-/* Khung chứa 2 panel có chiều cao cố định */
-.content-wrapper.split-view {
-    align-items: stretch;
-    height: calc(100vh - 260px); /* chỉnh nếu cần */
-}
-
-/* Panel câu hỏi cuộn độc lập */
-.content-wrapper.split-view .questions-panel {
-    flex: 0 0 48%;
-    max-height: 100%;
-    overflow-y: auto;
-    padding-right: 12px;
-}
-
-/* Panel tapescript cuộn độc lập */
-.content-wrapper.split-view .tapescript-panel {
-    max-height: 100%;
-    overflow-y: auto;
-}
-
     </style>
 </head>
 <body>
@@ -348,8 +384,18 @@
         
         <div class="button-container">
             <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <div class="result" id="result"></div>
             <button class="retry-btn" id="retryBtn">Làm lại</button>
+        </div>
+    </div>
+
+    <!-- Result Popup Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="emoji" id="resultEmoji">🎉</div>
+            <div class="message" id="resultMessage">Xuất sắc!</div>
+            <div class="score" id="resultScore">0/0</div>
+            <div class="percentage" id="resultPercentage">Điểm số: 0%</div>
+            <button class="modal-close-btn" id="modalCloseBtn">Đóng</button>
         </div>
     </div>
 
@@ -495,7 +541,6 @@
             `;
             
             document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('result').classList.remove('show');
             document.getElementById('retryBtn').classList.remove('show');
         }
 
@@ -595,7 +640,6 @@
             tapescriptPanel.classList.add('show');
 
             const percentage = Math.round((score / totalQuestions) * 100);
-            const resultDiv = document.getElementById('result');
             
             let emoji = '🎉';
             let message = 'Xuất sắc!';
@@ -607,14 +651,20 @@
                 message = 'Khá tốt!';
             }
             
-            resultDiv.innerHTML = `
-                <div>${emoji} ${message}</div>
-                <div class="score">${score}/${totalQuestions}</div>
-                <div>Điểm số: ${percentage}%</div>
-            `;
-            resultDiv.classList.add('show');
+            // Show result in popup modal
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultScore').textContent = `${score}/${totalQuestions}`;
+            document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
+            document.getElementById('resultModal').classList.add('show');
+            
             document.getElementById('submitBtn').style.display = 'none';
             document.getElementById('retryBtn').classList.add('show');
+        });
+
+        // Close modal
+        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+            document.getElementById('resultModal').classList.remove('show');
         });
 
         document.getElementById('retryBtn').addEventListener('click', () => {
