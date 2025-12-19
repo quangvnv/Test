@@ -33,6 +33,10 @@
             font-size: 20px;
             border-bottom: 2px solid #2196F3;
             padding-bottom: 0px;
+            transition: all 0.3s;
+        }
+        h1.hidden {
+            display: none;
         }
         .navigation {
             display: flex;
@@ -40,6 +44,10 @@
             margin-bottom: 10px;
             justify-content: center;
             flex-wrap: wrap;
+            transition: all 0.3s;
+        }
+        .navigation.hidden {
+            display: none;
         }
         .nav-btn {
             padding: 6px 18px;
@@ -63,17 +71,7 @@
         .section-container {
             margin-bottom: 10px;
         }
-        .test-description {
-            background: #e3f2fd;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1976D2;
-            text-align: center;
-            border-left: 4px solid #2196F3;
-        }
+
         .audio-placeholder {
             height: 0;
             display: none;
@@ -93,6 +91,17 @@
             transition: all 0.3s;
         }
         .audio-section.sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            background: #fafafa;
+        }
+        .audio-section.result-mode {
             position: fixed;
             top: 0;
             left: 0;
@@ -125,7 +134,7 @@
         }
         .content-wrapper.split-view {
             gap: 30px;
-            min-height: calc(100vh - 320px);
+            min-height: calc(100vh - 140px);
         }
         .questions-panel {
             flex: 1;
@@ -134,7 +143,7 @@
         }
         .content-wrapper.split-view .questions-panel {
             flex: 0 0 48%;
-            max-height: calc(100vh - 320px);
+            max-height: calc(100vh - 140px);
             padding-right: 12px;
         }
         .tapescript-panel {
@@ -147,7 +156,7 @@
             overflow-y: auto;
         }
         .content-wrapper.split-view .tapescript-panel {
-            max-height: calc(100vh - 320px);
+            max-height: calc(100vh - 140px);
         }
         .tapescript-panel.show {
             display: block;
@@ -492,8 +501,6 @@
             
             container.innerHTML = `
                 <div class="section-container">
-                    
-                    
                     <div class="audio-placeholder" id="audioPlaceholder"></div>
                     
                     <div class="audio-section" id="audioSection">
@@ -634,12 +641,21 @@
                 });
             });
 
+            // Hide header and navigation
+            document.querySelector('h1').classList.add('hidden');
+            const navDiv = document.getElementById('navigation');
+            if (navDiv) navDiv.classList.add('hidden');
+            
             // Show tapescript in split view
             const contentWrapper = document.getElementById('contentWrapper');
             const tapescriptPanel = document.getElementById('tapescriptPanel');
             
             contentWrapper.classList.add('split-view');
             tapescriptPanel.classList.add('show');
+            
+            // Fix audio at top
+            audioSection.classList.add('result-mode');
+            audioPlaceholder.classList.add('active');
 
             const percentage = Math.round((score / totalQuestions) * 100);
             
@@ -672,6 +688,11 @@
         document.getElementById('retryBtn').addEventListener('click', () => {
             userAnswers = {};
             
+            // Show header and navigation again
+            document.querySelector('h1').classList.remove('hidden');
+            const navDiv = document.getElementById('navigation');
+            if (navDiv) navDiv.classList.remove('hidden');
+            
             // Hide tapescript and restore normal view
             const contentWrapper = document.getElementById('contentWrapper');
             const tapescriptPanel = document.getElementById('tapescriptPanel');
@@ -679,8 +700,15 @@
             contentWrapper.classList.remove('split-view');
             tapescriptPanel.classList.remove('show');
             
+            // Remove audio fixed position
+            audioSection.classList.remove('result-mode');
+            audioPlaceholder.classList.remove('active');
+            
             renderSection(currentSectionIndex);
             setupStickyAudio();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         });
 
         window.addEventListener('load', loadQuestions);
