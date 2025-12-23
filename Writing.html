@@ -15,36 +15,63 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
-            padding: 20px;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: auto;
+        /* ===== TOP BAR (FIXED) ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+            padding: 6px 10px;
         }
 
-        h1 {
+        .header {
+            position: relative;
             text-align: center;
-            margin-bottom: 15px;
-            border-bottom: 3px solid #9c27b0;
-            padding-bottom: 10px;
         }
 
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        /* Font size controls */
+        .font-controls {
+            position: absolute;
+            right: 10px;
+            top: 0;
+        }
+
+        .font-controls button {
+            padding: 2px 6px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .font-controls button:hover {
+            background: #f0f0f0;
+        }
+
+        /* Test navigation */
         .navigation {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
             justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
             flex-wrap: wrap;
         }
 
         .nav-btn {
-            padding: 12px 30px;
+            padding: 6px 16px;
+            font-size: 14px;
             background: #e3f2fd;
             border: 2px solid #2196F3;
             border-radius: 6px;
@@ -57,26 +84,47 @@
         .nav-btn.active {
             background: #9c27b0;
             color: white;
+            border-color: #9c27b0;
         }
 
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            background: white;
+            padding: 100px 15px 90px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ===== QUESTIONS ===== */
         .question {
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 25px;
+            padding: 18px;
             background: #fafafa;
             border-radius: 8px;
             border-left: 4px solid #9c27b0;
         }
 
+        .question-text {
+            font-size: 18px;
+        }
+
         .question-number {
             font-weight: bold;
             color: #9c27b0;
-            margin-right: 6px;
+            margin-right: 4px;
         }
 
         .starter-word {
             font-weight: bold;
             color: #2196F3;
-            margin-bottom: 6px;
+            margin: 8px 0;
+            font-size: 18px;
+        }
+
+        .dots {
+            color: #999;
+            letter-spacing: 1px;
         }
 
         .answer-input {
@@ -105,14 +153,24 @@
             color: #856404;
         }
 
-        .button-container {
-            margin-top: 30px;
-            text-align: center;
+        /* ===== BOTTOM BAR ===== */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+            padding: 6px 10px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 1000;
         }
 
-        button {
-            padding: 15px 60px;
-            font-size: 18px;
+        .bottom-bar button {
+            padding: 6px 20px;
+            font-size: 14px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -121,6 +179,7 @@
 
         .submit-btn {
             background: #9c27b0;
+
         }
 
         .retry-btn {
@@ -128,8 +187,8 @@
             display: none;
         }
 
-        .retry-btn.show {
-            display: inline-block;
+        .top-btn {
+            background: #4caf50;
         }
 
         .loading {
@@ -142,22 +201,36 @@
 
 <body>
 
-<div class="container">
-    <h1>✍️ Writing Test: Sentence Rewriting</h1>
-
+<!-- ===== TOP BAR ===== -->
+<div class="top-bar">
+    <div class="header">
+        <h1>✏️ Writing Test: Rewrite the sentences</h1>
+        <div class="font-controls">
+            <button onclick="changeFontSize(1)">A+</button>
+            <button onclick="changeFontSize(-1)">A−</button>
+        </div>
+    </div>
     <div id="navigation" class="navigation"></div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="container">
     <div id="loading" class="loading">Đang tải đề...</div>
     <div id="questionsContainer"></div>
+</div>
 
-    <div class="button-container">
-        <button id="submitBtn" class="submit-btn">Xem gợi ý</button>
-        <button id="retryBtn" class="retry-btn">Làm lại</button>
-    </div>
+<!-- ===== BOTTOM BAR ===== -->
+<div class="bottom-bar">
+    <button id="submitBtn" class="submit-btn">Xem gợi ý</button>
+    <button id="retryBtn" class="retry-btn">Làm lại</button>
+    <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
 </div>
 
 <script>
     let allSections = [];
     let currentSectionIndex = 0;
+    let fontSize = 18;
+    const DOTS_LENGTH = 50;
 
     async function loadQuestions() {
         const res = await fetch('writing-questions.json');
@@ -171,8 +244,6 @@
 
     function renderNavigation() {
         const nav = document.getElementById('navigation');
-        nav.style.display = 'flex';
-
         nav.innerHTML = allSections.map((_, i) =>
             `<button class="nav-btn ${i === 0 ? 'active' : ''}"
                 onclick="switchSection(${i})">Test ${i + 1}</button>`
@@ -188,6 +259,16 @@
         });
     }
 
+    function getEndingPunctuation(sentence) {
+        const trimmed = sentence.trim();
+        const lastChar = trimmed[trimmed.length - 1];
+        
+        if (['.', '?', '!', ',', ';', ':'].includes(lastChar)) {
+            return lastChar;
+        }
+        return '.';
+    }
+
     function renderSection(index) {
         const container = document.getElementById('questionsContainer');
         container.innerHTML = '';
@@ -196,17 +277,21 @@
 
         section.questions.forEach((q, qIdx) => {
             const starterWord = q.incompleteSentence.split(/\.{3,}/)[0].trim();
+            const endPunctuation = getEndingPunctuation(q.originalSentence);
+            const dots = '.'.repeat(DOTS_LENGTH);
 
             const div = document.createElement('div');
             div.className = 'question';
 
             div.innerHTML = `
-                <div>
+                <div class="question-text">
                     <span class="question-number">${qIdx + 1}.</span>
                     ${q.originalSentence}
                 </div>
 
-                <div class="starter-word">${starterWord}</div>
+                <div class="starter-word">
+                    ${starterWord}<span class="dots">${dots}</span>${endPunctuation}
+                </div>
 
                 <input type="text" class="answer-input">
 
@@ -221,10 +306,10 @@
         });
 
         document.getElementById('submitBtn').style.display = 'inline-block';
-        document.getElementById('retryBtn').classList.remove('show');
+        document.getElementById('retryBtn').style.display = 'none';
     }
 
-    // 👉 XEM GỢI Ý (PHẢI LÀM ĐỦ CÂU)
+    // 👉 XEM GỢI Ý
     document.getElementById('submitBtn').addEventListener('click', () => {
         const inputs = document.querySelectorAll('.answer-input');
         let allAnswered = true;
@@ -247,7 +332,7 @@
         });
 
         document.getElementById('submitBtn').style.display = 'none';
-        document.getElementById('retryBtn').classList.add('show');
+        document.getElementById('retryBtn').style.display = 'inline-block';
     });
 
     // 👉 LÀM LẠI
@@ -262,8 +347,20 @@
         });
 
         document.getElementById('submitBtn').style.display = 'inline-block';
-        document.getElementById('retryBtn').classList.remove('show');
+        document.getElementById('retryBtn').style.display = 'none';
     });
+
+    // 👉 SCROLL TO TOP
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 👉 CHANGE FONT SIZE
+    function changeFontSize(delta) {
+        fontSize += delta;
+        document.querySelectorAll('.question-text, .starter-word')
+            .forEach(e => e.style.fontSize = fontSize + 'px');
+    }
 
     window.onload = loadQuestions;
 </script>
