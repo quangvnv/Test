@@ -229,6 +229,33 @@
             font-weight: bold;
         }
 
+        /* ===== TAPESCRIPT SECTION ===== */
+        .tapescript-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3e0;
+            border-radius: 6px;
+            border-left: 4px solid #FF9800;
+        }
+
+        .tapescript-section.show {
+            display: block;
+        }
+
+        .tapescript-title {
+            font-weight: 700;
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .tapescript-content {
+            color: #333;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -473,6 +500,10 @@
                                 </div>
                             `).join('')}
                         </div>
+                        <div class="tapescript-section" id="tapescript-${index}-${qIdx}">
+                            <div class="tapescript-title">📝 Tapescript:</div>
+                            <div class="tapescript-content">${q.tapescript || 'Chưa có tapescript'}</div>
+                        </div>
                     </div>
                 `}).join('')}
             </div>
@@ -547,6 +578,12 @@
                     }
                 }
             });
+
+            // Show tapescript
+            const tapescriptElem = document.getElementById(`tapescript-${currentSectionIndex}-${qIdx}`);
+            if (tapescriptElem) {
+                tapescriptElem.classList.add('show');
+            }
         });
 
         const percentage = Math.round((score / totalQuestions) * 100);
