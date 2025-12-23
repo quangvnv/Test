@@ -316,5 +316,50 @@
         "answer": 0
       }
     ]
+  },
+  {
+    "id": "section4",
+    "title": "SECTION 4",
+    "questions": [
+      {
+        "question": "Chuyển đổi số là quá trình thay đổi tổng thể và toàn diện của cá nhân, tổ chức về cách sống, cách làm việc và phương thức sản xuất dựa trên yếu tố nào?",
+        "options": [
+          "Các công nghệ số",
+          "Các thiết bị cơ khí",
+          "Các quy trình thủ công",
+          "Năng suất lao động tay chân"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Số hóa (Digitization) được hiểu đơn giản nhất là gì?",
+        "options": [
+          "Thay đổi hoàn toàn mô hình kinh doanh",
+          "Chuyển đổi từ tài liệu giấy sang file số trên máy tính",
+          "Sáng tạo ra các dịch vụ công mới"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Trong Cách mạng công nghiệp 4.0, công nghệ nào cho phép máy móc có khả năng tư duy và học hỏi như con người?",
+        "options": [
+          "Điện toán đám mây",
+          "Internet vạn vật (IoT)",
+          "Trí tuệ nhân tạo (AI)",
+          "Dữ liệu lớn (Big Data)"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Chương trình Chuyển đổi số quốc gia xác định bao nhiêu trụ cột chính?",
+        "options": [
+          "2 trụ cột",
+          "3 trụ cột",
+          "4 trụ cột",
+          "5 trụ cột"
+        ],
+        "answer": 3
+      }
+    ]
   }
 ]
