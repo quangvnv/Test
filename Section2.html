@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grammar Multiple Choice Test</title>
+    <title>Section 2: Grammar Multiple Choice Test</title>
+    
     <style>
         * {
             margin: 0;
@@ -13,40 +14,72 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
-            padding: 20px;
             line-height: 1.6;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        
+        /* ===== HIDE SCROLLBAR ===== */
+        html, body {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* ===== TOP BAR (FIXED) ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 6px 10px;
+            transition: all 0.3s;
+        }
+        .header {
+            position: relative;
+            text-align: center;
         }
         h1 {
-            text-align: center;
             color: #333;
-	    margin-top: 0px;
-            margin-bottom: 15px;
-            font-size: 28px;
-            border-bottom: 3px solid #2196F3;
-            padding-bottom: 0px;
+            margin: 0;
+            font-size: 20px;
+        }
+        /* Font size controls */
+        .font-controls {
+            position: absolute;
+            right: 10px;
+            top: 0;
+        }
+        .font-controls button {
+            padding: 2px 6px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+        }
+        .font-controls button:hover {
+            background: #f0f0f0;
         }
         .navigation {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 8px;
+            margin-top: 6px;
             justify-content: center;
             flex-wrap: wrap;
         }
         .nav-btn {
-            padding: 12px 30px;
+            padding: 6px 16px;
             background: #e3f2fd;
-            border: 2px solid #2196F3;
-            border-radius: 6px;
+            border: 1.5px solid #2196F3;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 14px;
             color: #2196F3;
             transition: all 0.3s;
         }
@@ -58,8 +91,18 @@
             background: #2196F3;
             color: white;
         }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 100px 10px 80px 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
         .section-container {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
         .question-item {
             margin-bottom: 25px;
@@ -67,6 +110,9 @@
             background: #fafafa;
             border-radius: 8px;
             border-left: 4px solid #2196F3;
+        }
+        .question-item:last-child {
+            margin-bottom: 10px;
         }
         .question-text {
             font-weight: 600;
@@ -91,6 +137,8 @@
             background: white;
             cursor: pointer;
             transition: all 0.3s;
+            border: 2px solid transparent;
+            border-radius: 6px;
         }
         .option-item:hover {
             border-color: #2196F3;
@@ -98,12 +146,15 @@
         }
         .option-item.selected {
             background: #e3f2fd;
+            border-color: #2196F3;
         }
         .option-item.correct {
             background: #c8e6c9;
+            border-color: #4CAF50;
         }
         .option-item.incorrect {
             background: #ffcdd2;
+            border-color: #f44336;
         }
         .option-item input[type="radio"] {
             margin-right: 12px;
@@ -116,6 +167,34 @@
             font-size: 15px;
             line-height: 1.5;
         }
+        
+        /* Explanation section */
+        .explanation-section {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3e0;
+            border-left: 4px solid #FF9800;
+            border-radius: 6px;
+        }
+        .explanation-section.show {
+            display: block;
+        }
+        .explanation-title {
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .explanation-text {
+            color: #5D4037;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
         .loading {
             text-align: center;
             padding: 40px;
@@ -130,17 +209,28 @@
             color: #c62828;
             border-radius: 4px;
         }
+        
+        /* ===== BOTTOM BAR ===== */
         .button-container {
-            margin-top: 30px;
-            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+          padding: 6px 6px 2px 6px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 1000;
         }
         .submit-btn {
-            padding: 18px 60px;
+            padding: 6px 20px;
             background: #2196F3;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.3s;
@@ -152,36 +242,16 @@
             background: #ccc;
             cursor: not-allowed;
         }
-        .result {
-            margin-top: 25px;
-            padding: 25px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            display: none;
-            border: 2px solid #4CAF50;
-        }
-        .result.show {
-            display: block;
-        }
-        .result .score {
-            font-size: 32px;
-            color: #4CAF50;
-            margin: 10px 0;
-        }
         .retry-btn {
             display: none;
-            padding: 18px 60px;
+            padding: 6px 20px;
             background: #FF9800;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 15px;
         }
         .retry-btn:hover {
             background: #F57C00;
@@ -189,14 +259,106 @@
         .retry-btn.show {
             display: inline-block;
         }
+        .top-btn {
+            padding: 6px 20px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .top-btn:hover {
+            background: #388e3c;
+        }
+        
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: slideIn 0.3s;
+        }
+        .modal-content .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .modal-content .message {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .modal-content .score {
+            font-size: 48px;
+            color: #4CAF50;
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        .modal-content .percentage {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .modal-close-btn {
+            padding: 15px 50px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .modal-close-btn:hover {
+            background: #1976D2;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📝 Section 2: Choose the best answer for each question</h1>
-        
+    <!-- ===== TOP BAR (FIXED) ===== -->
+    <div class="top-bar" id="topBar">
+        <div class="header">
+            <h1>📝 Section 2: Choose the best answer for each question</h1>
+            <div class="font-controls">
+                <button onclick="changeFontSize(1)">A+</button>
+                <button onclick="changeFontSize(-1)">A−</button>
+            </div>
+        </div>
         <div class="navigation" id="navigation" style="display: none;"></div>
-        
+    </div>
+
+    <div class="container">
         <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
         <div id="error" class="error" style="display: none;"></div>
         
@@ -204,8 +366,19 @@
         
         <div class="button-container">
             <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <div class="result" id="result"></div>
             <button class="retry-btn" id="retryBtn">Làm lại</button>
+            <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+        </div>
+    </div>
+
+    <!-- Result Popup Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="emoji" id="resultEmoji">🎉</div>
+            <div class="message" id="resultMessage">Xuất sắc!</div>
+            <div class="score" id="resultScore">0/0</div>
+            <div class="percentage" id="resultPercentage">Điểm số: 0%</div>
+            <button class="modal-close-btn" id="modalCloseBtn">Đóng</button>
         </div>
     </div>
 
@@ -213,6 +386,9 @@
         let allSections = [];
         let currentSectionIndex = 0;
         let userAnswers = {};
+        let fontSize = 16; // Default font size for question text
+        let optionFontSize = 15; // Default font size for options
+        let explanationFontSize = 14; // Default font size for explanation
 
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -309,13 +485,21 @@
                                     </label>
                                 `).join('')}
                             </div>
+                            ${q.explanation ? `
+                            <div class="explanation-section" id="explanation-${index}-${qIdx}">
+                                <div class="explanation-title">
+                                    <span>💡</span>
+                                    <span>Giải thích:</span>
+                                </div>
+                                <div class="explanation-text">${q.explanation}</div>
+                            </div>
+                            ` : ''}
                         </div>
                     `}).join('')}
                 </div>
             `;
             
             document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('result').classList.remove('show');
             document.getElementById('retryBtn').classList.remove('show');
         }
 
@@ -375,10 +559,15 @@
                         }
                     }
                 });
+                
+                // Show explanation after submit
+                const explanationElem = document.getElementById(`explanation-${currentSectionIndex}-${qIdx}`);
+                if (explanationElem) {
+                    explanationElem.classList.add('show');
+                }
             });
 
             const percentage = Math.round((score / totalQuestions) * 100);
-            const resultDiv = document.getElementById('result');
             
             let emoji = '🎉';
             let message = 'Xuất sắc!';
@@ -390,20 +579,51 @@
                 message = 'Khá tốt!';
             }
             
-            resultDiv.innerHTML = `
-                <div>${emoji} ${message}</div>
-                <div class="score">${score}/${totalQuestions}</div>
-                <div>Điểm số: ${percentage}%</div>
-            `;
-            resultDiv.classList.add('show');
+            // Show result in popup modal
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultScore').textContent = `${score}/${totalQuestions}`;
+            document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
+            document.getElementById('resultModal').classList.add('show');
+            
             document.getElementById('submitBtn').style.display = 'none';
             document.getElementById('retryBtn').classList.add('show');
+        });
+
+        // Close modal
+        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+            document.getElementById('resultModal').classList.remove('show');
         });
 
         document.getElementById('retryBtn').addEventListener('click', () => {
             userAnswers = {};
             renderSection(currentSectionIndex);
+            window.scrollTo(0, 0);
         });
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Change font size function
+        function changeFontSize(delta) {
+            fontSize += delta;
+            optionFontSize += delta;
+            explanationFontSize += delta;
+            
+            document.querySelectorAll('.question-text').forEach(e => {
+                e.style.fontSize = fontSize + 'px';
+            });
+            
+            document.querySelectorAll('.option-label').forEach(e => {
+                e.style.fontSize = optionFontSize + 'px';
+            });
+            
+            document.querySelectorAll('.explanation-text').forEach(e => {
+                e.style.fontSize = explanationFontSize + 'px';
+            });
+        }
 
         window.addEventListener('load', loadQuestions);
     </script>

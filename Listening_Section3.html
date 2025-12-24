@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section 3: Listen and Fill in the Blanks</title>
+    
     <style>
         * {
             margin: 0;
@@ -13,40 +14,72 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
-            padding: 20px;
             line-height: 1.6;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        
+        /* ===== HIDE SCROLLBAR ===== */
+        html, body {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* ===== TOP BAR (FIXED) ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 6px 10px;
+            transition: all 0.3s;
+        }
+        .header {
+            position: relative;
+            text-align: center;
         }
         h1 {
-            text-align: center;
             color: #333;
-            margin-top: 0px;
-            margin-bottom: 15px;
-            font-size: 28px;
-            border-bottom: 3px solid #9C27B0;
-            padding-bottom: 0px;
+            margin: 0;
+            font-size: 20px;
+        }
+        /* Font size controls */
+        .font-controls {
+            position: absolute;
+            right: 10px;
+            top: 0;
+        }
+        .font-controls button {
+            padding: 2px 6px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+        }
+        .font-controls button:hover {
+            background: #f0f0f0;
         }
         .navigation {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 8px;
+            margin-top: 6px;
             justify-content: center;
             flex-wrap: wrap;
         }
         .nav-btn {
-            padding: 12px 30px;
+            padding: 6px 16px;
             background: #f3e5f5;
-            border: 2px solid #9C27B0;
-            border-radius: 6px;
+            border: 1.5px solid #9C27B0;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 14px;
             color: #9C27B0;
             transition: all 0.3s;
         }
@@ -58,8 +91,42 @@
             background: #9C27B0;
             color: white;
         }
+        
+        /* Audio section in top bar */
+        .audio-section {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #fafafa;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 500px;
+        }
+        .audio-player audio {
+            width: 100%;
+            height: 40px;
+            border-radius: 20px;
+            outline: none;
+        }
+        .audio-player audio::-webkit-media-controls-panel {
+            background: linear-gradient(to right, #9C27B0, #BA68C8);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 170px 10px 25px 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
         .section-container {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
         .test-description {
             background: #f3e5f5;
@@ -71,45 +138,6 @@
             color: #6A1B9A;
             text-align: center;
             border-left: 4px solid #9C27B0;
-        }
-        .audio-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        .audio-section.sticky {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            margin: 0;
-            border-radius: 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            background: transparent;
-        }
-        .audio-placeholder {
-            height: 0;
-            display: none;
-        }
-        .audio-placeholder.active {
-            display: block;
-            height: 80px;
-        }
-        .audio-player {
-            width: 100%;
-            max-width: 500px;
-        }
-        .audio-player audio {
-            width: 100%;
-            height: 40px;
-            border-radius: 20px;
-            outline: none;
         }
         .blanks-container {
             background: #fafafa;
@@ -129,7 +157,7 @@
             line-height: 2;
             font-size: 16px;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
         .passage-blank {
             display: inline-block;
@@ -223,17 +251,28 @@
             color: #c62828;
             border-radius: 4px;
         }
+        
+        /* ===== BOTTOM BAR ===== */
         .button-container {
-            margin-top: 30px;
-            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+            padding: 6px 10px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 1000;
         }
         .submit-btn {
-            padding: 18px 60px;
+            padding: 6px 20px;
             background: #9C27B0;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.3s;
@@ -245,36 +284,16 @@
             background: #ccc;
             cursor: not-allowed;
         }
-        .result {
-            margin-top: 25px;
-            padding: 25px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            display: none;
-            border: 2px solid #4CAF50;
-        }
-        .result.show {
-            display: block;
-        }
-        .result .score {
-            font-size: 32px;
-            color: #4CAF50;
-            margin: 10px 0;
-        }
         .retry-btn {
             display: none;
-            padding: 18px 60px;
+            padding: 6px 20px;
             background: #FF9800;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 15px;
         }
         .retry-btn:hover {
             background: #F57C00;
@@ -282,6 +301,91 @@
         .retry-btn.show {
             display: inline-block;
         }
+        .top-btn {
+            padding: 6px 20px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .top-btn:hover {
+            background: #388e3c;
+        }
+        
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: slideIn 0.3s;
+        }
+        .modal-content .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .modal-content .message {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .modal-content .score {
+            font-size: 48px;
+            color: #4CAF50;
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        .modal-content .percentage {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .modal-close-btn {
+            padding: 15px 50px;
+            background: #9C27B0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .modal-close-btn:hover {
+            background: #7B1FA2;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .audio-player {
                 max-width: 100%;
@@ -303,11 +407,29 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>✏️ Section 3: Listen and fill in the blanks</h1>
-        
+    <!-- ===== TOP BAR (FIXED) ===== -->
+    <div class="top-bar" id="topBar">
+        <div class="header">
+            <h1>✏️ Section 3: Listen and fill in the blanks</h1>
+            <div class="font-controls">
+                <button onclick="changeFontSize(1)">A+</button>
+                <button onclick="changeFontSize(-1)">A−</button>
+            </div>
+        </div>
         <div class="navigation" id="navigation" style="display: none;"></div>
         
+        <!-- Audio Player in Top Bar -->
+        <div class="audio-section" id="audioSection">
+            <div class="audio-player">
+                <audio controls preload="metadata" id="audioPlayer">
+                    <source src="" type="audio/mpeg" id="audioSource">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
         <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
         <div id="error" class="error" style="display: none;"></div>
         
@@ -315,8 +437,19 @@
         
         <div class="button-container">
             <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <div class="result" id="result"></div>
             <button class="retry-btn" id="retryBtn">Làm lại</button>
+            <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+        </div>
+    </div>
+
+    <!-- Result Popup Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="emoji" id="resultEmoji">🎉</div>
+            <div class="message" id="resultMessage">Xuất sắc!</div>
+            <div class="score" id="resultScore">0/0</div>
+            <div class="percentage" id="resultPercentage">Điểm số: 0%</div>
+            <button class="modal-close-btn" id="modalCloseBtn">Đóng</button>
         </div>
     </div>
 
@@ -324,11 +457,9 @@
         let allSections = [];
         let currentSectionIndex = 0;
         let userAnswers = {};
-        let audioSection = null;
-        let audioPlaceholder = null;
-        let navBar = null;
-        let originalAudioTop = null;
-        let stickyScrollBound = false;
+        let fontSize = 16; // Default font size for passage text
+        let blankFontSize = 15; // Default font size for blank inputs
+
         async function loadQuestions() {
             try {
                 const response = await fetch('listening-s3-questions.json');
@@ -347,7 +478,6 @@
                 
                 renderNavigation();
                 renderSection(0);
-                setupStickyAudio();
                 
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
@@ -370,7 +500,6 @@
                     Test ${idx + 1}
                 </button>
             `).join('');
-            navBar = navDiv;
         }
 
         function switchSection(index) {
@@ -380,13 +509,17 @@
             document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
                 btn.classList.toggle('active', idx === index);
             });
-            
-            setupStickyAudio();
         }
 
         function renderSection(index) {
             const section = allSections[index];
             userAnswers = {};
+            
+            // Update audio source
+            const audioSource = document.getElementById('audioSource');
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioSource.src = section.audio;
+            audioPlayer.load();
             
             const container = document.getElementById('sectionsContainer');
             container.style.display = 'block';
@@ -409,18 +542,6 @@
             
             container.innerHTML = `
                 <div class="section-container">
-                    ${section.description ? `<div class="test-description">${section.description}</div>` : ''}
-                    
-                    <div class="audio-placeholder" id="audioPlaceholder"></div>
-                    
-                    <div class="audio-section" id="audioSection">
-                        <div class="audio-player">
-                            <audio controls preload="metadata" id="audioElement">
-                                <source src="${section.audio}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
                     
                     <div class="blanks-container">
                         ${passageHTML ? `<div class="passage-text">${passageHTML}</div>` : ''}
@@ -441,40 +562,8 @@
             `;
             
             document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('result').classList.remove('show');
             document.getElementById('retryBtn').classList.remove('show');
         }
-
-    function setupStickyAudio() {
-        audioSection = document.getElementById('audioSection');
-        audioPlaceholder = document.getElementById('audioPlaceholder');
-
-        if (!audioSection || !audioPlaceholder) return;
-
-        // LƯU VỊ TRÍ GỐC CỦA AUDIO (TRƯỚC KHI STICKY)
-        originalAudioTop = audioSection.getBoundingClientRect().top + window.scrollY;
-
-        if (!stickyScrollBound) {
-            window.addEventListener('scroll', handleScroll);
-            stickyScrollBound = true;
-        }
-
-        handleScroll();
-    }
-
-    function handleScroll() {
-        if (!audioSection || originalAudioTop === null) return;
-
-        const navHeight = navBar ? navBar.offsetHeight : 0;
-
-        if (window.scrollY > originalAudioTop - navHeight) {
-            audioSection.classList.add('sticky');
-            audioPlaceholder.classList.add('active');
-        } else {
-            audioSection.classList.remove('sticky');
-            audioPlaceholder.classList.remove('active');
-        }
-    }
 
         function handleInput(sectionIdx, blankIdx, value) {
             const key = `${sectionIdx}-${blankIdx}`;
@@ -539,7 +628,6 @@
             });
 
             const percentage = Math.round((score / totalBlanks) * 100);
-            const resultDiv = document.getElementById('result');
             
             let emoji = '🎉';
             let message = 'Xuất sắc!';
@@ -551,21 +639,46 @@
                 message = 'Khá tốt!';
             }
             
-            resultDiv.innerHTML = `
-                <div>${emoji} ${message}</div>
-                <div class="score">${score}/${totalBlanks}</div>
-                <div>Điểm số: ${percentage}%</div>
-            `;
-            resultDiv.classList.add('show');
+            // Show result in popup modal
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultScore').textContent = `${score}/${totalBlanks}`;
+            document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
+            document.getElementById('resultModal').classList.add('show');
+            
             document.getElementById('submitBtn').style.display = 'none';
             document.getElementById('retryBtn').classList.add('show');
+        });
+
+        // Close modal
+        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+            document.getElementById('resultModal').classList.remove('show');
         });
 
         document.getElementById('retryBtn').addEventListener('click', () => {
             userAnswers = {};
             renderSection(currentSectionIndex);
-            setupStickyAudio();
+            window.scrollTo(0, 0);
         });
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Change font size function
+        function changeFontSize(delta) {
+            fontSize += delta;
+            blankFontSize += delta;
+            
+            document.querySelectorAll('.passage-text').forEach(e => {
+                e.style.fontSize = fontSize + 'px';
+            });
+            
+            document.querySelectorAll('.passage-blank, .blank-input').forEach(e => {
+                e.style.fontSize = blankFontSize + 'px';
+            });
+        }
 
         window.addEventListener('load', loadQuestions);
     </script>

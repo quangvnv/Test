@@ -361,6 +361,17 @@
                 max-width: 100%;
             }
         }
+
+	/* ===== ẨN SCROLLBAR TOÀN TRANG, VẪN CUỘN ===== */
+	html, body {
+    	scrollbar-width: none;        /* Firefox */
+    	-ms-overflow-style: none;     /* IE, Edge cũ */
+	}
+
+	html::-webkit-scrollbar,
+	body::-webkit-scrollbar {
+    	display: none;                /* Chrome, Edge, Safari */
+	}
     </style>
 </head>
 <body>
