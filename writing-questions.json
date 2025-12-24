@@ -5,77 +5,40 @@
     "questions": [
       {
         "originalSentence": "The children were playing in the garden.",
-        "incompleteSentence": "The children",
+        "incompleteSentence": "The children were",
         "starterWord": "The children",
-        "suggestedAnswer": "The children were playing in the garden."
+        "suggestedAnswer": [
+          "The children were playing in the garden.",
+          "The children were playing in the garden."
+        ]
       },
       {
         "originalSentence": "She has never visited Paris before.",
         "incompleteSentence": "She has never",
         "starterWord": "She has never",
-        "suggestedAnswer": "She has never visited Paris before."
+        "suggestedAnswer": [
+          "She has never visited Paris before."
+        ]
       },
       {
         "originalSentence": "They are building a new bridge.",
         "incompleteSentence": "They are building",
         "starterWord": "They are building",
-        "suggestedAnswer": "They are building a new bridge."
+        "suggestedAnswer": [
+          "They are building a new bridge."
+        ]
       }
     ]
   },
   {
     "id": "section2",
     "title": "SECTION 2",
-    "questions": [
-      {
-        "originalSentence": "I don't like coffee very much.",
-        "incompleteSentence": "I don't like coffee",
-        "starterWord": "I don't like coffee",
-        "suggestedAnswer": "I don't like coffee very much."
-      },
-      {
-        "originalSentence": "It's necessary to book in advance.",
-        "incompleteSentence": "It's necessary",
-        "starterWord": "It's necessary",
-        "suggestedAnswer": "I don't like coffee very much."
-      }
-    ]
+    "questions": []
   },
   {
     "id": "section3",
     "title": "SECTION 1",
-    "questions": [
-      {
-        "originalSentence": "There are a lot of different kinds of books in the library.",
-        "incompleteSentence": "The library",
-        "starterWord": "The library",
-        "suggestedAnswer": ""
-      },
-      {
-        "originalSentence": "We have never stayed at a better hotel than this.",
-        "incompleteSentence": "This is",
-        "starterWord": "This is",
-        "suggestedAnswer": ""
-      },
-      {
-        "originalSentence": "I failed the exam so my mother was disappointed.",
-        "incompleteSentence": "My mother",
-        "starterWord": "My mother",
-        "suggestedAnswer": ""
-      },
-      {
-        "originalSentence": "Is there a colorful picture in your room?",
-        "incompleteSentence": "Does",
-        "starterWord": "Does",
-        "suggestedAnswer": ""
-      },
-      {
-        "originalSentence": "How long have you played basketball?",
-        "incompleteSentence": "When",
-        "starterWord": "When",
-        "suggestedAnswer": ""
-      }
-    ]
+    "questions": []
   },
   {
     "id": "section4",
@@ -85,31 +48,153 @@
         "originalSentence": "Shall we play football this afternoon?",
         "incompleteSentence": "Why",
         "starterWord": "Why",
-        "suggestedAnswer": ""
+        "suggestedAnswer": []
       },
       {
         "originalSentence": "Jack last visited his parents 3 months ago.",
         "incompleteSentence": "Jack hasn’t",
         "starterWord": "Jack hasn’t",
-        "suggestedAnswer": ""
+        "suggestedAnswer": []
       },
       {
         "originalSentence": "How much does your new bag cost?",
         "incompleteSentence": "What",
         "starterWord": "What",
-        "suggestedAnswer": ""
+        "suggestedAnswer": []
       },
       {
         "originalSentence": "The tourists like to go camping in the mountains.",
         "incompleteSentence": "The tourists are",
         "starterWord": "The tourists are",
-        "suggestedAnswer": ""
+        "suggestedAnswer": []
       },
       {
         "originalSentence": "Living in a big city is very convenient.",
         "incompleteSentence": "It is",
         "starterWord": "It is",
-        "suggestedAnswer": ""
+        "suggestedAnswer": []
+      }
+    ]
+  },
+  {
+    "id": "section5",
+    "title": "SECTION 5",
+    "questions": [
+      {
+        "originalSentence": "Hurricanes destroy a great deal of property each year.",
+        "incompleteSentence": "A great deal of property",
+        "starterWord": "A",
+        "suggestedAnswer": [
+          "* Before we…………………………………"
+        ]
+      },
+      {
+        "originalSentence": "My sister has to finish her geography project by Monday.",
+        "incompleteSentence": "My sister is",
+        "starterWord": "My",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+        "incompleteSentence": "The shop assistant",
+        "starterWord": "The",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "First, we took a look around the shops. Then we had lunch.",
+        "incompleteSentence": "Before we…………………………………",
+        "starterWord": "Before",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+        "incompleteSentence": "They…………………………………",
+        "starterWord": "They",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "My husband gave me a new cell phone on my birthday.",
+        "incompleteSentence": "I…………………………………",
+        "starterWord": "I",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "We should wear suitable clothes when we go skiing.",
+        "incompleteSentence": "We are …………………………………",
+        "starterWord": "We",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "The glasses are kept in this cupboard by my mother.",
+        "incompleteSentence": "My mother …………………………………",
+        "starterWord": "My",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "The students can’t understand this chapter because it’s so complex.",
+        "incompleteSentence": "The students aren’t …………………………………",
+        "starterWord": "The",
+        "suggestedAnswer": []
+      }
+    ]
+  },
+  {
+    "id": "section6",
+    "title": "SECTION 6",
+    "questions": [
+      {
+        "originalSentence": "Hurricanes destroy a great deal of property each year.",
+        "incompleteSentence": "A great deal of property",
+        "starterWord": "A",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "My sister has to finish her geography project by Monday.",
+        "incompleteSentence": "My sister is",
+        "starterWord": "My",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+        "incompleteSentence": "The shop assistant",
+        "starterWord": "The",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "First, we took a look around the shops. Then we had lunch.",
+        "incompleteSentence": "Before we…………………………………",
+        "starterWord": "Before",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+        "incompleteSentence": "They…………………………………",
+        "starterWord": "They",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "My husband gave me a new cell phone on my birthday.",
+        "incompleteSentence": "I…………………………………",
+        "starterWord": "I",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "We should wear suitable clothes when we go skiing.",
+        "incompleteSentence": "We are …………………………………",
+        "starterWord": "We",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "The glasses are kept in this cupboard by my mother.",
+        "incompleteSentence": "My mother …………………………………",
+        "starterWord": "My",
+        "suggestedAnswer": []
+      },
+      {
+        "originalSentence": "The students can’t understand this chapter because it’s so complex.",
+        "incompleteSentence": "The students aren’t",
+        "starterWord": "The",
+        "suggestedAnswer": []
       }
     ]
   }
