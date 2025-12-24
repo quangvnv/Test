@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            overflow: visible;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex: 1;
+            overflow: visible;
+        }
+
+        .menu-item {
+            position: relative;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .menu-item:hover {
+            background-color: #34495e;
+            border-bottom-color: #3498db;
+        }
+
+        .menu-item.active {
+            background-color: #34495e;
+            border-bottom-color: #3498db;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #34495e;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1001;
+            margin-top: 3px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #2c3e50;
+            border-left-color: #3498db;
+        }
+
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        .dropdown.show .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .content {
+            margin-top: 53px;
+            width: 100%;
+            height: calc(100vh - 53px);
+            overflow: hidden;
+        }
+
+        .content-section {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.iframe-container {
+            padding: 0;
+        }
+
+        .content-section.iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .content-section h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .content-section p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-section li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .home-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .home-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .home-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .home-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                flex-wrap: wrap;
+            }
+
+            .menu-item {
+                flex: 1;
+                min-width: 150px;
+                justify-content: center;
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .dropdown-content {
+                position: relative;
+                display: none;
+                box-shadow: none;
+            }
+
+            .dropdown.show .dropdown-content {
+                display: block;
+            }
+
+            .content {
+                margin-top: 100px;
+                height: calc(100vh - 100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="navbar-menu">
+            <li class="menu-item active" onclick="showContent('home')">
+                🏠 Trang chủ
+            </li>
+            <li class="dropdown" onclick="toggleDropdown(this, event)">
+                <div class="menu-item">
+                    📖 Reading Tests <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('image-mcq')">Section 1</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('grammar-test')">Section 2</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('reading-test')">Section 3</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('cloze-test')">Section 4</a>
+                </div>
+            </li>
+            <li class="dropdown" onclick="toggleDropdown(this, event)">
+                <div class="menu-item">
+                ✍️ Writing <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('writing-test')">Writing</a>
+                </div>
+            </li>
+            <li class="dropdown" onclick="toggleDropdown(this, event)">
+                <div class="menu-item">
+                    🎧 Listening Tests <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section1')">Section 1</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section2')">Section 2</a>
+                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section3')">Section 3</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <div id="home" class="content-section active">
+            <h1>🎓 Chào mừng đến với English Learning Platform</h1>
+            <p>Hệ thống học tiếng Anh trực tuyến với nhiều dạng bài tập đa dạng. Chọn một trong các bài test trên thanh điều hướng để bắt đầu.</p>
+            
+            <div class="home-grid">
+                <div class="home-card">
+                    <h3>📚 Grammar Test</h3>
+                    <p>Bài kiểm tra trắc nghiệm ngữ pháp và từ vựng. Luyện tập các cấu trúc câu và thì trong tiếng Anh.</p>
+                </div>
+
+                <div class="home-card">
+                    <h3>🖼️ Image MCQ</h3>
+                    <p>Bài kiểm tra trắc nghiệm dựa trên hình ảnh. Đọc tin nhắn, thông báo và chọn đáp án đúng.</p>
+                </div>
+                
+                <div class="home-card">
+                    <h3>✍️ Viết lại câu</h3>
+                    <p>Luyện tập kỹ năng viết lại câu với nhiều cấu trúc ngữ pháp khác nhau.</p>
+                </div>
+                
+                <div class="home-card">
+                    <h3>📝 English Mini Test</h3>
+                    <p>Bài kiểm tra trắc nghiệm ngắn về ngữ pháp và từ vựng tiếng Anh.</p>
+                </div>
+                
+                <div class="home-card">
+                    <h3>📖 Reading Comprehension</h3>
+                    <p>Đọc hiểu đoạn văn và trả lời câu hỏi. Rèn luyện kỹ năng đọc hiểu.</p>
+                </div>
+                
+                <div class="home-card">
+                    <h3>📋 Cloze Test</h3>
+                    <p>Điền từ vào chỗ trống trong đoạn văn. Luyện tập ngữ cảnh và từ vựng.</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 40px; color: #2c3e50;">✨ Tính năng</h2>
+            <ul>
+                <li>Thiết kế đơn giản, dễ sử dụng</li>
+                <li>Hoàn toàn tĩnh, không cần server</li>
+                <li>Dễ dàng tùy chỉnh và mở rộng</li>
+                <li>Có thể nhúng các file HTML khác</li>
+                <li>Tương thích SCORM</li>
+                <li>Hỗ trợ nhiều dạng bài tập</li>
+                <li>Tự động chấm điểm và giải thích</li>
+                <li>Hỗ trợ hình ảnh và multimedia</li>
+                <li>Trộn đáp án ngẫu nhiên</li>
+            </ul>
+        </div>
+
+        <div id="grammar-test" class="content-section iframe-container">
+            <iframe src="Section2.html"></iframe>
+        </div>
+
+        <div id="image-mcq" class="content-section iframe-container">
+            <iframe src="Section1.html"></iframe>
+        </div>
+
+        <div id="listening-section1" class="content-section iframe-container">
+            <iframe src="Listening_Section1.html"></iframe>
+        </div>
+
+        <div id="mini-test" class="content-section iframe-container">
+            <iframe src="part1.html"></iframe>
+        </div>
+
+        <div id="reading-test" class="content-section iframe-container">
+            <iframe src="Section3.html"></iframe>
+        </div>
+
+        <div id="cloze-test" class="content-section iframe-container">
+            <iframe src="Section4.html"></iframe>
+        </div>
+
+        <div id="writing-test" class="content-section iframe-container">
+            <iframe src="Writing.html"></iframe>
+        </div>
+
+        <div id="listening-section2" class="content-section iframe-container">
+            <iframe src="Listening_Section2.html"></iframe>
+        </div>
+
+        <div id="listening-section3" class="content-section iframe-container">
+            <iframe src="Listening_Section3.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // SCORM API Initialization
+        var API = null;
+        
+        function findAPI(win) {
+            var findAttempts = 0;
+            while ((win.API == null) && (win.parent != null) && (win.parent != win)) {
+                findAttempts++;
+                if (findAttempts > 7) return null;
+                win = win.parent;
+            }
+            return win.API;
+        }
+        
+        function getAPI() {
+            var theAPI = findAPI(window);
+            if ((theAPI == null) && (window.opener != null) && (typeof(window.opener) != "undefined")) {
+                theAPI = findAPI(window.opener);
+            }
+            if (theAPI == null) {
+                console.log("SCORM API not found - running in standalone mode");
+            }
+            return theAPI;
+        }
+        
+        function initializeSCORM() {
+            API = getAPI();
+            if (API != null) {
+                var result = API.LMSInitialize("");
+                if (result == "true") {
+                    console.log("SCORM initialized successfully");
+                    API.LMSSetValue("cmi.core.lesson_status", "incomplete");
+                    API.LMSCommit("");
+                }
+            }
+        }
+        
+        function completeSCORM() {
+            if (API != null) {
+                API.LMSSetValue("cmi.core.lesson_status", "completed");
+                API.LMSSetValue("cmi.core.score.raw", "100");
+                API.LMSCommit("");
+            }
+        }
+        
+        function terminateSCORM() {
+            if (API != null) {
+                API.LMSFinish("");
+            }
+        }
+        
+        window.addEventListener('load', function() {
+            initializeSCORM();
+        });
+        
+        window.addEventListener('beforeunload', function() {
+            terminateSCORM();
+        });
+
+        function toggleDropdown(dropdownElement, event) {
+            event.stopPropagation();
+            
+            // Close all other dropdowns
+            const allDropdowns = document.querySelectorAll('.dropdown');
+            allDropdowns.forEach(dropdown => {
+                if (dropdown !== dropdownElement) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdownElement.classList.toggle('show');
+        }
+
+        function showContent(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Close all dropdowns after selection
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+            
+            if (API != null) {
+                API.LMSSetValue("cmi.core.lesson_location", sectionId);
+                API.LMSCommit("");
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                const dropdowns = document.querySelectorAll('.dropdown');
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
