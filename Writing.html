@@ -87,12 +87,83 @@
             border-color: #9c27b0;
         }
 
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 300px;
+            width: 85%;
+            animation: slideIn 0.3s;
+        }
+        .modal-content .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .modal-content .message {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .modal-content .score {
+            font-size: 48px;
+            color: #4CAF50;
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        .modal-content .percentage {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .modal-close-btn {
+            padding: 15px 50px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .modal-close-btn:hover {
+            background: #1976D2;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         /* ===== MAIN CONTAINER ===== */
         .container {
             max-width: 1400px;
             margin: auto;
             background: white;
-            padding: 100px 15px 20px;
+            padding: 100px 15px 80px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
@@ -103,6 +174,17 @@
             background: #fafafa;
             border-radius: 8px;
             border-left: 4px solid #9c27b0;
+            transition: all 0.3s;
+        }
+
+        .question.correct-answer {
+            border-left-color: #4caf50;
+            background: #f1f8f4;
+        }
+
+        .question.incorrect-answer {
+            border-left-color: #f44336;
+            background: #fef5f5;
         }
 
         .question-text {
@@ -140,9 +222,28 @@
             border-color: #9c27b0;
         }
 
+        .answer-input.correct {
+            border-color: #4caf50;
+            background: #f1f8f4;
+        }
+
+        .answer-input.incorrect {
+            border-color: #f44336;
+            background: #fef5f5;
+        }
+
         .answer-feedback {
             margin-top: 10px;
             display: none;
+        }
+
+        .user-answer-display {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            color: #1565c0;
+            font-weight: 500;
         }
 
         .suggested-answer {
@@ -155,6 +256,7 @@
         .suggested-answer.correct {
             background: #d4edda;
             color: #155724;
+            font-weight: 600;
         }
 
         .suggested-answer.incorrect {
@@ -184,11 +286,16 @@
             border-radius: 6px;
             cursor: pointer;
             color: white;
+            transition: all 0.3s;
+        }
+
+        .bottom-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .submit-btn {
             background: #9c27b0;
-
         }
 
         .retry-btn {
@@ -208,13 +315,20 @@
 
         /* ===== ẨN SCROLLBAR TOÀN TRANG, VẪN CUỘN ===== */
         html, body {
-            scrollbar-width: none;        /* Firefox */
-            -ms-overflow-style: none;     /* IE, Edge cũ */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         html::-webkit-scrollbar,
         body::-webkit-scrollbar {
-            display: none;                /* Chrome, Edge, Safari */
+            display: none;
+        }
+
+        /* Result icons */
+        .result-icon {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -241,9 +355,20 @@
 
 <!-- ===== BOTTOM BAR ===== -->
 <div class="bottom-bar">
-    <button id="submitBtn" class="submit-btn">Xem gợi ý</button>
+    <button id="submitBtn" class="submit-btn">Chấm điểm</button>
     <button id="retryBtn" class="retry-btn">Làm lại</button>
     <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+</div>
+
+<!-- Result Popup Modal -->
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <div class="emoji" id="resultEmoji">🎉</div>
+        <div class="message" id="resultMessage">Xuất sắc!</div>
+        <div class="score" id="resultScore">0/0</div>
+        <div class="percentage" id="resultPercentage">Điểm số: 0%</div>
+        <button class="modal-close-btn" id="modalCloseBtn">Đóng</button>
+    </div>
 </div>
 
 <script>
@@ -252,216 +377,19 @@
     let fontSize = 18;
     const DOTS_LENGTH = 50;
 
-    // Dữ liệu JSON nhúng trực tiếp
-    const questionsData = [
-        {
-            "id": "section1",
-            "title": "SECTION 1",
-            "questions": [
-                {
-                    "originalSentence": "The children were playing in the garden.",
-                    "incompleteSentence": "The children were",
-                    "starterWord": "The children",
-                    "suggestedAnswer": [
-                        "The children were playing in the garden.",
-                        "The children were playing in the garden."
-                    ]
-                },
-                {
-                    "originalSentence": "She has never visited Paris before.",
-                    "incompleteSentence": "She has never",
-                    "starterWord": "She has never",
-                    "suggestedAnswer": [
-                        "She has never visited Paris before."
-                    ]
-                },
-                {
-                    "originalSentence": "They are building a new bridge.",
-                    "incompleteSentence": "They are building",
-                    "starterWord": "They are building",
-                    "suggestedAnswer": [
-                        "They are building a new bridge."
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "section2",
-            "title": "SECTION 2",
-            "questions": []
-        },
-        {
-            "id": "section3",
-            "title": "SECTION 3",
-            "questions": []
-        },
-        {
-            "id": "section4",
-            "title": "SECTION 4",
-            "questions": [
-                {
-                    "originalSentence": "Shall we play football this afternoon?",
-                    "incompleteSentence": "Why",
-                    "starterWord": "Why",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "Jack last visited his parents 3 months ago.",
-                    "incompleteSentence": "Jack hasn't",
-                    "starterWord": "Jack hasn't",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "How much does your new bag cost?",
-                    "incompleteSentence": "What",
-                    "starterWord": "What",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "The tourists like to go camping in the mountains.",
-                    "incompleteSentence": "The tourists are",
-                    "starterWord": "The tourists are",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "Living in a big city is very convenient.",
-                    "incompleteSentence": "It is",
-                    "starterWord": "It is",
-                    "suggestedAnswer": []
-                }
-            ]
-        },
-        {
-            "id": "section5",
-            "title": "SECTION 5",
-            "questions": [
-                {
-                    "originalSentence": "Hurricanes destroy a great deal of property each year.",
-                    "incompleteSentence": "A great deal of property",
-                    "starterWord": "A",
-                    "suggestedAnswer": [
-                        "* Before we……………………………"
-                    ]
-                },
-                {
-                    "originalSentence": "My sister has to finish her geography project by Monday.",
-                    "incompleteSentence": "My sister is",
-                    "starterWord": "My",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-                    "incompleteSentence": "The shop assistant",
-                    "starterWord": "The",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-                    "incompleteSentence": "Before we……………………………",
-                    "starterWord": "Before",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "I'm sure they are sleepy after staying up all night playing computer games.",
-                    "incompleteSentence": "They……………………………",
-                    "starterWord": "They",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "My husband gave me a new cell phone on my birthday.",
-                    "incompleteSentence": "I……………………………",
-                    "starterWord": "I",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "We should wear suitable clothes when we go skiing.",
-                    "incompleteSentence": "We are ……………………………",
-                    "starterWord": "We",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "The glasses are kept in this cupboard by my mother.",
-                    "incompleteSentence": "My mother ……………………………",
-                    "starterWord": "My",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "The students can't understand this chapter because it's so complex.",
-                    "incompleteSentence": "The students aren't ……………………………",
-                    "starterWord": "The",
-                    "suggestedAnswer": []
-                }
-            ]
-        },
-        {
-            "id": "section6",
-            "title": "SECTION 6",
-            "questions": [
-                {
-                    "originalSentence": "Hurricanes destroy a great deal of property each year.",
-                    "incompleteSentence": "A great deal of property",
-                    "starterWord": "A",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "My sister has to finish her geography project by Monday.",
-                    "incompleteSentence": "My sister is",
-                    "starterWord": "My",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-                    "incompleteSentence": "The shop assistant",
-                    "starterWord": "The",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-                    "incompleteSentence": "Before we……………………………",
-                    "starterWord": "Before",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "I'm sure they are sleepy after staying up all night playing computer games.",
-                    "incompleteSentence": "They……………………………",
-                    "starterWord": "They",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "My husband gave me a new cell phone on my birthday.",
-                    "incompleteSentence": "I……………………………",
-                    "starterWord": "I",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "We should wear suitable clothes when we go skiing.",
-                    "incompleteSentence": "We are ……………………………",
-                    "starterWord": "We",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "The glasses are kept in this cupboard by my mother.",
-                    "incompleteSentence": "My mother ……………………………",
-                    "starterWord": "My",
-                    "suggestedAnswer": []
-                },
-                {
-                    "originalSentence": "The students can't understand this chapter because it's so complex.",
-                    "incompleteSentence": "The students aren't",
-                    "starterWord": "The",
-                    "suggestedAnswer": []
-                }
-            ]
-        }
-    ];
-
     async function loadQuestions() {
-        allSections = questionsData;
+        try {
+            const res = await fetch('writing-questions.json');
+            allSections = await res.json();
 
-        document.getElementById('loading').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
 
-        if (allSections.length > 1) renderNavigation();
-        renderSection(0);
+            if (allSections.length > 1) renderNavigation();
+            renderSection(0);
+        } catch (error) {
+            document.getElementById('loading').innerHTML = 'Lỗi: Không tìm thấy file writing-questions.json';
+            console.error('Error loading questions:', error);
+        }
     }
 
     function renderNavigation() {
@@ -491,6 +419,13 @@
         return '.';
     }
 
+    function normalizeText(text) {
+        return text.trim().toLowerCase()
+            .replace(/\s+/g, ' ')
+            .replace(/['']/g, "'")
+            .replace(/[""]/g, '"');
+    }
+
     function renderSection(index) {
         const container = document.getElementById('questionsContainer');
         container.innerHTML = '';
@@ -515,16 +450,19 @@
                     ${starterWord}<span class="dots">${dots}</span>${endPunctuation}
                 </div>
 
-                <input type="text" class="answer-input">
+                <input type="text" class="answer-input" data-question-index="${qIdx}">
 
                 <div class="answer-feedback">
+                    <div class="user-answer-display">
+                        Câu trả lời của bạn: <span class="user-answer-text"></span>
+                    </div>
                     ${q.suggestedAnswer && q.suggestedAnswer.length > 0 
                         ? q.suggestedAnswer.map((ans, idx) => 
                             `<div class="suggested-answer" data-answer="${ans}">
-                                Suggested answer ${q.suggestedAnswer.length > 1 ? (idx + 1) + ': ' : ': '}${ans}
+                                Đáp án gợi ý ${q.suggestedAnswer.length > 1 ? (idx + 1) + ': ' : ': '}${ans}
                             </div>`
                           ).join('')
-                        : '<div class="suggested-answer">Suggested answer: —</div>'
+                        : '<div class="suggested-answer">Đáp án gợi ý: —</div>'
                     }
                 </div>
             `;
@@ -536,7 +474,7 @@
         document.getElementById('retryBtn').style.display = 'none';
     }
 
-    // 👉 XEM GỢI Ý
+    // 👉 CHẤM ĐIỂM
     document.getElementById('submitBtn').addEventListener('click', () => {
         const inputs = document.querySelectorAll('.answer-input');
         let allAnswered = true;
@@ -548,23 +486,31 @@
         });
 
         if (!allAnswered) {
-            alert('Vui lòng hoàn thành tất cả các câu trước khi xem gợi ý.');
+            alert('Vui lòng hoàn thành tất cả các câu trước khi chấm điểm.');
             return;
         }
+
+        let correctCount = 0;
+        let totalQuestions = inputs.length;
 
         inputs.forEach((input, index) => {
             input.disabled = true;
             
-            const userAnswer = input.value.trim().toLowerCase();
+            const userAnswer = normalizeText(input.value);
             const feedback = input.parentElement.querySelector('.answer-feedback');
             const suggestedAnswers = feedback.querySelectorAll('.suggested-answer');
+            const userAnswerDisplay = feedback.querySelector('.user-answer-text');
+            const questionDiv = input.parentElement;
+            
+            // Display user's answer
+            userAnswerDisplay.textContent = input.value;
             
             let hasMatch = false;
             
             suggestedAnswers.forEach(suggestedDiv => {
                 const correctAnswer = suggestedDiv.getAttribute('data-answer');
                 if (correctAnswer && correctAnswer !== '—') {
-                    const normalizedCorrect = correctAnswer.trim().toLowerCase();
+                    const normalizedCorrect = normalizeText(correctAnswer);
                     
                     if (userAnswer === normalizedCorrect) {
                         hasMatch = true;
@@ -574,14 +520,60 @@
                     }
                 }
             });
+
+            // Mark the question and input
+            if (hasMatch) {
+                correctCount++;
+                input.classList.add('correct');
+                questionDiv.classList.add('correct-answer');
+                questionDiv.querySelector('.question-number').innerHTML += ' <span class="result-icon">✓</span>';
+            } else {
+                input.classList.add('incorrect');
+                questionDiv.classList.add('incorrect-answer');
+                questionDiv.querySelector('.question-number').innerHTML += ' <span class="result-icon">✗</span>';
+            }
         });
 
+        // Show all feedback
         document.querySelectorAll('.answer-feedback').forEach(fb => {
             fb.style.display = 'block';
         });
 
+        // Calculate percentage and show popup
+        const percentage = Math.round((correctCount / totalQuestions) * 100);
+        
+        let emoji = '🎉';
+        let message = 'Xuất sắc!';
+        if (percentage < 50) {
+            emoji = '📚';
+            message = 'Cố gắng lên!';
+        } else if (percentage < 80) {
+            emoji = '👍';
+            message = 'Khá tốt!';
+        }
+        
+        // Show result in popup modal
+        document.getElementById('resultEmoji').textContent = emoji;
+        document.getElementById('resultMessage').textContent = message;
+        document.getElementById('resultScore').textContent = `${correctCount}/${totalQuestions}`;
+        document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
+        document.getElementById('resultModal').classList.add('show');
+
         document.getElementById('submitBtn').style.display = 'none';
         document.getElementById('retryBtn').style.display = 'inline-block';
+    });
+
+    function getScoreMessage(percentage) {
+        if (percentage === 100) return 'Xuất sắc! 🎉';
+        if (percentage >= 80) return 'Tốt lắm! 👍';
+        if (percentage >= 60) return 'Khá! 😊';
+        if (percentage >= 40) return 'Cần cố gắng thêm! 💪';
+        return 'Hãy ôn lại và thử lại nhé! 📚';
+    }
+
+    // Close modal
+    document.getElementById('modalCloseBtn').addEventListener('click', () => {
+        document.getElementById('resultModal').classList.remove('show');
     });
 
     // 👉 LÀM LẠI
@@ -589,6 +581,7 @@
         document.querySelectorAll('.answer-input').forEach(input => {
             input.value = '';
             input.disabled = false;
+            input.classList.remove('correct', 'incorrect');
         });
 
         document.querySelectorAll('.answer-feedback').forEach(fb => {
@@ -599,8 +592,16 @@
             div.classList.remove('correct', 'incorrect');
         });
 
+        document.querySelectorAll('.question').forEach(q => {
+            q.classList.remove('correct-answer', 'incorrect-answer');
+            const icon = q.querySelector('.result-icon');
+            if (icon) icon.remove();
+        });
+
         document.getElementById('submitBtn').style.display = 'inline-block';
         document.getElementById('retryBtn').style.display = 'none';
+
+        scrollToTop();
     });
 
     // 👉 SCROLL TO TOP
