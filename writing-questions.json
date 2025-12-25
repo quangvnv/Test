@@ -1,201 +1,203 @@
 [
-  {
-    "id": "section1",
-    "title": "SECTION 1",
-    "questions": [
-      {
-        "originalSentence": "The children were playing in the garden.",
-        "incompleteSentence": "The children were",
-        "starterWord": "The children",
-        "suggestedAnswer": [
-          "The children were playing in the garden.",
-          "She has never visited Paris before."
+    {
+        "id": "section1",
+        "title": "SECTION 1",
+        "questions": [
+            {
+                "originalSentence": "Hurricanes destroy a great deal of property each year.",
+                "incompleteSentence": "A great deal of property",
+                "starterWord": "A",
+                "suggestedAnswer": [
+                    "Hurricanes destroy a great deal of property each year.",
+                    "My sister has to finish her geography project by Monday."
+                ]
+            },
+            {
+                "originalSentence": "My sister has to finish her geography project by Monday.",
+                "incompleteSentence": "My sister is ",
+                "starterWord": "My",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+                "incompleteSentence": "The shop assistant ",
+                "starterWord": "The",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "First, we took a look around the shops. Then we had lunch.",
+                "incompleteSentence": "Before we",
+                "starterWord": "Before",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+                "incompleteSentence": "They",
+                "starterWord": "They",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "My husband gave me a new cell phone on my birthday.",
+                "incompleteSentence": "I…………………………………",
+                "starterWord": "I",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "We should wear suitable clothes when we go skiing.",
+                "incompleteSentence": "We are …………………………………",
+                "starterWord": "We are",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "The glasses are kept in this cupboard by my mother.",
+                "incompleteSentence": "My mother",
+                "starterWord": "My",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
+                "incompleteSentence": "After Milani",
+                "starterWord": "After",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "The students can’t understand this chapter because it’s so complex.",
+                "incompleteSentence": "The students aren’t",
+                "starterWord": "The",
+                "suggestedAnswer": []
+            }
         ]
-      },
-      {
-        "originalSentence": "She has never visited Paris before.",
-        "incompleteSentence": "She has never",
-        "starterWord": "She has never",
-        "suggestedAnswer": [
-          "She has never visited Paris before."
+    },
+    {
+        "id": "section1",
+        "title": "SECTION 1",
+        "questions": [
+            {
+                "originalSentence": "Hurricanes destroy a great deal of property each year.",
+                "incompleteSentence": "A great deal of property …………………………………",
+                "starterWord": "A great deal of property",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "My sister has to finish her geography project by Monday.",
+                "incompleteSentence": "My sister is …………………………………",
+                "starterWord": "My sister is",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+                "incompleteSentence": "The shop assistant …………………………………",
+                "starterWord": "The shop assistant",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "First, we took a look around the shops. Then we had lunch.",
+                "incompleteSentence": "Before we…………………………………",
+                "starterWord": "Before we",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+                "incompleteSentence": "They…………………………………",
+                "starterWord": "They",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "My husband gave me a new cell phone on my birthday.",
+                "incompleteSentence": "I…………………………………",
+                "starterWord": "I",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "We should wear suitable clothes when we go skiing.",
+                "incompleteSentence": "We are …………………………………",
+                "starterWord": "We are",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "The glasses are kept in this cupboard by my mother.",
+                "incompleteSentence": "My mother …………………………………",
+                "starterWord": "My mother",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
+                "incompleteSentence": "After Milani …………………………………",
+                "starterWord": "After Milani",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "The students can’t understand this chapter because it’s so complex.",
+                "incompleteSentence": "The students aren’t …………………………………",
+                "starterWord": "The students aren’t",
+                "suggestedAnswer": []
+            }
         ]
-      },
-      {
-        "originalSentence": "They are building a new bridge.",
-        "incompleteSentence": "They are building",
-        "starterWord": "They are building",
-        "suggestedAnswer": [
-          "They are building a new bridge."
+    },
+    {
+        "id": "section2",
+        "title": "SECTION 2",
+        "questions": [
+            {
+                "originalSentence": "Hurricanes destroy a great deal of property each year.",
+                "incompleteSentence": "A great deal of property …………………………………",
+                "starterWord": "A great deal of property",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "My sister has to finish her geography project by Monday.",
+                "incompleteSentence": "My sister is …………………………………",
+                "starterWord": "My sister is",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "These boxes were handed to the customer by the shop assistant.",
+                "incompleteSentence": "The shop assistant …………………………………",
+                "starterWord": "The shop assistant",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "First, we took a look around the shops. Then we had lunch.",
+                "incompleteSentence": "Before we…………………………………",
+                "starterWord": "Before we",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
+                "incompleteSentence": "They…………………………………",
+                "starterWord": "They",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "My husband gave me a new cell phone on my birthday.",
+                "incompleteSentence": "I…………………………………",
+                "starterWord": "I",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "We should wear suitable clothes when we go skiing.",
+                "incompleteSentence": "We are …………………………………",
+                "starterWord": "We are",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "The glasses are kept in this cupboard by my mother.",
+                "incompleteSentence": "My mother …………………………………",
+                "starterWord": "My mother",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "First, Milani received bad news. Then she stayed up all night.",
+                "incompleteSentence": "After Milani …………………………………",
+                "starterWord": "After Milani",
+                "suggestedAnswer": []
+            },
+            {
+                "originalSentence": "The students can’t understand this chapter because it’s so complex.",
+                "incompleteSentence": "The students aren’t …………………………………",
+                "starterWord": "The students aren’t",
+                "suggestedAnswer": []
+            }
         ]
-      }
-    ]
-  },
-  {
-    "id": "section2",
-    "title": "SECTION 2",
-    "questions": []
-  },
-  {
-    "id": "section3",
-    "title": "SECTION 1",
-    "questions": []
-  },
-  {
-    "id": "section4",
-    "title": "SECTION 2",
-    "questions": [
-      {
-        "originalSentence": "Shall we play football this afternoon?",
-        "incompleteSentence": "Why",
-        "starterWord": "Why",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "Jack last visited his parents 3 months ago.",
-        "incompleteSentence": "Jack hasn’t",
-        "starterWord": "Jack hasn’t",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "How much does your new bag cost?",
-        "incompleteSentence": "What",
-        "starterWord": "What",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "The tourists like to go camping in the mountains.",
-        "incompleteSentence": "The tourists are",
-        "starterWord": "The tourists are",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "Living in a big city is very convenient.",
-        "incompleteSentence": "It is",
-        "starterWord": "It is",
-        "suggestedAnswer": []
-      }
-    ]
-  },
-  {
-    "id": "section5",
-    "title": "SECTION 5",
-    "questions": [
-      {
-        "originalSentence": "Hurricanes destroy a great deal of property each year.",
-        "incompleteSentence": "A great deal of property",
-        "starterWord": "A",
-        "suggestedAnswer": [
-          "* Before we…………………………………"
-        ]
-      },
-      {
-        "originalSentence": "My sister has to finish her geography project by Monday.",
-        "incompleteSentence": "My sister is",
-        "starterWord": "My",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-        "incompleteSentence": "The shop assistant",
-        "starterWord": "The",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-        "incompleteSentence": "Before we…………………………………",
-        "starterWord": "Before",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
-        "incompleteSentence": "They…………………………………",
-        "starterWord": "They",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "My husband gave me a new cell phone on my birthday.",
-        "incompleteSentence": "I…………………………………",
-        "starterWord": "I",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "We should wear suitable clothes when we go skiing.",
-        "incompleteSentence": "We are …………………………………",
-        "starterWord": "We",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "The glasses are kept in this cupboard by my mother.",
-        "incompleteSentence": "My mother …………………………………",
-        "starterWord": "My",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "The students can’t understand this chapter because it’s so complex.",
-        "incompleteSentence": "The students aren’t …………………………………",
-        "starterWord": "The",
-        "suggestedAnswer": []
-      }
-    ]
-  },
-  {
-    "id": "section6",
-    "title": "SECTION 6",
-    "questions": [
-      {
-        "originalSentence": "Hurricanes destroy a great deal of property each year.",
-        "incompleteSentence": "A great deal of property",
-        "starterWord": "A",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "My sister has to finish her geography project by Monday.",
-        "incompleteSentence": "My sister is",
-        "starterWord": "My",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "These boxes were handed to the customer by the shop assistant.",
-        "incompleteSentence": "The shop assistant",
-        "starterWord": "The",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "First, we took a look around the shops. Then we had lunch.",
-        "incompleteSentence": "Before we…………………………………",
-        "starterWord": "Before",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "I’m sure they are sleepy after staying up all night playing computer games.",
-        "incompleteSentence": "They…………………………………",
-        "starterWord": "They",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "My husband gave me a new cell phone on my birthday.",
-        "incompleteSentence": "I…………………………………",
-        "starterWord": "I",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "We should wear suitable clothes when we go skiing.",
-        "incompleteSentence": "We are …………………………………",
-        "starterWord": "We",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "The glasses are kept in this cupboard by my mother.",
-        "incompleteSentence": "My mother …………………………………",
-        "starterWord": "My",
-        "suggestedAnswer": []
-      },
-      {
-        "originalSentence": "The students can’t understand this chapter because it’s so complex.",
-        "incompleteSentence": "The students aren’t",
-        "starterWord": "The",
-        "suggestedAnswer": []
-      }
-    ]
-  }
+    }
 ]

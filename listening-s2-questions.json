@@ -1,9 +1,9 @@
 [
   {
     "id": "test1",
-    "description": "You will hear part of a radio programme about classical music.",
+    "description": "Maintaining a robust preventative maintenance program",
     "audio": "audio_s2/section2-t1.mp3",
-    "tapescript": "Man:   Hello and welcome to our series about young people living in different parts of the country. Today you’ll hear Mike Davis, who lives in Hereford, telling you something about his life.\n\nBoy:   Hello. I’m 13 years old and I go to Stanley School. I’m in Form 3, and I’m really interested in science but I find maths and especially English a bit hard. I’m good at running and I’ve run for the school team in the 800 metres.\n\nMy dad sells farm machinery. We live in the country about four miles from school, so I get to school by bicycle. My uncle has a farm and I spend most of my free time helping out there. He’s got 50 cows and I like to help him with them. I help to do the milking every Saturday and sometimes I have to clean the cowshed. It’s hard work, but it’s good to see everything looking clean. I painted it white last summer – I’m good at painting. My uncle’s got a tractor and he says I can drive it when I’m 15. I’m looking forward to that.\n\nOn Mondays I go to the Young Farmers’ Group which I’ve belonged to since I was 10. It’s mostly fun but we also learn things, like how to look after animals properly.\n\nI definitely want to work in the countryside when I leave school. I wouldn’t like to live in a town or sit in an office all day. My father thinks I should work in his business, but I want to be like my uncle and have my own farm one day. My mother says I’ll have to go to agricultural college first, so I’m going to work hard to pass all my exams.\n\nMan:   Thank you, Mike, …",
+    "tapescript": "Maintaining a robust preventative maintenance program that integrates triage prioritization with daily checklists will gradually reduce critical work orders, giving you confidence in a well-maintained hotel.",
     "questions": [
       {
         "question": "Maria decided to take up gymnastics…",
@@ -12,7 +12,7 @@
           "in a sport lesson at the school.",
           "when she read a book about a gymnast."
         ],
-        "answer": 0
+        "answer": 2
       },
       {
         "question": "When did Maria realize she could be a champion gymnast?",
@@ -21,7 +21,7 @@
           "As soon as she started gymnastics.",
           "When a well-known coach offered to teach her."
         ],
-        "answer": 1
+        "answer": 2
       },
       {
         "question": "Why does Maria think success has not changed her?",
@@ -30,7 +30,7 @@
           "Her parents help her live a normal life.",
           "People tell her she’s the same before."
         ],
-        "answer": 2
+        "answer": 0
       },
       {
         "question": "What does Maria say about school?",
@@ -39,7 +39,7 @@
           "She has little time with school friends.",
           "She is allowed to miss some lessons."
         ],
-        "answer": 2
+        "answer": 1
       },
       {
         "question": "What does Maria do in her free time?",
@@ -48,7 +48,7 @@
           "go to concerts",
           "watch cartoon films"
         ],
-        "answer": 1
+        "answer": 0
       },
       {
         "question": "What is Maria’s favourite thing in her room at home?",
@@ -57,24 +57,24 @@
           "A glass case with her cups and prizes",
           "A picture of herself with a gymnast"
         ],
-        "answer": 0
+        "answer": 2
       }
     ]
   },
   {
     "id": "test2",
-    "description": "You will hear a radio programme in which young people from different parts of the country are interviewed.",
+    "description": "If necessary, this room could be taken out of inventory since the hotel is not at 100%",
     "audio": "audio_s2/section2-t2.mp3",
-    "tapescript": "Man:   Hello and welcome to our series about young people living in different parts of the country. Today you’ll hear Mike Davis, who lives in Hereford, telling you something about his life.\n\nBoy:   Hello. I’m 13 years old and I go to Stanley School. I’m in Form 3, and I’m really interested in science but I find maths and especially English a bit hard. I’m good at running and I’ve run for the school team in the 800 metres.\n\nMy dad sells farm machinery. We live in the country about four miles from school, so I get to school by bicycle. My uncle has a farm and I spend most of my free time helping out there. He’s got 50 cows and I like to help him with them. I help to do the milking every Saturday and sometimes I have to clean the cowshed. It’s hard work, but it’s good to see everything looking clean. I painted it white last summer – I’m good at painting. My uncle’s got a tractor and he says I can drive it when I’m 15. I’m looking forward to that.\n\nOn Mondays I go to the Young Farmers’ Group which I’ve belonged to since I was 10. It’s mostly fun but we also learn things, like how to look after animals properly.\n\nI definitely want to work in the countryside when I leave school. I wouldn’t like to live in a town or sit in an office all day. My father thinks I should work in his business, but I want to be like my uncle and have my own farm one day. My mother says I’ll have to go to agricultural college first, so I’m going to work hard to pass all my exams.\n\nMan:   Thank you, Mike, …",
+    "tapescript": "Given that 114 is pre-blocked for a guest and the TV is a key value driver, this issue should be prioritized second.",
     "questions": [
       {
-        "question": "Maria decided to take up gymnastics…",
+        "question": "If necessary, this room could be taken out of inventory since the hotel is not at 100%",
         "options": [
           "at a gymnastics competition.",
           "in a sport lesson at the school.",
           "when she read a book about a gymnast."
         ],
-        "answer": 0
+        "answer": 2
       },
       {
         "question": "When did Maria realize she could be a champion gymnast?",
@@ -83,7 +83,7 @@
           "As soon as she started gymnastics.",
           "When a well-known coach offered to teach her."
         ],
-        "answer": 1
+        "answer": 2
       },
       {
         "question": "Why does Maria think success has not changed her?",
@@ -92,7 +92,7 @@
           "Her parents help her live a normal life.",
           "People tell her she’s the same before."
         ],
-        "answer": 2
+        "answer": 0
       },
       {
         "question": "What does Maria say about school?",
@@ -101,7 +101,7 @@
           "She has little time with school friends.",
           "She is allowed to miss some lessons."
         ],
-        "answer": 2
+        "answer": 1
       },
       {
         "question": "What does Maria do in her free time?",
@@ -110,7 +110,7 @@
           "go to concerts",
           "watch cartoon films"
         ],
-        "answer": 1
+        "answer": 0
       },
       {
         "question": "What is Maria’s favourite thing in her room at home?",
@@ -119,67 +119,58 @@
           "A glass case with her cups and prizes",
           "A picture of herself with a gymnast"
         ],
-        "answer": 0
+        "answer": 2
       }
     ]
   },
   {
     "id": "test3",
-    "description": "You will hear an interview with Maria Anderson.",
+    "description": "",
     "audio": "audio_s2/section2-t3.mp3",
-    "tapescript": "Man:   Hello and welcome to our series about young people living in different parts of the country. Today you’ll hear Mike Davis, who lives in Hereford, telling you something about his life.\n\nBoy:   Hello. I’m 13 years old and I go to Stanley School. I’m in Form 3, and I’m really interested in science but I find maths and especially English a bit hard. I’m good at running and I’ve run for the school team in the 800 metres.\n\nMy dad sells farm machinery. We live in the country about four miles from school, so I get to school by bicycle. My uncle has a farm and I spend most of my free time helping out there. He’s got 50 cows and I like to help him with them. I help to do the milking every Saturday and sometimes I have to clean the cowshed. It’s hard work, but it’s good to see everything looking clean. I painted it white last summer – I’m good at painting. My uncle’s got a tractor and he says I can drive it when I’m 15. I’m looking forward to that.\n\nOn Mondays I go to the Young Farmers’ Group which I’ve belonged to since I was 10. It’s mostly fun but we also learn things, like how to look after animals properly.\n\nI definitely want to work in the countryside when I leave school. I wouldn’t like to live in a town or sit in an office all day. My father thinks I should work in his business, but I want to be like my uncle and have my own farm one day. My mother says I’ll have to go to agricultural college first, so I’m going to work hard to pass all my exams.\n\nMan:   Thank you, Mike, …",
+    "tapescript": "",
     "questions": [
       {
-        "question": "Maria decided to take up gymnastics…",
+        "question": "What colour is Kathy’s bedroom now? PINK GREEN BLUE A 🞏 B 🞏 C 🞏",
         "options": [
-          "at a gymnastics competition.",
-          "in a sport lesson at the school.",
-          "when she read a book about a gymnast."
+          "Option A",
+          "Option B",
+          "Option C"
         ],
         "answer": 0
       },
       {
-        "question": "When did Maria realize she could be a champion gymnast?",
+        "question": "Which platform does the woman’s train leave from? PLATFORM 2 PLATFORM 6 PLATFORM 10 A 🞏 B 🞏 C 🞏",
         "options": [
-          "When she won some local competitions.",
-          "As soon as she started gymnastics.",
-          "When a well-known coach offered to teach her."
+          "Option A",
+          "Option B",
+          "Option C"
         ],
-        "answer": 1
+        "answer": 0
       },
       {
-        "question": "Why does Maria think success has not changed her?",
+        "question": "How is Susan going to get to the airport? A 🞏 B 🞏 C 🞏",
         "options": [
-          "She believes she is a sensible person.",
-          "Her parents help her live a normal life.",
-          "People tell her she’s the same before."
+          "Option A",
+          "Option B",
+          "Option C"
         ],
-        "answer": 2
+        "answer": 0
       },
       {
-        "question": "What does Maria say about school?",
+        "question": "Which is Anna’s family? A 🞏 B 🞏 C 🞏",
         "options": [
-          "She feels too tired to study.",
-          "She has little time with school friends.",
-          "She is allowed to miss some lessons."
+          "Option A",
+          "Option B",
+          "Option C"
         ],
-        "answer": 2
+        "answer": 0
       },
       {
-        "question": "What does Maria do in her free time?",
+        "question": "When is Kim’s birthday party? June 11 June 16 June 30 A 🞏 B 🞏 C 🞏 ANSWERS: 1A 2B 3C 4D 5A",
         "options": [
-          "make videos",
-          "go to concerts",
-          "watch cartoon films"
-        ],
-        "answer": 1
-      },
-      {
-        "question": "What is Maria’s favourite thing in her room at home?",
-        "options": [
-          "A poster of a band with a singer",
-          "A glass case with her cups and prizes",
-          "A picture of herself with a gymnast"
+          "Option A",
+          "Option B",
+          "Option C"
         ],
         "answer": 0
       }

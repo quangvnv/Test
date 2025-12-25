@@ -17,13 +17,13 @@
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            background-color: #f0f2f5;
         }
 
+        /* NAVBAR */
         .navbar {
             background-color: #2c3e50;
             color: white;
-            padding: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
             position: fixed;
@@ -31,455 +31,298 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            overflow: visible;
+            height: 48px;
         }
 
         .navbar-menu {
             display: flex;
             list-style: none;
-            margin: 0;
-            padding: 0;
-            flex: 1;
-            overflow: visible;
+            height: 100%;
         }
 
         .menu-item {
-            position: relative;
-            padding: 15px 25px;
+            padding: 0 15px;
             cursor: pointer;
             transition: background-color 0.3s;
-            border-bottom: 3px solid transparent;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             white-space: nowrap;
+            height: 100%;
+            font-size: 13.5px;
+            border-bottom: 3px solid transparent;
         }
 
-        .menu-item:hover {
+        .menu-item:hover, .menu-item.active {
             background-color: #34495e;
             border-bottom-color: #3498db;
         }
 
-        .menu-item.active {
-            background-color: #34495e;
-            border-bottom-color: #3498db;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
+        /* DROPDOWN LOGIC */
+        .dropdown { position: relative; }
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%;
+            top: 48px;
             left: 0;
             background-color: #34495e;
             min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             z-index: 1001;
-            margin-top: 3px;
         }
-
         .dropdown-content a {
             color: white;
-            padding: 12px 20px;
+            padding: 10px 15px;
             text-decoration: none;
             display: block;
-            transition: background-color 0.3s;
-            border-left: 3px solid transparent;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        .dropdown-content a:hover { background-color: #2c3e50; }
+        .dropdown.show .dropdown-content { display: block; }
 
-        .dropdown-content a:hover {
-            background-color: #2c3e50;
-            border-left-color: #3498db;
-        }
-
-        .dropdown.show .dropdown-content {
-            display: block;
-        }
-
-        .dropdown-arrow {
-            margin-left: 5px;
-            font-size: 12px;
-            transition: transform 0.3s;
-        }
-
-        .dropdown.show .dropdown-arrow {
-            transform: rotate(180deg);
-        }
-
+        /* NỘI DUNG CHÍNH */
         .content {
-            margin-top: 53px;
-            width: 100%;
-            height: calc(100vh - 53px);
+            margin-top: 48px;
+            flex: 1;
+            display: flex;
             overflow: hidden;
         }
 
         .content-section {
             display: none;
-            height: 100%;
-            overflow-y: auto;
-            padding: 40px;
-        }
-
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        .content-section.iframe-container {
-            padding: 0;
-        }
-
-        .content-section.iframe-container iframe {
             width: 100%;
             height: 100%;
-            border: none;
+            padding: 10px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .content-section.active { display: flex; flex-direction: column; }
+
+        #home, #tutorial {
+            max-width: 1000px;
+            margin: auto;
+            width: 100%;
         }
 
-        .content-section h1 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-        }
-
-        .content-section p {
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        .content-section ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .content-section li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
+        .section-header { text-align: center; margin-bottom: 15px; }
+        .section-header h1 { font-size: 1.8rem; color: #2c3e50; margin-bottom: 2px; }
 
         .home-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
         }
 
         .home-card {
-            background: #f8f9fa;
-            padding: 25px;
+            background: #ffffff;
+            padding: 20px 15px;
             border-radius: 8px;
-            border-left: 4px solid #3498db;
-            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            cursor: pointer;
+            border-top: 4px solid #3498db;
         }
 
         .home-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .home-card h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+        .card-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
+        .home-card h3 { color: #2c3e50; font-size: 1rem; margin-bottom: 5px; }
+        .home-card p { color: #636e72; font-size: 0.85rem; line-height: 1.3; }
+
+        /* HƯỚNG DẪN */
+        .tutorial-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
-
-        .home-card p {
-            color: #666;
-            font-size: 14px;
+        .tutorial-step { 
+            padding: 10px 15px; 
+            background: #f8f9fa; 
+            border-radius: 6px; 
+            border-left: 4px solid #e67e22; 
         }
+        .tutorial-step.app { border-left-color: #3498db; }
+        .tutorial-step h4 { color: #2c3e50; font-size: 0.9rem; margin-bottom: 4px; }
+        .tutorial-step p { font-size: 0.8rem; color: #636e72; }
 
-        @media (max-width: 768px) {
-            .navbar-menu {
-                flex-wrap: wrap;
-            }
-
-            .menu-item {
-                flex: 1;
-                min-width: 150px;
-                justify-content: center;
-                padding: 12px 15px;
-                font-size: 14px;
-            }
-
-            .dropdown-content {
-                position: relative;
-                display: none;
-                box-shadow: none;
-            }
-
-            .dropdown.show .dropdown-content {
-                display: block;
-            }
-
-            .content {
-                margin-top: 100px;
-                height: calc(100vh - 100px);
-            }
-        }
+        .iframe-container { padding: 0 !important; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <ul class="navbar-menu">
-            <li class="menu-item active" onclick="showContent('home')">
-                🏠 Trang chủ
-            </li>
-            <li class="dropdown" onclick="toggleDropdown(this, event)">
-                <div class="menu-item">
-                    📖 Reading Tests <span class="dropdown-arrow">▼</span>
-                </div>
+            <li class="menu-item active" id="menu-home" onclick="showContent('home')">🏠 Trang chủ</li>
+            
+            <li class="dropdown">
+                <div class="menu-item" onclick="toggleDropdown(this, event)">📖 Reading <span style="font-size:9px; margin-left:4px;">▼</span></div>
                 <div class="dropdown-content">
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('image-mcq')">Section 1</a>
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('grammar-test')">Section 2</a>
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('reading-test')">Section 3</a>
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('cloze-test')">Section 4</a>
+                    <a href="#" onclick="changePage('image-mcq', event)">Section 1: Images</a>
+                    <a href="#" onclick="changePage('grammar-test', event)">Section 2: Grammar</a>
+                    <a href="#" onclick="changePage('reading-test', event)">Section 3: Comprehension</a>
+                    <a href="#" onclick="changePage('cloze-test', event)">Section 4: Cloze Test</a>
                 </div>
             </li>
-            <li class="dropdown" onclick="toggleDropdown(this, event)">
-                <div class="menu-item">
-                ✍️ Writing <span class="dropdown-arrow">▼</span>
-                </div>
+
+            <li class="dropdown">
+                <div class="menu-item" onclick="toggleDropdown(this, event)">✍️ Writing <span style="font-size:9px; margin-left:4px;">▼</span></div>
                 <div class="dropdown-content">
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('writing-test')">Writing</a>
+                    <a href="#" onclick="changePage('writing-test', event)">Writing Practice</a>
                 </div>
             </li>
-            <li class="dropdown" onclick="toggleDropdown(this, event)">
-                <div class="menu-item">
-                    🎧 Listening Tests <span class="dropdown-arrow">▼</span>
-                </div>
+
+            <li class="dropdown">
+                <div class="menu-item" onclick="toggleDropdown(this, event)">🎧 Listening <span style="font-size:9px; margin-left:4px;">▼</span></div>
                 <div class="dropdown-content">
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section1')">Section 1</a>
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section2')">Section 2</a>
-                    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showContent('listening-section3')">Section 3</a>
+                    <a href="#" onclick="changePage('listening-section1', event)">Section 1</a>
+                    <a href="#" onclick="changePage('listening-section2', event)">Section 2</a>
+                    <a href="#" onclick="changePage('listening-section3', event)">Section 3</a>
                 </div>
             </li>
+
+            <li class="menu-item" id="menu-tutorial" onclick="showContent('tutorial')">⚙️ Hướng dẫn</li>
         </ul>
     </nav>
 
     <div class="content">
         <div id="home" class="content-section active">
-            <h1>🎓 Chào mừng đến với English Learning Platform</h1>
-            <p>Hệ thống học tiếng Anh trực tuyến với nhiều dạng bài tập đa dạng. Chọn một trong các bài test trên thanh điều hướng để bắt đầu.</p>
-            
+            <div class="section-header">
+                <h1>English Platform</h1>
+                <p>Nâng cao kỹ năng Tiếng Anh của bạn mỗi ngày.</p>
+            </div>
             <div class="home-grid">
-                <div class="home-card">
-                    <h3>📚 Grammar Test</h3>
-                    <p>Bài kiểm tra trắc nghiệm ngữ pháp và từ vựng. Luyện tập các cấu trúc câu và thì trong tiếng Anh.</p>
+                <div class="home-card" onclick="showContent('image-mcq')">
+                    <span class="card-icon">🖼️</span>
+                    <h3>Reading 1</h3>
+                    <p>Hình ảnh & Thông báo.</p>
                 </div>
-
-                <div class="home-card">
-                    <h3>🖼️ Image MCQ</h3>
-                    <p>Bài kiểm tra trắc nghiệm dựa trên hình ảnh. Đọc tin nhắn, thông báo và chọn đáp án đúng.</p>
+                <div class="home-card" onclick="showContent('grammar-test')">
+                    <span class="card-icon">⚖️</span>
+                    <h3>Reading 2</h3>
+                    <p>Ngữ pháp & Từ vựng.</p>
                 </div>
-                
-                <div class="home-card">
-                    <h3>✍️ Viết lại câu</h3>
-                    <p>Luyện tập kỹ năng viết lại câu với nhiều cấu trúc ngữ pháp khác nhau.</p>
+                <div class="home-card" onclick="showContent('reading-test')">
+                    <span class="card-icon">📖</span>
+                    <h3>Reading 3</h3>
+                    <p>Đọc hiểu văn bản.</p>
                 </div>
-                
-                <div class="home-card">
-                    <h3>📝 English Mini Test</h3>
-                    <p>Bài kiểm tra trắc nghiệm ngắn về ngữ pháp và từ vựng tiếng Anh.</p>
+                <div class="home-card" onclick="showContent('cloze-test')">
+                    <span class="card-icon">📝</span>
+                    <h3>Reading 4</h3>
+                    <p>Điền từ ngữ cảnh.</p>
                 </div>
-                
-                <div class="home-card">
-                    <h3>📖 Reading Comprehension</h3>
-                    <p>Đọc hiểu đoạn văn và trả lời câu hỏi. Rèn luyện kỹ năng đọc hiểu.</p>
+                <div class="home-card" onclick="showContent('writing-test')">
+                    <span class="card-icon">✍️</span>
+                    <h3>Writing</h3>
+                    <p>Viết lại câu & Diễn đạt.</p>
                 </div>
-                
-                <div class="home-card">
-                    <h3>📋 Cloze Test</h3>
-                    <p>Điền từ vào chỗ trống trong đoạn văn. Luyện tập ngữ cảnh và từ vựng.</p>
+                <div class="home-card" onclick="showContent('listening-section1')">
+                    <span class="card-icon">🎧</span>
+                    <h3>Listening</h3>
+                    <p>Nghe hiểu hội thoại.</p>
                 </div>
             </div>
-
-            <h2 style="margin-top: 40px; color: #2c3e50;">✨ Tính năng</h2>
-            <ul>
-                <li>Thiết kế đơn giản, dễ sử dụng</li>
-                <li>Hoàn toàn tĩnh, không cần server</li>
-                <li>Dễ dàng tùy chỉnh và mở rộng</li>
-                <li>Có thể nhúng các file HTML khác</li>
-                <li>Tương thích SCORM</li>
-                <li>Hỗ trợ nhiều dạng bài tập</li>
-                <li>Tự động chấm điểm và giải thích</li>
-                <li>Hỗ trợ hình ảnh và multimedia</li>
-                <li>Trộn đáp án ngẫu nhiên</li>
-            </ul>
         </div>
 
-        <div id="grammar-test" class="content-section iframe-container">
-            <iframe src="Section2.html"></iframe>
+        <div id="tutorial" class="content-section">
+            <div class="section-header">
+                <h1>⚙️ Cập Nhật Dữ Liệu Offline</h1>
+                <p>Thực hiện các bước sau để làm mới nội dung từ main.js</p>
+            </div>
+            <div class="tutorial-box">
+                <div class="tutorial-step app">
+                    <h4>1. Chọn thư mục chứa dữ liệu cập nhật</h4>
+                    <p>Tạo một thư mục trên máy tính của bạn. Chọn <b>File</b> > <b>Chọn thư mục cập nhật</b> từ thanh công cụ và chọn thư mục này.</p>
+                </div>
+                <div class="tutorial-step">
+                    <h4>2. Cập nhật dữ liệu</h4>
+                    <p>Khi nhận được tập tin nén cập nhật từ giảng viên, hãy giải nén và ghi đè vào thư mục này.</p>
+                </div>
+                <div class="tutorial-step">
+                    <h4>3. Tải lại</h4>
+                    <p>Chọn <b>File</b> > <b>Tải lại trang</b> hoặc bám tổ hợp phím <b>Ctrl R</b> để hệ thống ghi nhận dữ liệu mới.</p>
+                </div>
+                <div class="tutorial-step app">
+                    <h4>4. Hoàn tất</h4>
+                    <p>Ứng dụng sẽ tự động tải lại dữ liệu và hiển thị nội dung mới nhất.</p>
+                </div>
+            </div>
         </div>
 
-        <div id="image-mcq" class="content-section iframe-container">
-            <iframe src="Section1.html"></iframe>
-        </div>
-
-        <div id="listening-section1" class="content-section iframe-container">
-            <iframe src="Listening_Section1.html"></iframe>
-        </div>
-
-        <div id="mini-test" class="content-section iframe-container">
-            <iframe src="part1.html"></iframe>
-        </div>
-
-        <div id="reading-test" class="content-section iframe-container">
-            <iframe src="Section3.html"></iframe>
-        </div>
-
-        <div id="cloze-test" class="content-section iframe-container">
-            <iframe src="Section4.html"></iframe>
-        </div>
-
-        <div id="writing-test" class="content-section iframe-container">
-            <iframe src="Writing.html"></iframe>
-        </div>
-
-        <div id="listening-section2" class="content-section iframe-container">
-            <iframe src="Listening_Section2.html"></iframe>
-        </div>
-
-        <div id="listening-section3" class="content-section iframe-container">
-            <iframe src="Listening_Section3.html"></iframe>
-        </div>
+        <div id="grammar-test" class="content-section iframe-container"><iframe src="Section2.html"></iframe></div>
+        <div id="image-mcq" class="content-section iframe-container"><iframe src="Section1.html"></iframe></div>
+        <div id="listening-section1" class="content-section iframe-container"><iframe src="Listening_Section1.html"></iframe></div>
+        <div id="reading-test" class="content-section iframe-container"><iframe src="Section3.html"></iframe></div>
+        <div id="cloze-test" class="content-section iframe-container"><iframe src="Section4.html"></iframe></div>
+        <div id="writing-test" class="content-section iframe-container"><iframe src="Writing.html"></iframe></div>
+        <div id="listening-section2" class="content-section iframe-container"><iframe src="Listening_Section2.html"></iframe></div>
+        <div id="listening-section3" class="content-section iframe-container"><iframe src="Listening_Section3.html"></iframe></div>
     </div>
 
     <script>
-        // SCORM API Initialization
-        var API = null;
-        
-        function findAPI(win) {
-            var findAttempts = 0;
-            while ((win.API == null) && (win.parent != null) && (win.parent != win)) {
-                findAttempts++;
-                if (findAttempts > 7) return null;
-                win = win.parent;
-            }
-            return win.API;
+        // Đóng tất cả dropdowns
+        function closeAllDropdowns() {
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
         }
-        
-        function getAPI() {
-            var theAPI = findAPI(window);
-            if ((theAPI == null) && (window.opener != null) && (typeof(window.opener) != "undefined")) {
-                theAPI = findAPI(window.opener);
-            }
-            if (theAPI == null) {
-                console.log("SCORM API not found - running in standalone mode");
-            }
-            return theAPI;
-        }
-        
-        function initializeSCORM() {
-            API = getAPI();
-            if (API != null) {
-                var result = API.LMSInitialize("");
-                if (result == "true") {
-                    console.log("SCORM initialized successfully");
-                    API.LMSSetValue("cmi.core.lesson_status", "incomplete");
-                    API.LMSCommit("");
-                }
-            }
-        }
-        
-        function completeSCORM() {
-            if (API != null) {
-                API.LMSSetValue("cmi.core.lesson_status", "completed");
-                API.LMSSetValue("cmi.core.score.raw", "100");
-                API.LMSCommit("");
-            }
-        }
-        
-        function terminateSCORM() {
-            if (API != null) {
-                API.LMSFinish("");
-            }
-        }
-        
-        window.addEventListener('load', function() {
-            initializeSCORM();
-        });
-        
-        window.addEventListener('beforeunload', function() {
-            terminateSCORM();
-        });
 
-        function toggleDropdown(dropdownElement, event) {
+        // Toggle dropdown khi bấm vào menu-item
+        function toggleDropdown(element, event) {
+            event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+            const parent = element.parentElement;
+            const isOpen = parent.classList.contains('show');
+            
+            closeAllDropdowns(); // Đóng các cái khác trước
+            
+            if (!isOpen) {
+                parent.classList.add('show');
+            }
+        }
+
+        // Chuyển trang từ submenu
+        function changePage(sectionId, event) {
+            event.preventDefault();
             event.stopPropagation();
-            
-            // Close all other dropdowns
-            const allDropdowns = document.querySelectorAll('.dropdown');
-            allDropdowns.forEach(dropdown => {
-                if (dropdown !== dropdownElement) {
-                    dropdown.classList.remove('show');
-                }
-            });
-            
-            // Toggle current dropdown
-            dropdownElement.classList.toggle('show');
+            showContent(sectionId);
+            closeAllDropdowns();
         }
 
+        // Hiển thị nội dung
         function showContent(sectionId) {
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
-                item.classList.remove('active');
-            });
-
-            document.getElementById(sectionId).classList.add('active');
+            // Ẩn tất cả section
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            // Bỏ active highlight ở navbar
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
             
-            // Close all dropdowns after selection
-            const dropdowns = document.querySelectorAll('.dropdown');
-            dropdowns.forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
+            // Hiện section mục tiêu
+            const target = document.getElementById(sectionId);
+            if (target) target.classList.add('active');
+
+            // Highlight menu tương ứng nếu là Trang chủ hoặc Hướng dẫn
+            if(sectionId === 'home') document.getElementById('menu-home').classList.add('active');
+            if(sectionId === 'tutorial') document.getElementById('menu-tutorial').classList.add('active');
             
-            if (API != null) {
-                API.LMSSetValue("cmi.core.lesson_location", sectionId);
-                API.LMSCommit("");
-            }
+            closeAllDropdowns();
         }
 
-        // Close dropdown when clicking outside
+        // SỰ KIỆN QUAN TRỌNG: Bấm ra ngoài menu sẽ đóng menu
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.dropdown')) {
-                const dropdowns = document.querySelectorAll('.dropdown');
-                dropdowns.forEach(dropdown => {
-                    dropdown.classList.remove('show');
-                });
+                closeAllDropdowns();
             }
         });
-	// Close dropdown when focus moves to iframe
-	window.addEventListener('blur', function() {
-    		const dropdowns = document.querySelectorAll('.dropdown');
-    		dropdowns.forEach(dropdown => {
-        	dropdown.classList.remove('show');
-    	});
-});
 
-// Detect mouse over iframe to close dropdown
-document.querySelectorAll('iframe').forEach(iframe => {
-    iframe.addEventListener('load', function() {
-        iframe.contentWindow.addEventListener('click', function() {
-            const dropdowns = document.querySelectorAll('.dropdown');
-            dropdowns.forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
+        // Hỗ trợ đóng menu khi chuột đi vào vùng Iframe (vì click vào iframe không truyền sự kiện ra ngoài)
+        document.querySelectorAll('iframe').forEach(iframe => {
+            iframe.addEventListener('mouseenter', closeAllDropdowns);
         });
-    });
-});
-
     </script>
 </body>
 </html>

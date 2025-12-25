@@ -1,53 +1,35 @@
 [
-  {
-    "id": "test1",
-    "description": "Test description: You will hear some information about a museum.",
-    "audio": "audio_s3/section3-t1.mp3",
-    "passage": "The Redfern Museum is closed today. Our opening hours are from half past one to half past four Monday to (1) ..................... The museum has things for you to see from the (2) .................... century - the downstairs room shows the (3) .................... of two hundred years ago. For example, you can see what children wore at (4) ....................  and what families wore for dinner. Upstairs, we are showing some important paintings by (5) .................... artists of the time. There’s a short film about this (6) ....................  every afternoon and there will be talks about some of these pictures in November. In the Garden Room, there will be free concerts all through (7) ....................  for visitors to the museum. A ticket to the museum costs five pounds for adults, (8) .................... for students and two pounds fifty for children. We welcome school group visits. Please phone our Schools Officer for further information on (9) ...................., between nine and five every day. Come to Redfern Museum (10) ..................... Thank you for calling.",
-    "blanks": [
-      "countryside",
-      "coach",
-      "giraffes",
-      "safety",
-      "picnics",
-      "October",
-      "education",
-      "car park",
-      "Saturday",
-      "soon"
-    ]
-  },
-  {
-    "id": "test2",
-    "description": "Test description: You will hear a talk about a Safari Park.",
-    "audio": "audio_s3/section3-t2.mp3",
-    "passage": "An interesting place to visit while you’re staying in England is Woburn Safari Park. This is a place where you can see exciting wild animals from all over the world, but it’s not a zoo because the animals do not live in cages. The animals are actually living in a large piece of English (1) ..................... only an hour away from the centre of London, and about the same distance from the country's second city, Birmingham. Woburn Safari Park is a great place to go for a day out because you can see lots of exciting animals as you drive round the park. And you’re not taken round in a (2) ..................... you can actually take your own car around a special route that takes you to the parts of the park where the animals live. And there are animals from all over the world, including lions and tigers, four completely different sorts of monkey and things like (3) ..................... and elephants too. There are some rules, of course, both for your own (4) ..................... and to protect the animals. You can't walk around the park, for instance, and you have to keep your doors and windows closed at all times. Oh, and you’re not permitted to eat (5) ..................... in the area where the animals live. So, if you’re interested in visiting the park, it opens at Easter each year, usually around the beginning of April and you can visit until the 30th (6) ..................... August is the busiest time, of course, and you might see more people than animals if you go then, but May or September are good months to visit the park. And when you’ve completed your tour of the Safari Park, there are other things to do at Woburn. For young people, there is a children’s playground and an (7) ..................... centre which has information about the animals. And everyone will enjoy visiting the gift shop where you can buy all sorts of interesting souvenirs of your visit.",
-    "blanks": [
-      "countryside",
-      "coach",
-      "giraffes",
-      "safety",
-      "picnics",
-      "October",
-      "education"
-    ]
-  },
-  {
-    "id": "test3",
-    "description": "Test description: You will hear some information about a museum.",
-    "audio": "audio_s3/section3-t3.mp3",
-    "passage": "The Redfern Museum is closed today. Our opening hours are from half past one to half past four Monday to (1) ..................... The museum has things for you to see from the (2) .................... century - the downstairs room shows the (3) .................... of two hundred years ago. For example, you can see what children wore at (4) ....................  and what families wore for dinner. Upstairs, we are showing some important paintings by (5) .................... artists of the time. There’s a short film about this (6) ....................  every afternoon and there will be talks about some of these pictures in November. In the Garden Room, there will be free concerts all through (7) ....................  for visitors to the museum. A ticket to the museum costs five pounds for adults, (8) .................... for students and two pounds fifty for children. We welcome school group visits. Please phone our Schools Officer for further information on (9) ...................., between nine and five every day. Come to Redfern Museum (10) ..................... Thank you for calling.",
-    "blanks": [
-      "countryside",
-      "coach",
-      "giraffes",
-      "safety",
-      "picnics",
-      "October",
-      "education",
-      "car park",
-      "Saturday",
-      "now"
-    ]
-  }
+    {
+        "id": "test1",
+        "description": "Listen and fill in the blanks.",
+        "audio": "audio_s3/section3-test1.mp3",
+        "passage": "An interesting place to visit while you’re staying in England is Woburn Safari Park. This is a place where you can see exciting wild animals from all over the world, but it’s not a zoo because the animals do not live in cages. The animals are actually living in a large piece of English (1) ...............................................................  only an hour away from the centre of London, and about the same distance from the country's second city, Birmingham.\n\n\tWoburn Safari Park is a great place to go for a day out because you can see lots of exciting animals as you drive round the park. And you’re not taken round in a (2) ..................... you can actually take your own car around a special route that takes you to the parts of the park where the animals live. And there are animals from all over the world, including lions and tigers, four completely different sorts of monkey and things like (3) ..................... and elephants too.\n\n\tThere are some rules, of course, both for your own (4) ..................... and to protect the animals. You can't walk around the park, for instance, and you have to keep your doors and windows closed at all times. Oh, and you’re not permitted to eat (5) ..................... in the area where the animals live.\n\n\tSo, if you’re interested in visiting the park, it opens at Easter each year, usually around the beginning of April and you can visit until the 30th (6) ..................... August is the busiest time, of course, and you might see more people than animals if you go then, but May or September are good months to visit the park.\n\n\tAnd when you’ve completed your tour of the Safari Park, there are other things to do at Woburn. For young people, there is a children’s playground and an (7) ..................... centre which has information about the animals. And everyone will enjoy visiting the gift shop where you can buy all sorts of interesting souvenirs of your visit.",
+        "blanks": [
+            "countryside",
+            "coach",
+            "giraffes",
+            "safety",
+            "picnics",
+            "October",
+            "education"
+        ]
+    },
+    {
+        "id": "test2",
+        "description": "Listen and fill in the blanks.",
+        "audio": "audio_s3/section3-test2.mp3",
+        "passage": "The Redfern Museum is closed today. Our opening hours are from half past one to half past four Monday to (1) .....................\n\nThe museum has things for you to see from the (2) .................... century - the downstairs room shows the (3) .................... of two hundred years ago. For example, you can see what children wore at (4) ....................  and what families wore for dinner.\n\nUpstairs, we are showing some important paintings by (5) .................... artists of the time. There’s a short film about this (6) ....................  every afternoon and there will be talks about some of these pictures in November.\n\nIn the Garden Room, there will be free concerts all through (7) ....................  for visitors to the museum. A ticket to the museum costs five pounds for adults, (8) .................... for students and two pounds fifty for children.\n\nWe welcome school group visits. Please phone our Schools Officer for further information on (9) ...................., between nine and five every day.\n\nCome to Redfern Museum (10) ..................... Thank you for calling.",
+        "blanks": [
+            "1. countryside",
+            "2. coach",
+            "3. giraffes",
+            "4. safety",
+            "5. picnics",
+            "6. October",
+            "7. education",
+            "8. car park",
+            "9. Saturday",
+            "10. now"
+        ]
+    }
 ]
