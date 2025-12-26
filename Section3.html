@@ -6,391 +6,114 @@
     <title>Section 3: Reading Comprehension Test</title>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            line-height: 1.8;
-        }
-        
-        /* ===== HIDE SCROLLBAR ===== */
-        html, body {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            display: none;
-        }
-        
-        /* ===== TOP BAR (FIXED) ===== */
+        /* RESET & BASE - THEO STYLE ĐỒNG BỘ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100vh; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; }
+        body { display: flex; flex-direction: column; }
+
+        /* ===== TOP BAR (ĐỒNG BỘ SECTION 4) ===== */
         .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            padding: 6px 10px;
-            transition: all 0.3s;
+            flex-shrink: 0; background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 1000; padding: 10px 20px; border-bottom: 1px solid #eee;
         }
         .header {
-            position: relative;
-            text-align: center;
+            display: grid; grid-template-columns: 120px 1fr 120px;
+            align-items: center; max-width: 1400px; margin: 0 auto;
         }
-        h1 {
-            color: #333;
-            margin: 0;
-            font-size: 20px;
+        .header h1 {
+            grid-column: 2; font-size: 20px; color: #333; text-align: center; margin: 0; font-weight: 600;
         }
-        /* Font size controls */
         .font-controls {
-            position: absolute;
-            right: 10px;
-            top: 0;
+            grid-column: 3; display: flex; gap: 8px; justify-content: flex-end;
         }
         .font-controls button {
-            padding: 2px 6px;
-            font-size: 14px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-        }
-        .font-controls button:hover {
-            background: #f0f0f0;
+            padding: 6px 12px; background: #2196F3; color: #333;
+            border: 1px solid #ddd; border-radius: 4px; cursor: pointer; font-weight: bold;
         }
         .navigation {
-            display: flex;
-            gap: 8px;
-            margin-top: 6px;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: flex; gap: 8px; margin-top: 10px; justify-content: center;
         }
         .nav-btn {
-            padding: 6px 16px;
-            background: #e3f2fd;
-            border: 1.5px solid #2196F3;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: #2196F3;
-            transition: all 0.3s;
+            padding: 5px 15px; border: 1px solid #2196F3; background: white;
+            color: #2196F3; border-radius: 4px; cursor: pointer;
         }
-        .nav-btn:hover {
-            background: #2196F3;
-            color: white;
+        .nav-btn.active { background: #2196F3; color: white; }
+
+        /* ===== MAIN LAYOUT (3 CỘT: NAV - PASSAGE - QUESTIONS) ===== */
+        .main-layout {
+            flex: 1; display: flex; overflow: hidden; padding: 20px; gap: 20px;
+            max-width: 1600px; width: 100%; margin: 0 auto;
         }
-        .nav-btn.active {
-            background: #2196F3;
-            color: white;
+
+        /* LEFT: QUIZ NAV */
+        .quiz-nav-panel {
+            flex-shrink: 0; width: 220px; background: white; border-radius: 8px;
+            border: 2px solid #e0e0e0; display: flex; flex-direction: column; overflow: hidden;
         }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            padding: 100px 10px 80px 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-height: 100vh;
+        .quiz-nav-header { padding: 15px; background: #f8f9fa; font-weight: bold; text-align: center; border-bottom: 1px solid #eee; }
+        .quiz-nav-grid {
+            flex: 1; overflow-y: auto; padding: 15px; display: grid;
+            grid-template-columns: repeat(4, 1fr); gap: 8px; align-content: start;
         }
-        
-        .content-wrapper {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
+        .quiz-nav-btn {
+            aspect-ratio: 1; border: 1px solid #ddd; background: white;
+            border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px;
         }
-        
+        .quiz-nav-btn.answered { background: #4CAF50; color: white; border-color: #555; }
+        .quiz-nav-btn.current { border: 2px solid #FF9800; }
+
+        /* CENTER: PASSAGE PANEL */
         .passage-panel {
-            flex: 2;
-            padding: 25px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border: 2px solid #2196F3;
-            max-height: calc(100vh - 160px);
-            overflow-y: auto;
+            flex: 1; background: white; border-radius: 8px; border: 2px solid #e0e0e0;
+            overflow-y: auto; padding: 30px; line-height: 1.8; text-align: justify;
         }
-        
-        /* Hide scrollbar for passage panel but keep scrolling */
-        .passage-panel::-webkit-scrollbar {
-            display: none;
+        .passage-title {
+            font-size: 22px; font-weight: bold; color: #1976D2; margin-bottom: 20px; text-align: center;
         }
-        .passage-panel {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        
+
+        /* RIGHT: QUESTIONS PANEL */
         .questions-panel {
-            flex: 1;
-            max-height: calc(100vh - 160px);
-            overflow-y: auto;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
+            flex: 1; background: white; border-radius: 8px; border: 2px solid #e0e0e0;
+            overflow-y: auto; padding: 30px; scroll-behavior: smooth;
         }
-        
-        /* Hide scrollbar for questions panel but keep scrolling */
-        .questions-panel::-webkit-scrollbar {
-            display: none;
+        .question-item { margin-bottom: 35px; padding-bottom: 20px; border-bottom: 1px solid #eee; scroll-margin-top: 10px; }
+        .question-text { font-weight: 600; margin-bottom: 15px; color: #333; }
+
+        .options-container { display: flex; flex-direction: column; gap: 10px; }
+        .option-item {
+            display: flex; align-items: center; padding: 12px; border: 1px solid #e0e0e0;
+            border-radius: 6px; cursor: pointer; transition: 0.2s;
         }
-        .questions-panel {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        
-        .passage-panel p {
-            margin-bottom: 15px;
-            font-size: 16px;
-            line-height: 1.8;
-            color: #333;
-        }
-        .passage-panel em {
-            font-style: italic;
-            color: #555;
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 18px;
-        }
-        .error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #c62828;
-            border-radius: 4px;
-        }
-        .question {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 6px;
-            border-left: 4px solid #4CAF50;
-        }
-        .question:last-child {
-            margin-bottom: 10px;
-        }
-        .question-text {
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 16px;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .option {
-            padding: 12px;
-            background: #f5f5f5;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: flex-start;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-        .option-label {
-            font-weight: 600;
-            margin-right: 8px;
-            color: #2196F3;
-            min-width: 20px;
-        }
-        .option:hover {
-            border-color: #4CAF50;
-            background: #f0f8f0;
-            transform: translateX(3px);
-        }
-        .option.selected {
-            border-color: #4CAF50;
-            background: #e8f5e9;
-        }
-        .option.correct {
-            border-color: #4CAF50;
-            background: #c8e6c9;
-        }
-        .option.incorrect {
-            border-color: #f44336;
-            background: #ffcdd2;
-        }
-        .explanation {
-            margin-top: 15px;
-            padding: 12px;
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #856404;
-            line-height: 1.7;
-        }
-        .explanation strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
-        
+        .option-item:hover { background-color: #f9f9f9; }
+        .option-item.selected { background: #e3f2fd; border-color: #2196F3; }
+        .option-item.correct { background: #d4edda; border-color: #28a745; }
+        .option-item.incorrect { background: #f8d7da; border-color: #dc3545; }
+
         /* ===== BOTTOM BAR ===== */
-        .button-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
-          padding: 6px 6px 2px 6px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            z-index: 1000;
+        .bottom-bar {
+            flex-shrink: 0; background: white; padding: 15px;
+            display: flex; justify-content: center; gap: 15px; border-top: 1px solid #ddd;
         }
-        .submit-btn {
-            padding: 6px 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .submit-btn:hover {
-            background: #45a049;
-        }
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        .retry-btn {
-            display: none;
-            padding: 6px 20px;
-            background: #FF9800;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .retry-btn:hover {
-            background: #F57C00;
-        }
-        .retry-btn.show {
-            display: inline-block;
-        }
-        .top-btn {
-            padding: 6px 20px;
-            background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .top-btn:hover {
-            background: #1976D2;
-        }
-        
-        /* Popup Modal */
+        .btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; }
+        .submit-btn { background: #2196F3; }
+        .retry-btn { background: #FF9800; display: none; }
+        .top-btn { background: #4caf50; }
+
+        /* MODAL */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s;
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
         }
-        .modal.show {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            animation: slideIn 0.3s;
-        }
-        .modal-content .emoji {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-        .modal-content .message {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .modal-content .score {
-            font-size: 48px;
-            color: #4CAF50;
-            margin: 20px 0;
-            font-weight: 700;
-        }
-        .modal-content .percentage {
-            font-size: 24px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .modal-close-btn {
-            padding: 15px 50px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .modal-close-btn:hover {
-            background: #45a049;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-            .passage-panel, .questions-panel {
-                max-height: 400px;
-            }
-        }
+        .modal.show { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px; width: 90%; }
     </style>
 </head>
 <body>
-    <!-- ===== TOP BAR (FIXED) ===== -->
-    <div class="top-bar" id="topBar">
+
+    <div class="top-bar">
         <div class="header">
-            <h1>📖 Section 3: Choose the best answer for each question</h1>
+            <div></div> 
+            <h1>Section 3: Reading Comprehension</h1>
             <div class="font-controls">
                 <button onclick="changeFontSize(1)">A+</button>
                 <button onclick="changeFontSize(-1)">A−</button>
@@ -399,30 +122,38 @@
         <div class="navigation" id="navigation" style="display: none;"></div>
     </div>
 
-    <div class="container">
-        <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
-        <div id="error" class="error" style="display: none;"></div>
-        
-        <div class="content-wrapper" id="contentWrapper" style="display: none;">
-            <div class="passage-panel" id="passagePanel"></div>
-            <div class="questions-panel" id="questionsPanel"></div>
+    <div class="main-layout">
+        <div class="quiz-nav-panel">
+            <div class="quiz-nav-header">Quiz navigation</div>
+            <div class="quiz-nav-grid" id="quizNavGrid"></div>
+            <div class="quiz-nav-legend" style="padding: 10px; font-size: 11px;">
+                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                    <div style="width: 12px; height: 12px; border: 1px solid #ddd;"></div> Chưa trả lời
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                    <div style="width: 12px; height: 12px; background: #4CAF50;"></div> Đã trả lời
+                </div>
+            </div>
         </div>
-        
-        <div class="button-container">
-            <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <button class="retry-btn" id="retryBtn">Làm lại</button>
-            <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+
+        <div class="passage-panel" id="passageContainer">
+            <div id="loading" style="text-align:center;">Đang tải dữ liệu...</div>
         </div>
+
+        <div class="questions-panel" id="questionsContainer"></div>
     </div>
 
-    <!-- Result Popup Modal -->
+    <div class="bottom-bar">
+        <button class="btn submit-btn" id="submitBtn">Nộp bài</button>
+        <button class="btn retry-btn" id="retryBtn">Làm lại</button>
+        <button class="btn top-btn" onclick="scrollToTop()">Về đầu bài</button>
+    </div>
+
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <div class="emoji" id="resultEmoji">🎉</div>
-            <div class="message" id="resultMessage">Xuất sắc!</div>
-            <div class="score" id="resultScore">0/0</div>
-            <div class="percentage" id="resultPercentage">Điểm số: 0%</div>
-            <button class="modal-close-btn" id="modalCloseBtn">Đóng</button>
+            <h2 id="resultScore" style="font-size: 40px; color: #2196F3; margin-bottom: 10px;">0/0</h2>
+            <p id="resultPercentage">Tỷ lệ chính xác: 0%</p>
+            <button class="btn submit-btn" style="margin-top: 20px; width: 100%;" onclick="closeModal()">Xem đáp án</button>
         </div>
     </div>
 
@@ -430,242 +161,149 @@
         let allSections = [];
         let currentSectionIndex = 0;
         let userAnswers = {};
-        let passageFontSize = 16; // Default font size for passage
-        let questionFontSize = 16; // Default font size for questions
-        let optionFontSize = 14; // Default font size for options
+        let fontSize = 18;
+        let isSubmitted = false;
 
         async function loadQuestions() {
             try {
                 const response = await fetch('reading-s3-questions.json');
-                
-                if (!response.ok) {
-                    throw new Error('Không tìm thấy file reading-s3-questions.json');
-                }
-                
                 allSections = await response.json();
-                
                 document.getElementById('loading').style.display = 'none';
-                
-                if (allSections.length === 0) {
-                    throw new Error('File JSON không có dữ liệu');
-                }
-                
                 renderNavigation();
                 renderSection(0);
-                
             } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').innerHTML = `
-                    <strong>Lỗi:</strong> ${error.message}<br>
-                    <small>Hãy đảm bảo file "reading-s3-questions" nằm cùng thư mục với file HTML này.</small>
-                `;
-                console.error('Error loading JSON:', error);
+                document.getElementById('loading').textContent = "Lỗi tải dữ liệu JSON.";
             }
         }
 
         function renderNavigation() {
-            if (allSections.length <= 1) return;
-            
             const navDiv = document.getElementById('navigation');
+            if (allSections.length <= 1) return;
             navDiv.style.display = 'flex';
-            navDiv.innerHTML = allSections.map((section, idx) => `
-                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
-                </button>
+            navDiv.innerHTML = allSections.map((_, idx) => `
+                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">Test ${idx + 1}</button>
             `).join('');
         }
 
         function switchSection(index) {
             currentSectionIndex = index;
+            isSubmitted = false;
             renderSection(index);
-            
-            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === index);
-            });
-        }
-
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => btn.classList.toggle('active', idx === index));
         }
 
         function renderSection(index) {
             const section = allSections[index];
+            const passagePanel = document.getElementById('passageContainer');
+            const questionsPanel = document.getElementById('questionsContainer');
+            const navGrid = document.getElementById('quizNavGrid');
+            
+            navGrid.innerHTML = '';
             userAnswers = {};
-            
-            // Show content wrapper
-            document.getElementById('contentWrapper').style.display = 'flex';
-            
-            // Render passage
-            const passagePanel = document.getElementById('passagePanel');
-            const paragraphs = section.passage.split('\n\n').map(p => `<p>${p}</p>`).join('');
-            passagePanel.innerHTML = paragraphs;
-            
-            // Render questions
-            const questionsPanel = document.getElementById('questionsPanel');
-            questionsPanel.innerHTML = '';
-            
-            section.questions.forEach((q, qIdx) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question';
-                
-                // Create array of options with original indices
-                const optionsWithIndices = q.options.map((opt, optIdx) => ({
-                    text: opt,
-                    originalIndex: optIdx
-                }));
-                
-                // Shuffle the options
-                const shuffledOptions = shuffleArray(optionsWithIndices);
-                
-                const options = shuffledOptions.map((opt, displayIdx) => {
-                    const label = String.fromCharCode(65 + displayIdx);
-                    return `
-                        <div class="option" data-section="${index}" data-question="${qIdx}" data-answer="${opt.originalIndex}">
-                            <span class="option-label">${label}.</span>
-                            <span>${opt.text}</span>
-                        </div>
-                    `;
-                }).join('');
-                
-                questionDiv.innerHTML = `
-                    <div class="question-text">${qIdx + 1}. ${q.question}</div>
-                    <div class="options">${options}</div>
-                `;
-                
-                questionsPanel.appendChild(questionDiv);
-            });
 
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.addEventListener('click', handleOptionClick);
-            });
-            
+            // Render Passage (Bỏ dòng tiêu đề ngắn nếu có)
+            let lines = section.passage.split('\n');
+            let title = "";
+            let textBody = section.passage;
+            if (lines[0].trim().length < 60) {
+                title = lines[0];
+                textBody = lines.slice(1).join('\n');
+            }
+            passagePanel.innerHTML = `${title ? `<div class="passage-title">${title}</div>` : ''}<div style="white-space: pre-line; font-size: ${fontSize}px">${textBody}</div>`;
+
+            // Render Questions & Nav
+            questionsPanel.innerHTML = section.questions.map((q, qIdx) => {
+                // Nav Button
+                const navBtn = document.createElement('button');
+                navBtn.className = 'quiz-nav-btn';
+                navBtn.id = `nav-btn-${qIdx}`;
+                navBtn.textContent = qIdx + 1;
+                navBtn.onclick = () => scrollToQuestion(qIdx);
+                navGrid.appendChild(navBtn);
+
+                return `
+                    <div class="question-item" id="q-item-${qIdx}">
+                        <div class="question-text" style="font-size: ${fontSize}px">${qIdx + 1}. ${q.question}</div>
+                        <div class="options-container">
+                            ${q.options.map((opt, oIdx) => `
+                                <label class="option-item" id="option-${qIdx}-${oIdx}" style="font-size: ${fontSize - 2}px">
+                                    <input type="radio" name="q-${qIdx}" value="${oIdx}" style="margin-right: 10px;" onchange="handleAnswer(${qIdx}, ${oIdx})">
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
             document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('retryBtn').classList.remove('show');
+            document.getElementById('retryBtn').style.display = 'none';
         }
 
-        function handleOptionClick(e) {
-            const option = e.currentTarget;
-            const sectionIdx = option.dataset.section;
-            const questionIdx = option.dataset.question;
-            const answer = option.dataset.answer;
+        function handleAnswer(qIdx, oIdx) {
+            if (isSubmitted) return;
+            userAnswers[qIdx] = oIdx;
             
-            document.querySelectorAll(`.option[data-section="${sectionIdx}"][data-question="${questionIdx}"]`).forEach(opt => {
-                opt.classList.remove('selected');
+            // Highlight selected
+            document.querySelectorAll(`[name="q-${qIdx}"]`).forEach((input, idx) => {
+                const label = document.getElementById(`option-${qIdx}-${idx}`);
+                label.classList.toggle('selected', idx === oIdx);
             });
-            
-            option.classList.add('selected');
-            
-            const key = `${sectionIdx}-${questionIdx}`;
-            userAnswers[key] = parseInt(answer);
+
+            document.getElementById(`nav-btn-${qIdx}`).classList.add('answered');
+        }
+
+        function scrollToQuestion(qIdx) {
+            const el = document.getElementById(`q-item-${qIdx}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                document.querySelectorAll('.quiz-nav-btn').forEach(b => b.classList.remove('current'));
+                document.getElementById(`nav-btn-${qIdx}`).classList.add('current');
+            }
         }
 
         document.getElementById('submitBtn').addEventListener('click', () => {
             const section = allSections[currentSectionIndex];
-            const totalQuestions = section.questions.length;
-            
-            let answeredCount = 0;
-            for (let i = 0; i < totalQuestions; i++) {
-                const key = `${currentSectionIndex}-${i}`;
-                if (userAnswers[key] !== undefined) answeredCount++;
-            }
-            
-            if (answeredCount < totalQuestions) {
-                alert('Vui lòng trả lời tất cả các câu hỏi!');
-                return;
-            }
-
+            isSubmitted = true;
             let score = 0;
-            
+
             section.questions.forEach((q, qIdx) => {
-                const key = `${currentSectionIndex}-${qIdx}`;
-                const userAns = userAnswers[key];
+                const userAns = userAnswers[qIdx];
                 const isCorrect = userAns === q.answer;
-                
                 if (isCorrect) score++;
 
-                document.querySelectorAll(`.option[data-section="${currentSectionIndex}"][data-question="${qIdx}"]`).forEach(opt => {
-                    opt.style.pointerEvents = 'none';
-                    const optAnswer = parseInt(opt.dataset.answer);
-                    
-                    if (optAnswer === q.answer) {
-                        opt.classList.add('correct');
-                    } else if (optAnswer === userAns && !isCorrect) {
-                        opt.classList.add('incorrect');
-                    }
+                q.options.forEach((_, oIdx) => {
+                    const el = document.getElementById(`option-${qIdx}-${oIdx}`);
+                    el.querySelector('input').disabled = true;
+                    if (oIdx === q.answer) el.classList.add('correct');
+                    else if (oIdx === userAns) el.classList.add('incorrect');
                 });
-
-                const questionDiv = document.querySelectorAll('.question')[qIdx];
-                const explanationDiv = document.createElement('div');
-                explanationDiv.className = 'explanation';
-                explanationDiv.innerHTML = `
-                    <strong>💡 Giải thích:</strong> ${q.explanation}
-                `;
-                questionDiv.appendChild(explanationDiv);
             });
 
-            const percentage = Math.round((score / totalQuestions) * 100);
-            
-            let emoji = '🎉';
-            let message = 'Xuất sắc!';
-            if (percentage < 50) {
-                emoji = '📚';
-                message = 'Cố gắng lên!';
-            } else if (percentage < 80) {
-                emoji = '👍';
-                message = 'Khá tốt!';
-            }
-            
-            // Show result in popup modal
-            document.getElementById('resultEmoji').textContent = emoji;
-            document.getElementById('resultMessage').textContent = message;
-            document.getElementById('resultScore').textContent = `${score}/${totalQuestions}`;
-            document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
+            const percent = Math.round((score / section.questions.length) * 100);
+            document.getElementById('resultScore').textContent = `${score}/${section.questions.length}`;
+            document.getElementById('resultPercentage').textContent = `Tỷ lệ chính xác: ${percent}%`;
             document.getElementById('resultModal').classList.add('show');
-            
             document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('retryBtn').classList.add('show');
+            document.getElementById('retryBtn').style.display = 'inline-block';
         });
 
-        // Close modal
-        document.getElementById('modalCloseBtn').addEventListener('click', () => {
-            document.getElementById('resultModal').classList.remove('show');
-        });
-
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            userAnswers = {};
-            renderSection(currentSectionIndex);
-            window.scrollTo(0, 0);
-        });
-
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Change font size function
         function changeFontSize(delta) {
-            passageFontSize += delta;
-            questionFontSize += delta;
-            optionFontSize += delta;
-            
-            document.querySelectorAll('.passage-panel p').forEach(e => {
-                e.style.fontSize = passageFontSize + 'px';
-            });
-            
-            document.querySelectorAll('.question-text').forEach(e => {
-                e.style.fontSize = questionFontSize + 'px';
-            });
-            
-            document.querySelectorAll('.option').forEach(e => {
-                e.style.fontSize = optionFontSize + 'px';
-            });
+            fontSize += delta;
+            renderSection(currentSectionIndex); // Re-render to apply size
         }
+
+        function closeModal() { document.getElementById('resultModal').classList.remove('show'); }
+        function scrollToTop() { 
+            document.getElementById('passageContainer').scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('questionsContainer').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            isSubmitted = false;
+            renderSection(currentSectionIndex);
+            scrollToTop();
+        });
 
         window.addEventListener('load', loadQuestions);
     </script>

@@ -5,117 +5,472 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section 2: Grammar Multiple Choice Test</title>
     
-    <!-- Import common styles -->
-    <link rel="stylesheet" href="styles-common.css">
-    
     <style>
-        /* Section 2 specific styles - keeping original styling not in common CSS */
-        .question-text {
-            font-weight: 600;
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== TOP BAR (DÚNG STYLE SECTION 2 GỐC) ===== */
+        .top-bar {
+            flex-shrink: 0;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 10px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header {
+            display: grid;
+            grid-template-columns: 120px 1fr 120px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            grid-column: 2;
+            font-size: 20px;
             color: #333;
-            margin-bottom: 15px;
-            font-size: 18px;
-            line-height: 1;
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
         }
-        
-        .question-number {
-            color: #1976D2;
-            font-weight: 700;
+
+        .font-controls {
+            grid-column: 3;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
         }
+
+        .font-controls button {
+            padding: 6px 12px;
+            background: #2196F3;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .font-controls button:hover {
+            background: #e9ecef;
+            border-color: #ccc;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 5px 15px;
+            border: 1px solid #2196F3;
+            background: white;
+            color: #2196F3;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .nav-btn.active {
+            background: #2196F3;
+            color: white;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-layout {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* LEFT PANEL: QUIZ NAVIGATION */
+        .quiz-nav-panel {
+            flex-shrink: 0;
+            width: 250px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .quiz-nav-header {
+            padding: 15px;
+            background: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .quiz-nav-grid {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            align-content: start;
+        }
+
+        .quiz-nav-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .quiz-nav-btn.answered { background: #4CAF50; color: white; border-color: #555; }
+        .quiz-nav-btn.current { border: 2px solid #FF9800; }
+
+        .quiz-nav-legend { padding: 10px; border-top: 1px solid #eee; font-size: 11px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+        .legend-box { width: 12px; height: 12px; border: 1px solid #ddd; border-radius: 2px; }
+
+        /* RIGHT PANEL: QUESTIONS AREA */
+        .questions-wrapper {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            overflow-y: auto;
+            padding: 30px;
+            scroll-behavior: smooth;
+        }
+
+        .question-item {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            scroll-margin-top: 20px;
+        }
+
+        .question-text { font-weight: 600; margin-bottom: 15px; font-size: 18px; color: #2c3e50; }
+        .options-container { display: flex; flex-direction: column; gap: 10px; }
         
-        /* Explanation section */
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option-item:hover { background-color: #f9f9f9; }
+        .option-item.selected { background: #e3f2fd; border-color: #2196F3; }
+        .option-item.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .option-item.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
         .explanation-section {
-            display: none;
             margin-top: 15px;
             padding: 15px;
             background: #fff3e0;
-            border-left: 4px solid #FF9800;
-            border-radius: 6px;
+            border-left: 4px solid #ff9800;
+            display: none;
+            border-radius: 4px;
         }
-        
-        .explanation-section.show {
-            display: block;
-        }
-        
-        .explanation-title {
-            font-weight: 700;
-            color: #E65100;
-            margin-bottom: 8px;
-            font-size: 14px;
+        .explanation-section.show { display: block; }
+
+        /* BOTTOM BAR */
+        .bottom-bar {
+            flex-shrink: 0;
+            background: white;
+            padding: 15px;
             display: flex;
-            align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 15px;
+            border-top: 1px solid #ddd;
         }
-        
-        .explanation-text {
-            color: #5D4037;
-            font-size: 14px;
-            line-height: 1.6;
+
+        .btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
+        .submit-btn { background: #2196F3; }
+        .submit-btn:hover { background: #1976D2; }
+        .retry-btn { background: #FF9800; display: none; }
+        .top-btn { background: #4caf50; }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center; align-items: center;
+        }
+        .modal.show { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px; width: 90%; }
+
+        @media (max-width: 768px) {
+            .header { grid-template-columns: 1fr auto; }
+            .header h1 { grid-column: 1; text-align: left; font-size: 16px; }
+            .main-layout { flex-direction: column; }
+            .quiz-nav-panel { width: 100%; height: 180px; }
         }
     </style>
 </head>
 <body>
-    <!-- ===== TOP BAR (FIXED) ===== -->
-    <div class="top-bar" id="topBar">
+
+    <div class="top-bar">
         <div class="header">
-            <h1>📝 Section 2: Choose the best answer for each question</h1>
+            <div></div> <h1>Section 2: Choose the best answer for each question</h1>
             <div class="font-controls">
-                <button>A+</button>
-                <button>A−</button>
+                <button onclick="changeFontSize(1)">A+</button>
+                <button onclick="changeFontSize(-1)">A−</button>
             </div>
         </div>
         <div class="navigation" id="navigation" style="display: none;"></div>
     </div>
 
-    <div class="container">
-        <div id="loading" class="loading">Đang tải đề thi từ JSON...</div>
-        <div id="error" class="error" style="display: none;"></div>
-        
-        <div id="sectionsContainer" style="display: none;"></div>
-        
-        <div class="button-container">
-            <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
-            <button class="retry-btn" id="retryBtn">Làm lại</button>
-            <button class="top-btn">Về đầu trang</button>
+    <div class="main-layout">
+        <div class="quiz-nav-panel">
+            <div class="quiz-nav-header">Quiz navigation</div>
+            <div class="quiz-nav-grid" id="quizNavGrid"></div>
+            <div class="quiz-nav-legend">
+                <div class="legend-item"><div class="legend-box"></div> Chưa trả lời</div>
+                <div class="legend-item"><div class="legend-box" style="background: #4CAF50;"></div> Đã trả lời</div>
+                <div class="legend-item"><div class="legend-box" style="border: 2px solid #FF9800;"></div> Đang xem</div>
+            </div>
+        </div>
+
+        <div class="questions-wrapper" id="scrollArea">
+            <div id="loading" style="text-align:center; padding: 20px;">Đang tải dữ liệu câu hỏi...</div>
+            <div id="error" style="display:none; color:red; padding: 20px; text-align: center;"></div>
+            <div id="sectionsContainer"></div>
         </div>
     </div>
 
-    <!-- Result Popup Modal -->
+    <div class="bottom-bar">
+        <button class="btn submit-btn" id="submitBtn">Nộp bài</button>
+        <button class="btn retry-btn" id="retryBtn">Làm lại</button>
+        <button class="btn top-btn" onclick="scrollToTop()">Về đầu trang</button>
+    </div>
+
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <div class="emoji" id="resultEmoji">🎉</div>
-            <div class="message" id="resultMessage">Xuất sắc!</div>
-            <div class="score" id="resultScore">0/0</div>
-            <div class="percentage" id="resultPercentage">Điểm số: 0%</div>
-            <button class="modal-close-btn" id="modalCloseBtn">Đóng</button>
+            <div id="resultEmoji" style="font-size: 50px;">🎉</div>
+            <h2 id="resultMessage">Kết quả</h2>
+            <div id="resultScore" style="font-size: 40px; color: #2196F3; font-weight: bold; margin: 10px 0;">0/0</div>
+            <p id="resultPercentage">Tỷ lệ chính xác: 0%</p>
+            <button class="btn submit-btn" style="margin-top: 20px; width: 100%;" onclick="closeModal()">Xem giải thích</button>
         </div>
     </div>
 
-    <!-- Import all modules -->
-    <script src="state-manager.js"></script>
-    <script src="json-loader.js"></script>
-    <script src="navigation.js"></script>
-    <script src="question-renderer.js"></script>
-    <script src="answer-validator.js"></script>
-    <script src="score-calculator.js"></script>
-    <script src="modal-manager.js"></script>
-    <script src="font-controller.js"></script>
-    <script src="scroll-controller.js"></script>
-    <script src="retry-handler.js"></script>
-    <script src="app-controller.js"></script>
-
     <script>
-        // Initialize app when page loads
-        window.addEventListener('load', () => {
-            AppController.init({
-                jsonFile: 'reading-s2-questions.json',
-                hasImage: false,
-                hasExplanation: true,
-                fontSize: 18,
-                optionFontSize: 15,
-                explanationFontSize: 14
+        let allSections = [];
+        let currentSectionIndex = 0;
+        let userAnswers = {};
+        let fontSize = 18;
+        let isSubmitted = false;
+
+        // Shuffle logic giữ từ bản gốc
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch('reading-s2-questions.json');
+                if (!response.ok) throw new Error('Không thể tải file câu hỏi (JSON).');
+                allSections = await response.json();
+                document.getElementById('loading').style.display = 'none';
+                renderNavigation();
+                renderSection(0);
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = error.message;
+            }
+        }
+
+        function renderNavigation() {
+            if (allSections.length <= 1) return;
+            const navDiv = document.getElementById('navigation');
+            navDiv.style.display = 'flex';
+            navDiv.innerHTML = allSections.map((_, idx) => `
+                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">Test ${idx + 1}</button>
+            `).join('');
+        }
+
+        function switchSection(index) {
+            currentSectionIndex = index;
+            isSubmitted = false;
+            renderSection(index);
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => btn.classList.toggle('active', idx === index));
+        }
+
+        function renderSection(index) {
+            const section = allSections[index];
+            userAnswers = {};
+            const container = document.getElementById('sectionsContainer');
+            const navGrid = document.getElementById('quizNavGrid');
+            navGrid.innerHTML = '';
+            
+            container.innerHTML = section.questions.map((q, qIdx) => {
+                const optionsWithIndices = q.options.map((opt, oIdx) => ({ text: opt, originalIndex: oIdx }));
+                const shuffledOptions = shuffleArray(optionsWithIndices);
+
+                // Tạo nút điều hướng bên trái
+                const navBtn = document.createElement('button');
+                navBtn.className = 'quiz-nav-btn';
+                navBtn.id = `nav-btn-${qIdx}`;
+                navBtn.textContent = qIdx + 1;
+                navBtn.onclick = () => scrollToQuestion(qIdx);
+                navGrid.appendChild(navBtn);
+
+                return `
+                    <div class="question-item" id="q-item-${qIdx}">
+                        <div class="question-text" style="font-size: ${fontSize}px">${qIdx + 1}. ${q.question}</div>
+                        <div class="options-container">
+                            ${shuffledOptions.map((opt, displayIdx) => `
+                                <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}" style="font-size: ${fontSize - 2}px">
+                                    <input type="radio" name="q-${qIdx}" value="${opt.originalIndex}" 
+                                        style="margin-right: 12px; transform: scale(1.2)"
+                                        onchange="handleAnswer(${qIdx}, ${opt.originalIndex})">
+                                    <span>${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div class="explanation-section" id="explanation-${qIdx}">
+                            <strong>💡 Giải thích:</strong> ${q.explanation || 'Chưa có giải thích cho câu này.'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('retryBtn').style.display = 'none';
+            updateNavStatus();
+        }
+
+        function handleAnswer(qIdx, optionIdx) {
+            if (isSubmitted) return;
+            userAnswers[qIdx] = optionIdx;
+            
+            // Highlight lựa chọn
+            const section = allSections[currentSectionIndex];
+            section.questions[qIdx].options.forEach((_, idx) => {
+                const el = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${idx}`);
+                if (el) el.classList.toggle('selected', idx === optionIdx);
+            });
+            updateNavStatus();
+        }
+
+        function updateNavStatus() {
+            allSections[currentSectionIndex].questions.forEach((_, qIdx) => {
+                const btn = document.getElementById(`nav-btn-${qIdx}`);
+                if (btn) btn.classList.toggle('answered', userAnswers[qIdx] !== undefined);
+            });
+        }
+
+        function scrollToQuestion(qIdx) {
+            const el = document.getElementById(`q-item-${qIdx}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                document.querySelectorAll('.quiz-nav-btn').forEach(b => b.classList.remove('current'));
+                document.getElementById(`nav-btn-${qIdx}`).classList.add('current');
+            }
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const section = allSections[currentSectionIndex];
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < section.questions.length) {
+                if (!confirm(`Bạn mới trả lời ${answeredCount}/${section.questions.length} câu. Vẫn muốn nộp bài?`)) return;
+            }
+
+            isSubmitted = true;
+            let score = 0;
+            section.questions.forEach((q, qIdx) => {
+                const userAns = userAnswers[qIdx];
+                const isCorrect = userAns === q.answer;
+                if (isCorrect) score++;
+
+                q.options.forEach((_, oIdx) => {
+                    const el = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${oIdx}`);
+                    if (!el) return;
+                    el.querySelector('input').disabled = true;
+                    if (oIdx === q.answer) el.classList.add('correct');
+                    else if (oIdx === userAns) el.classList.add('incorrect');
+                });
+                document.getElementById(`explanation-${qIdx}`).classList.add('show');
+            });
+
+            const percent = Math.round((score / section.questions.length) * 100);
+            document.getElementById('resultScore').textContent = `${score}/${section.questions.length}`;
+            document.getElementById('resultPercentage').textContent = `Tỷ lệ chính xác: ${percent}%`;
+            document.getElementById('resultModal').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('retryBtn').style.display = 'inline-block';
+        });
+
+        function closeModal() { document.getElementById('resultModal').classList.remove('show'); }
+        function scrollToTop() { document.getElementById('scrollArea').scrollTo({ top: 0, behavior: 'smooth' }); }
+        
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            isSubmitted = false;
+            renderSection(currentSectionIndex);
+            scrollToTop();
+        });
+
+        function changeFontSize(delta) {
+            fontSize += delta;
+            document.querySelectorAll('.question-text').forEach(el => el.style.fontSize = fontSize + 'px');
+            document.querySelectorAll('.option-item').forEach(el => el.style.fontSize = (fontSize - 2) + 'px');
+        }
+
+        // Tự động nhận diện câu hỏi đang xem khi cuộn
+        document.getElementById('scrollArea').addEventListener('scroll', () => {
+            const wrapper = document.getElementById('scrollArea');
+            const items = document.querySelectorAll('.question-item');
+            items.forEach((item, idx) => {
+                const rect = item.getBoundingClientRect();
+                // Nếu đầu câu hỏi nằm trong khoảng 200px đầu tiên của vùng nhìn thấy
+                if (rect.top >= 0 && rect.top <= 300) {
+                    document.querySelectorAll('.quiz-nav-btn').forEach(b => b.classList.remove('current'));
+                    const navBtn = document.getElementById(`nav-btn-${idx}`);
+                    if (navBtn) navBtn.classList.add('current');
+                }
             });
         });
+
+        window.addEventListener('load', loadQuestions);
     </script>
 </body>
 </html>
