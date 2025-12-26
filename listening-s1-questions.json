@@ -7,9 +7,9 @@
                 "audio": "audio/section1-q3.mp3",
                 "question": "What did the girl hear last night?",
                 "images": [
-                    "listening_images/section1-q3-A.png",
-                    "listening_images/section1-q3-B.png",
-                    "listening_images/section1-q3-C.png"
+                    "listening_images/section1_q1_A.png",
+                    "listening_images/section1_q1_B.png",
+                    "listening_images/section1_q1_C.png"
                 ],
                 "answer": 1,
                 "tapescript": "Boy: Did you hear that strange noise last night?\nGirl: Yes! It was a dog barking loudly. It woke me up at 2 AM.\nBoy: Oh, I thought it was a cat fighting."
@@ -18,9 +18,9 @@
                 "audio": "audio/section1-q3.mp3",
                 "question": "What did the girl hear last night?",
                 "images": [
-                    "listening_images/section1-q3-A.png",
-                    "listening_images/section1-q3-B.png",
-                    "listening_images/section1-q3-C.png"
+                    "listening_images/section1_q2_A.png",
+                    "listening_images/section1_q2_B.png",
+                    "listening_images/section1_q2_C.png"
                 ],
                 "answer": 1,
                 "tapescript": "Boy: Did you hear that strange noise last night?\nGirl: Yes! It was a dog barking loudly. It woke me up at 2 AM.\nBoy: Oh, I thought it was a cat fighting."
@@ -29,9 +29,9 @@
                 "audio": "audio/section1-q3.mp3",
                 "question": "What did the girl hear last night?",
                 "images": [
-                    "listening_images/section1-q3-A.png",
-                    "listening_images/section1-q3-B.png",
-                    "listening_images/section1-q3-C.png"
+                    "listening_images/section1_q3_A.png",
+                    "listening_images/section1_q3_B.png",
+                    "listening_images/section1_q3_C.png"
                 ],
                 "answer": 1,
                 "tapescript": ""
@@ -40,9 +40,9 @@
                 "audio": "audio/section1-q4.mp3",
                 "question": "What musical instrument is the boy going to learn?",
                 "images": [
-                    "listening_images/section1-q4-A.png",
-                    "listening_images/section1-q4-B.png",
-                    "listening_images/section1-q4-C.png"
+                    "listening_images/section1_q4_A.png",
+                    "listening_images/section1_q4_B.png",
+                    "listening_images/section1_q4_C.png"
                 ],
                 "answer": 0,
                 "tapescript": ""
@@ -80,7 +80,8 @@
                 "answer": 2,
                 "tapescript": ""
             }
-        ]
+        ],
+        "passage": ""
     },
     {
         "id": "section2",
@@ -233,89 +234,6 @@
                     ""
                 ],
                 "answer": 0,
-                "tapescript": ""
-            },
-            {
-                "audio": "",
-                "question": "What hobby did they have as children? C",
-                "images": [
-                    "",
-                    "",
-                    ""
-                ],
-                "answer": 0,
-                "tapescript": ""
-            }
-        ]
-    },
-    {
-        "id": "section4",
-        "title": "SECTION 4",
-        "questions": [
-            {
-                "audio": "",
-                "question": "Where are the women going to go tomorrow evening? A",
-                "images": [
-                    "",
-                    "",
-                    ""
-                ],
-                "answer": 0,
-                "tapescript": ""
-            },
-            {
-                "audio": "",
-                "question": "What did the boy get for his birthday? B",
-                "images": [
-                    "",
-                    "",
-                    ""
-                ],
-                "answer": 0,
-                "tapescript": ""
-            },
-            {
-                "audio": "",
-                "question": "What did the girl hear last night? C",
-                "images": [
-                    "",
-                    "",
-                    ""
-                ],
-                "answer": 0,
-                "tapescript": ""
-            },
-            {
-                "audio": "audio_s1/section4_q4.mp3",
-                "question": "What musical instrument is the boy going to learn? C",
-                "images": [
-                    "",
-                    "",
-                    ""
-                ],
-                "answer": 0,
-                "tapescript": ""
-            },
-            {
-                "audio": "",
-                "question": "What did the girl see yesterday? A",
-                "images": [
-                    "listening_images/section4_q5_A.png",
-                    "listening_images/section4_q5_B.png",
-                    "listening_images/section4_q5_C.png"
-                ],
-                "answer": 0,
-                "tapescript": ""
-            },
-            {
-                "audio": "",
-                "question": "Where does the man usually listen to music? A",
-                "images": [
-                    "",
-                    "",
-                    ""
-                ],
-                "answer": 1,
                 "tapescript": ""
             },
             {

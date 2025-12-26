@@ -5,83 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section 4: Cloze Test - Inline Dropdown</title>
     
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="styles-common.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            line-height: 1.8;
-        }
-        
-        /* ===== HIDE SCROLLBAR ===== */
-        html, body {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            display: none;
-        }
-        
-        /* ===== TOP BAR (FIXED) ===== */
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            padding: 6px 10px;
-            transition: all 0.3s;
-        }
-        .header {
-            position: relative;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin: 0;
-            font-size: 20px;
-        }
-        /* Font size controls */
-        .font-controls {
-            position: absolute;
-            right: 10px;
-            top: 0;
-        }
-        .font-controls button {
-            padding: 2px 6px;
-            font-size: 14px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-        }
-        .font-controls button:hover {
-            background: #f0f0f0;
-        }
-        .navigation {
-            display: flex;
-            gap: 8px;
-            margin-top: 6px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        /* Section 4 Specific Styles */
         .nav-btn {
-            padding: 6px 16px;
             background: #fff3e0;
-            border: 1.5px solid #FF9800;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
+            border-color: #FF9800;
             color: #FF9800;
-            transition: all 0.3s;
         }
         .nav-btn:hover {
             background: #FF9800;
@@ -92,27 +24,17 @@
             color: white;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            padding: 100px 10px 20px 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-height: 100vh;
-        }
-        
         .passage-container {
             background: #fff8e1;
-            padding: 30px;
+            padding: 15px 20px;
             border-radius: 8px;
             border: 2px solid #FF9800;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 16px;
             line-height: 2.2;
         }
         .passage-container p {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #333;
         }
         .passage-title {
@@ -120,7 +42,9 @@
             font-size: 18px;
             color: #FF9800;
             margin-bottom: 0px;
+	    padding-bottom: 0px; /* Chỉ để một chút đệm nhỏ */
             text-align: center;
+	    line-height: 1.0; /* Thu nhỏ chiều cao dòng của tiêu đề */
         }
         .dropdown-blank {
             display: inline-block;
@@ -173,20 +97,6 @@
             cursor: not-allowed;
             opacity: 0.8;
         }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 18px;
-        }
-        .error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #c62828;
-            border-radius: 4px;
-        }
         
         .explanation-section {
             display: none;
@@ -218,138 +128,25 @@
             color: #FF9800;
         }
         
-        /* ===== BOTTOM BAR ===== */
-        .button-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
-            padding: 6px 10px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            z-index: 1000;
-        }
         .submit-btn {
-            padding: 6px 20px;
             background: #FF9800;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
         }
         .submit-btn:hover {
             background: #F57C00;
         }
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
+        
         .retry-btn {
-            display: none;
-            padding: 6px 20px;
             background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
         }
         .retry-btn:hover {
             background: #1976D2;
         }
-        .retry-btn.show {
-            display: inline-block;
-        }
-        .top-btn {
-            padding: 6px 20px;
-            background: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .top-btn:hover {
-            background: #388e3c;
-        }
         
-        /* Popup Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s;
-        }
-        .modal.show {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            animation: slideIn 0.3s;
-        }
-        .modal-content .emoji {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-        .modal-content .message {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .modal-content .score {
-            font-size: 48px;
-            color: #4CAF50;
-            margin: 20px 0;
-            font-weight: 700;
-        }
-        .modal-content .percentage {
-            font-size: 24px;
-            color: #666;
-            margin-bottom: 30px;
-        }
         .modal-close-btn {
-            padding: 15px 50px;
             background: #FF9800;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
         }
         .modal-close-btn:hover {
             background: #F57C00;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -359,8 +156,8 @@
         <div class="header">
             <h1>📝 Section 4: Choose the best word or phrase for each blank</h1>
             <div class="font-controls">
-                <button onclick="changeFontSize(1)">A+</button>
-                <button onclick="changeFontSize(-1)">A−</button>
+                <button>A+</button>
+                <button>A−</button>
             </div>
         </div>
         <div class="navigation" id="navigation" style="display: none;"></div>
@@ -377,7 +174,7 @@
         <div class="button-container">
             <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
             <button class="retry-btn" id="retryBtn">Làm lại</button>
-            <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+            <button class="top-btn">Về đầu trang</button>
         </div>
     </div>
 
@@ -392,327 +189,280 @@
         </div>
     </div>
 
+    <!-- Load Modules -->
+    <script src="state-manager.js"></script>
+    <script src="json-loader.js"></script>
+    <script src="modal-manager.js"></script>
+    <script src="font-controller.js"></script>
+    <script src="scroll-controller.js"></script>
+    <script src="navigation.js"></script>
+    <script src="retry-handler.js"></script>
+    <script src="score-calculator.js"></script>
+    <script src="answer-validator.js"></script>
+
     <script>
-        let allSections = [];
-        let currentSectionIndex = 0;
-        let userAnswers = {};
-        let passageFontSize = 16; // Default font size for passage
-        let dropdownFontSize = 16; // Default font size for dropdown
+        // Section 4 Specific Controller
+        const Section4Controller = {
+            passageFontSize: 16,
+            dropdownFontSize: 16,
 
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
+            async init() {
+                StateManager.init();
+                ModalManager.init();
+                FontController.init({
+                    fontSize: this.passageFontSize,
+                    optionFontSize: this.dropdownFontSize,
+                    explanationFontSize: 14
+                });
+                ScrollController.setupScrollButton();
+                this.setupEventHandlers();
+                await this.loadQuestions();
+            },
 
-        function validateData(sections) {
-            const errors = [];
-            
-            sections.forEach((section, sIdx) => {
-                if (!section.passage || section.passage.trim() === '') {
-                    errors.push(`Test ${sIdx + 1}: Thiếu đoạn văn (passage)`);
+            setupEventHandlers() {
+                RetryHandler.setupRetryButton(() => this.handleRetry());
+                
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', () => this.handleSubmit());
+                }
+
+                // Font size controls for passage
+                const fontBtns = document.querySelectorAll('.font-controls button');
+                if (fontBtns[0]) fontBtns[0].addEventListener('click', () => this.changeFontSize(1));
+                if (fontBtns[1]) fontBtns[1].addEventListener('click', () => this.changeFontSize(-1));
+            },
+
+            async loadQuestions() {
+                try {
+                    JSONLoader.showLoading();
+                    const sections = await JSONLoader.loadQuestions('reading-s4-questions.json');
+                    const errors = this.validateData(sections);
+                    
+                    if (errors.length > 0) {
+                        throw new Error('Phát hiện lỗi trong dữ liệu:\n\n' + errors.join('\n'));
+                    }
+                    
+                    StateManager.setSections(sections);
+                    JSONLoader.hideLoading();
+                    Navigation.renderNavigation(sections, (index) => this.switchSection(index));
+                    this.renderSection(0);
+                } catch (error) {
+                    JSONLoader.hideLoading();
+                    JSONLoader.showError(error, 'reading-s4-questions.json');
+                }
+            },
+
+            validateData(sections) {
+                const errors = [];
+                sections.forEach((section, sIdx) => {
+                    if (!section.passage || section.passage.trim() === '') {
+                        errors.push(`Test ${sIdx + 1}: Thiếu đoạn văn (passage)`);
+                    }
+                    if (!section.questions || section.questions.length === 0) {
+                        errors.push(`Test ${sIdx + 1}: Không có câu hỏi nào`);
+                        return;
+                    }
+                    section.questions.forEach((q, qIdx) => {
+                        const questionNum = `Test ${sIdx + 1}, Câu ${qIdx + 1}`;
+                        if (!q.options || !Array.isArray(q.options)) {
+                            errors.push(`${questionNum}: Thiếu danh sách đáp án`);
+                        } else if (q.options.length < 2) {
+                            errors.push(`${questionNum}: Cần ít nhất 2 đáp án`);
+                        }
+                        if (q.answer === undefined || q.answer === null) {
+                            errors.push(`${questionNum}: Thiếu thông tin đáp án đúng`);
+                        }
+                    });
+                });
+                return errors;
+            },
+
+            switchSection(index) {
+                StateManager.setCurrentSectionIndex(index);
+                StateManager.clearUserAnswers();
+                Navigation.updateActiveButton(index);
+                this.renderSection(index);
+                ScrollController.scrollToTop();
+            },
+
+            renderSection(index) {
+                const section = StateManager.allSections[index];
+                StateManager.clearUserAnswers();
+                
+                let passageText = section.passage;
+                let titleText = '';
+                const lines = passageText.split('\n');
+                if (lines.length > 0 && lines[0].trim().length < 50 && !lines[0].includes('(')) {
+                    titleText = lines[0].trim();
+                    passageText = lines.slice(1).join('\n');
                 }
                 
-                if (!section.questions || section.questions.length === 0) {
-                    errors.push(`Test ${sIdx + 1}: Không có câu hỏi nào`);
-                    return;
-                }
+                let passageHtml = passageText;
                 
                 section.questions.forEach((q, qIdx) => {
-                    const questionNum = `Test ${sIdx + 1}, Câu ${qIdx + 1}`;
+                    const blankNum = qIdx + 1;
+                    const optionsWithIndices = q.options.map((opt, optIdx) => ({
+                        text: opt,
+                        originalIndex: optIdx
+                    }));
+                    const shuffledOptions = this.shuffleArray(optionsWithIndices);
                     
-                    if (!q.options || !Array.isArray(q.options)) {
-                        errors.push(`${questionNum}: Thiếu danh sách đáp án`);
-                    } else if (q.options.length < 2) {
-                        errors.push(`${questionNum}: Cần ít nhất 2 đáp án (hiện có ${q.options.length})`);
-                    }
+                    const dropdownOptions = shuffledOptions.map(opt => 
+                        `<option value="${opt.originalIndex}">${opt.text}</option>`
+                    ).join('');
                     
-                    if (q.options) {
-                        q.options.forEach((opt, optIdx) => {
-                            if (!opt || opt.trim() === '') {
-                                errors.push(`${questionNum}: Đáp án ${String.fromCharCode(65 + optIdx)} bị trống`);
-                            }
-                        });
-                    }
+                    const dropdownHtml = `<span class="dropdown-blank"><select id="blank-${index}-${qIdx}" data-section="${index}" data-question="${qIdx}">
+                        <option value="" selected>(${blankNum})</option>
+                        ${dropdownOptions}
+                    </select></span>`;
                     
-                    if (q.answer === undefined || q.answer === null) {
-                        errors.push(`${questionNum}: Thiếu thông tin đáp án đúng`);
-                    } else if (q.options && (q.answer < 0 || q.answer >= q.options.length)) {
-                        errors.push(`${questionNum}: Đáp án đúng (${q.answer}) không hợp lệ (phải từ 0 đến ${q.options.length - 1})`);
+                    const pattern1 = new RegExp(`\\(${blankNum}\\)\\s*[\\.…]{0,}`, 'g');
+                    passageHtml = passageHtml.replace(pattern1, dropdownHtml);
+                });
+                
+                const container = document.getElementById('passageContainer');
+                container.style.display = 'block';
+                container.innerHTML = `
+                    <div class="passage-container">
+                        ${titleText ? `<div class="passage-title">${titleText}</div>` : ''}
+                        <div>${passageHtml.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+                
+                section.questions.forEach((q, qIdx) => {
+                    const select = document.getElementById(`blank-${index}-${qIdx}`);
+                    if (select) {
+                        select.addEventListener('change', (e) => this.handleDropdownChange(e));
                     }
                 });
-            });
-            
-            return errors;
-        }
-
-        async function loadQuestions() {
-            try {
-                const response = await fetch('cloze-questions.json');
                 
-                if (!response.ok) {
-                    throw new Error('Không tìm thấy file cloze-questions.json');
+                RetryHandler.showSubmitButton();
+                RetryHandler.hideRetryButton();
+                document.getElementById('explanationSection').classList.remove('show');
+                document.getElementById('explanationSection').innerHTML = '';
+                
+                this.applyFontSize();
+            },
+
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
                 }
+                return shuffled;
+            },
+
+            handleDropdownChange(e) {
+                const select = e.target;
+                const sectionIdx = parseInt(select.getAttribute('data-section'));
+                const questionIdx = parseInt(select.getAttribute('data-question'));
+                const answer = select.value;
                 
-                allSections = await response.json();
-                
-                document.getElementById('loading').style.display = 'none';
-                
-                if (allSections.length === 0) {
-                    throw new Error('File JSON không có dữ liệu');
+                if (answer !== '') {
+                    StateManager.setUserAnswer(sectionIdx, questionIdx, parseInt(answer));
+                    select.classList.add('answered');
+                } else {
+                    const key = `${sectionIdx}-${questionIdx}`;
+                    delete StateManager.userAnswers[key];
+                    select.classList.remove('answered');
                 }
+            },
+
+            handleSubmit() {
+                const section = StateManager.getCurrentSection();
+                const totalQuestions = section.questions.length;
+                const sectionIdx = StateManager.currentSectionIndex;
                 
-                const validationErrors = validateData(allSections);
-                if (validationErrors.length > 0) {
-                    throw new Error('Phát hiện lỗi trong dữ liệu:\n\n' + validationErrors.join('\n'));
+                if (!AnswerValidator.checkAllAnswered(totalQuestions, StateManager.userAnswers, sectionIdx)) {
+                    AnswerValidator.showIncompleteAlert();
+                    return;
                 }
-                
-                renderNavigation();
-                renderSection(0);
-                
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').innerHTML = `
-                    <strong>Lỗi:</strong> ${error.message.replace(/\n/g, '<br>')}<br>
-                    <small>Hãy đảm bảo file "cloze-questions.json" nằm cùng thư mục với file HTML này và có định dạng đúng.</small>
-                `;
-                console.error('Error loading JSON:', error);
-            }
-        }
 
-        function renderNavigation() {
-            if (allSections.length <= 1) return;
-            
-            const navDiv = document.getElementById('navigation');
-            navDiv.style.display = 'flex';
-            navDiv.innerHTML = allSections.map((section, idx) => `
-                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
-                </button>
-            `).join('');
-        }
-
-        function switchSection(index) {
-            currentSectionIndex = index;
-            renderSection(index);
-            
-            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === index);
-            });
-        }
-
-        function renderSection(index) {
-            const section = allSections[index];
-            userAnswers = {};
-            
-            // Extract title from passage if exists
-            let passageText = section.passage;
-            let titleText = '';
-            const lines = passageText.split('\n');
-            if (lines.length > 0 && lines[0].trim().length < 50 && !lines[0].includes('(')) {
-                titleText = lines[0].trim();
-                passageText = lines.slice(1).join('\n');
-            }
-            
-            // Create dropdowns for blanks
-            let passageHtml = passageText;
-            
-            section.questions.forEach((q, qIdx) => {
-                const blankNum = qIdx + 1;
+                let score = 0;
+                const explanations = [];
                 
-                // Shuffle options
-                const optionsWithIndices = q.options.map((opt, optIdx) => ({
-                    text: opt,
-                    originalIndex: optIdx
-                }));
-                const shuffledOptions = shuffleArray(optionsWithIndices);
-                
-                // Create dropdown HTML
-                const dropdownOptions = shuffledOptions.map(opt => 
-                    `<option value="${opt.originalIndex}">${opt.text}</option>`
-                ).join('');
-                
-                const dropdownHtml = `<span class="dropdown-blank"><select id="blank-${index}-${qIdx}" data-question="${qIdx}">
-                    <option value="" selected>(${blankNum})</option>
-                    ${dropdownOptions}
-                </select></span>`;
-                
-                // Replace blanks with dropdowns
-                const pattern1 = new RegExp(`\\(${blankNum}\\)\\s*[\\.…]{0,}`, 'g');
-                passageHtml = passageHtml.replace(pattern1, dropdownHtml);
-            });
-            
-            // Render passage
-            const container = document.getElementById('passageContainer');
-            container.style.display = 'block';
-            container.innerHTML = `
-                <div class="passage-container">
-                    ${titleText ? `<div class="passage-title">${titleText}</div>` : ''}
-                    <div>${passageHtml.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>
-                </div>
-            `;
-            
-            // Add change event listeners
-            section.questions.forEach((q, qIdx) => {
-                const select = document.getElementById(`blank-${index}-${qIdx}`);
-                if (select) {
-                    select.addEventListener('change', (e) => handleDropdownChange(e, index, qIdx));
-                }
-            });
-            
-            document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('retryBtn').classList.remove('show');
-            document.getElementById('explanationSection').classList.remove('show');
-            document.getElementById('explanationSection').innerHTML = '';
-        }
+                section.questions.forEach((q, qIdx) => {
+                    const key = `${sectionIdx}-${qIdx}`;
+                    const userAns = StateManager.userAnswers[key];
+                    const isCorrect = userAns === q.answer;
+                    
+                    if (isCorrect) score++;
 
-        function handleDropdownChange(e, sectionIdx, questionIdx) {
-            const select = e.target;
-            const answer = select.value;
-            
-            if (answer !== '') {
-                const key = `${sectionIdx}-${questionIdx}`;
-                userAnswers[key] = parseInt(answer);
-                select.classList.add('answered');
-            } else {
-                const key = `${sectionIdx}-${questionIdx}`;
-                delete userAnswers[key];
-                select.classList.remove('answered');
-            }
-        }
-
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            const section = allSections[currentSectionIndex];
-            const totalQuestions = section.questions.length;
-            
-            let answeredCount = 0;
-            for (let i = 0; i < totalQuestions; i++) {
-                const key = `${currentSectionIndex}-${i}`;
-                if (userAnswers[key] !== undefined) answeredCount++;
-            }
-            
-            if (answeredCount < totalQuestions) {
-                alert('Vui lòng trả lời tất cả các câu hỏi!');
-                return;
-            }
-
-            let score = 0;
-            const explanations = [];
-            
-            section.questions.forEach((q, qIdx) => {
-                const key = `${currentSectionIndex}-${qIdx}`;
-                const userAns = userAnswers[key];
-                const isCorrect = userAns === q.answer;
-                
-                if (isCorrect) score++;
-
-                // Mark dropdown
-                const select = document.getElementById(`blank-${currentSectionIndex}-${qIdx}`);
-                if (select) {
-                    select.disabled = true;
-                    if (isCorrect) {
-                        select.classList.add('correct');
-                        select.classList.remove('incorrect', 'answered');
-                    } else {
-                        select.classList.add('incorrect');
-                        select.classList.remove('correct', 'answered');
+                    const select = document.getElementById(`blank-${sectionIdx}-${qIdx}`);
+                    if (select) {
+                        select.disabled = true;
+                        if (isCorrect) {
+                            select.classList.add('correct');
+                            select.classList.remove('incorrect', 'answered');
+                        } else {
+                            select.classList.add('incorrect');
+                            select.classList.remove('correct', 'answered');
+                        }
                     }
+
+                    if (q.explanation && q.explanation.trim() !== '') {
+                        const correctAnswer = q.options[q.answer];
+                        const userAnswer = q.options[userAns];
+                        explanations.push({
+                            num: qIdx + 1,
+                            correct: isCorrect,
+                            correctAnswer: correctAnswer,
+                            userAnswer: userAnswer,
+                            explanation: q.explanation
+                        });
+                    }
+                });
+
+                if (explanations.length > 0) {
+                    const explanationSection = document.getElementById('explanationSection');
+                    explanationSection.innerHTML = `
+                        <h3>💡 Giải thích đáp án</h3>
+                        ${explanations.map(exp => `
+                            <div class="explanation-item">
+                                <strong>Câu ${exp.num}:</strong> 
+                                ${exp.correct ? '✓' : '✗'} 
+                                Đáp án đúng: <strong>${exp.correctAnswer}</strong>
+                                ${!exp.correct ? ` (Bạn chọn: ${exp.userAnswer})` : ''}
+                                <br>${exp.explanation}
+                            </div>
+                        `).join('')}
+                    `;
+                    explanationSection.classList.add('show');
                 }
 
-                // Collect explanations - only if explanation exists and is not empty
-                if (q.explanation && q.explanation.trim() !== '') {
-                    const correctAnswer = q.options[q.answer];
-                    const userAnswer = q.options[userAns];
-                    explanations.push({
-                        num: qIdx + 1,
-                        correct: isCorrect,
-                        correctAnswer: correctAnswer,
-                        userAnswer: userAnswer,
-                        explanation: q.explanation
-                    });
-                }
-            });
+                ScoreCalculator.displayResult(score, totalQuestions);
+                RetryHandler.hideSubmitButton();
+                RetryHandler.showRetryButton();
+            },
 
-            // Show explanations only if there are any
-            if (explanations.length > 0) {
-                const explanationSection = document.getElementById('explanationSection');
-                explanationSection.innerHTML = `
-                    <h3>💡 Giải thích đáp án</h3>
-                    ${explanations.map(exp => `
-                        <div class="explanation-item">
-                            <strong>Câu ${exp.num}:</strong> 
-                            ${exp.correct ? '✓' : '✗'} 
-                            Đáp án đúng: <strong>${exp.correctAnswer}</strong>
-                            ${!exp.correct ? ` (Bạn chọn: ${exp.userAnswer})` : ''}
-                            <br>${exp.explanation}
-                        </div>
-                    `).join('')}
-                `;
-                explanationSection.classList.add('show');
+            handleRetry() {
+                StateManager.clearUserAnswers();
+                this.renderSection(StateManager.currentSectionIndex);
+                ScrollController.scrollToTop();
+            },
+
+            changeFontSize(delta) {
+                this.passageFontSize += delta;
+                this.dropdownFontSize += delta;
+                this.applyFontSize();
+            },
+
+            applyFontSize() {
+                document.querySelectorAll('.passage-container').forEach(e => {
+                    e.style.fontSize = this.passageFontSize + 'px';
+                });
+                document.querySelectorAll('.dropdown-blank select').forEach(e => {
+                    e.style.fontSize = this.dropdownFontSize + 'px';
+                });
+                document.querySelectorAll('.explanation-item').forEach(e => {
+                    e.style.fontSize = (this.passageFontSize - 2) + 'px';
+                });
             }
+        };
 
-            const percentage = Math.round((score / totalQuestions) * 100);
-            
-            let emoji = '🎉';
-            let message = 'Xuất sắc!';
-            if (percentage < 50) {
-                emoji = '📚';
-                message = 'Cố gắng lên!';
-            } else if (percentage < 80) {
-                emoji = '👍';
-                message = 'Khá tốt!';
-            }
-            
-            // Show result in popup modal
-            document.getElementById('resultEmoji').textContent = emoji;
-            document.getElementById('resultMessage').textContent = message;
-            document.getElementById('resultScore').textContent = `${score}/${totalQuestions}`;
-            document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
-            document.getElementById('resultModal').classList.add('show');
-            
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('retryBtn').classList.add('show');
-        });
-
-        // Close modal
-        document.getElementById('modalCloseBtn').addEventListener('click', () => {
-            document.getElementById('resultModal').classList.remove('show');
-        });
-
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            userAnswers = {};
-            renderSection(currentSectionIndex);
-            window.scrollTo(0, 0);
-        });
-
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Change font size function
-        function changeFontSize(delta) {
-            passageFontSize += delta;
-            dropdownFontSize += delta;
-            
-            document.querySelectorAll('.passage-container').forEach(e => {
-                e.style.fontSize = passageFontSize + 'px';
-            });
-            
-            document.querySelectorAll('.dropdown-blank select').forEach(e => {
-                e.style.fontSize = dropdownFontSize + 'px';
-            });
-            
-            document.querySelectorAll('.explanation-item').forEach(e => {
-                e.style.fontSize = (passageFontSize - 2) + 'px';
-            });
-        }
-
-        window.addEventListener('load', loadQuestions);
+        window.addEventListener('load', () => Section4Controller.init());
     </script>
 </body>
 </html>

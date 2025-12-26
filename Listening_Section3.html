@@ -5,83 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section 3: Listen and Fill in the Blanks</title>
     
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="styles-common.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            line-height: 1.6;
-        }
-        
-        /* ===== HIDE SCROLLBAR ===== */
-        html, body {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            display: none;
-        }
-        
-        /* ===== TOP BAR (FIXED) ===== */
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            padding: 6px 10px;
-            transition: all 0.3s;
-        }
-        .header {
-            position: relative;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin: 0;
-            font-size: 20px;
-        }
-        /* Font size controls */
-        .font-controls {
-            position: absolute;
-            right: 10px;
-            top: 0;
-        }
-        .font-controls button {
-            padding: 2px 6px;
-            font-size: 14px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-        }
-        .font-controls button:hover {
-            background: #f0f0f0;
-        }
-        .navigation {
-            display: flex;
-            gap: 8px;
-            margin-top: 6px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        /* Listening Section 3 Specific Styles */
         .nav-btn {
-            padding: 6px 16px;
             background: #f3e5f5;
-            border: 1.5px solid #9C27B0;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
+            border-color: #9C27B0;
             color: #9C27B0;
-            transition: all 0.3s;
         }
         .nav-btn:hover {
             background: #9C27B0;
@@ -90,6 +22,10 @@
         .nav-btn.active {
             background: #9C27B0;
             color: white;
+        }
+
+        .button-container {
+            padding: 10px 10px 6px 10px;
         }
         
         /* Audio section in top bar */
@@ -117,44 +53,27 @@
         }
         
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            padding: 170px 10px 25px 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-height: 100vh;
+            padding: 170px 10px 60px 10px;
         }
-        .section-container {
-            margin-bottom: 10px;
-        }
-        .test-description {
-            background: #f3e5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #6A1B9A;
-            text-align: center;
-            border-left: 4px solid #9C27B0;
-        }
+
         .blanks-container {
             background: #fafafa;
-            padding: 30px;
+            padding: 10px 10px;
             border-radius: 8px;
             border-left: 4px solid #9C27B0;
-            margin-bottom: 25px;
+            margin-bottom: 0;
+            max-height: calc(100vh - 240px);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
-        .blanks-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
+        
+        .blanks-container::-webkit-scrollbar {
+            display: none;
         }
+
         .passage-text {
-            line-height: 2;
+            line-height: 1.6;
             font-size: 16px;
             color: #333;
             margin-bottom: 10px;
@@ -237,153 +156,26 @@
         .correct-answer.show {
             display: block;
         }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 18px;
-        }
-        .error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #c62828;
-            border-radius: 4px;
-        }
-        
-        /* ===== BOTTOM BAR ===== */
-        .button-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
-            padding: 6px 10px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            z-index: 1000;
-        }
+
         .submit-btn {
-            padding: 6px 20px;
             background: #9C27B0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
         }
         .submit-btn:hover {
             background: #7B1FA2;
         }
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
+
         .retry-btn {
-            display: none;
-            padding: 6px 20px;
             background: #FF9800;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
         }
         .retry-btn:hover {
             background: #F57C00;
         }
-        .retry-btn.show {
-            display: inline-block;
-        }
-        .top-btn {
-            padding: 6px 20px;
-            background: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .top-btn:hover {
-            background: #388e3c;
-        }
-        
-        /* Popup Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s;
-        }
-        .modal.show {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            animation: slideIn 0.3s;
-        }
-        .modal-content .emoji {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-        .modal-content .message {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .modal-content .score {
-            font-size: 48px;
-            color: #4CAF50;
-            margin: 20px 0;
-            font-weight: 700;
-        }
-        .modal-content .percentage {
-            font-size: 24px;
-            color: #666;
-            margin-bottom: 30px;
-        }
+
         .modal-close-btn {
-            padding: 15px 50px;
             background: #9C27B0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
         }
         .modal-close-btn:hover {
             background: #7B1FA2;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
         
         @media (max-width: 768px) {
@@ -410,10 +202,10 @@
     <!-- ===== TOP BAR (FIXED) ===== -->
     <div class="top-bar" id="topBar">
         <div class="header">
-            <h1>✏️ Section 3: Listen and fill in the blanks</h1>
+            <h1>✍️ Section 3: Listen and fill in the blanks</h1>
             <div class="font-controls">
-                <button onclick="changeFontSize(1)">A+</button>
-                <button onclick="changeFontSize(-1)">A−</button>
+                <button>A+</button>
+                <button>A−</button>
             </div>
         </div>
         <div class="navigation" id="navigation" style="display: none;"></div>
@@ -438,7 +230,7 @@
         <div class="button-container">
             <button class="submit-btn" id="submitBtn" style="display: none;">Nộp bài</button>
             <button class="retry-btn" id="retryBtn">Làm lại</button>
-            <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+            <button class="top-btn">Về đầu trang</button>
         </div>
     </div>
 
@@ -453,234 +245,214 @@
         </div>
     </div>
 
+    <!-- Load Modules -->
+    <script src="state-manager.js"></script>
+    <script src="json-loader.js"></script>
+    <script src="modal-manager.js"></script>
+    <script src="font-controller.js"></script>
+    <script src="scroll-controller.js"></script>
+    <script src="navigation.js"></script>
+    <script src="retry-handler.js"></script>
+    <script src="score-calculator.js"></script>
+
     <script>
-        let allSections = [];
-        let currentSectionIndex = 0;
-        let userAnswers = {};
-        let fontSize = 16; // Default font size for passage text
-        let blankFontSize = 15; // Default font size for blank inputs
+        // Listening Section 3 Specific Controller
+        const ListeningS3Controller = {
+            passageFontSize: 16,
+            blankFontSize: 15,
 
-        async function loadQuestions() {
-            try {
-                const response = await fetch('listening-s3-questions.json');
-                
-                if (!response.ok) {
-                    throw new Error('Không tìm thấy file listening-s3-questions.json');
-                }
-                
-                allSections = await response.json();
-                
-                document.getElementById('loading').style.display = 'none';
-                
-                if (allSections.length === 0) {
-                    throw new Error('File JSON không có dữ liệu');
-                }
-                
-                renderNavigation();
-                renderSection(0);
-                
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').innerHTML = `
-                    <strong>Lỗi:</strong> ${error.message}<br>
-                    <small>Hãy đảm bảo file "listening-s3-questions.json" nằm cùng thư mục với file HTML này.</small>
-                `;
-                console.error('Error loading JSON:', error);
-            }
-        }
-
-        function renderNavigation() {
-            if (allSections.length <= 1) return;
-            
-            const navDiv = document.getElementById('navigation');
-            navDiv.style.display = 'flex';
-            navDiv.innerHTML = allSections.map((section, idx) => `
-                <button class="nav-btn ${idx === 0 ? 'active' : ''}" onclick="switchSection(${idx})">
-                    Test ${idx + 1}
-                </button>
-            `).join('');
-        }
-
-        function switchSection(index) {
-            currentSectionIndex = index;
-            renderSection(index);
-            
-            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === index);
-            });
-        }
-
-        function renderSection(index) {
-            const section = allSections[index];
-            userAnswers = {};
-            
-            // Update audio source
-            const audioSource = document.getElementById('audioSource');
-            const audioPlayer = document.getElementById('audioPlayer');
-            audioSource.src = section.audio;
-            audioPlayer.load();
-            
-            const container = document.getElementById('sectionsContainer');
-            container.style.display = 'block';
-            
-            // Generate passage HTML with inline input blanks
-            let passageHTML = '';
-            if (section.passage) {
-                passageHTML = section.passage;
-                // Replace (1) ......, (2) ......, etc. with input fields
-                passageHTML = passageHTML.replace(/\((\d+)\)\s*\.{2,}/g, (match, num) => {
-                    const blankIndex = parseInt(num) - 1;
-                    return `<input type="text" 
-                                   class="passage-blank" 
-                                   id="blank-${index}-${blankIndex}"
-                                   placeholder="(${num})"
-                                   autocomplete="off"
-                                   oninput="handleInput(${index}, ${blankIndex}, this.value)">`;
+            async init() {
+                StateManager.init();
+                ModalManager.init();
+                FontController.init({
+                    fontSize: this.passageFontSize,
+                    optionFontSize: this.blankFontSize,
+                    explanationFontSize: 14
                 });
-            }
-            
-            container.innerHTML = `
-                <div class="section-container">
-                    
-                    <div class="blanks-container">
-                        ${passageHTML ? `<div class="passage-text">${passageHTML}</div>` : ''}
-                        ${section.blanks.map((blank, idx) => `
-                            <div class="blank-item" style="${passageHTML ? 'display:none;' : ''}">
-                                <div class="blank-number">${idx + 1}.</div>
-                                <input type="text" 
-                                       class="blank-input" 
-                                       id="blank-fallback-${index}-${idx}"
-                                       placeholder="Type your answer here..."
+                ScrollController.setupScrollButton();
+                this.setupEventHandlers();
+                await this.loadQuestions();
+            },
+
+            setupEventHandlers() {
+                RetryHandler.setupRetryButton(() => this.handleRetry());
+                
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', () => this.handleSubmit());
+                }
+
+                // Font size controls
+                const fontBtns = document.querySelectorAll('.font-controls button');
+                if (fontBtns[0]) fontBtns[0].addEventListener('click', () => this.changeFontSize(1));
+                if (fontBtns[1]) fontBtns[1].addEventListener('click', () => this.changeFontSize(-1));
+            },
+
+            async loadQuestions() {
+                try {
+                    JSONLoader.showLoading();
+                    const sections = await JSONLoader.loadQuestions('listening-s3-questions.json');
+                    StateManager.setSections(sections);
+                    JSONLoader.hideLoading();
+                    Navigation.renderNavigation(sections, (index) => this.switchSection(index));
+                    this.renderSection(0);
+                } catch (error) {
+                    JSONLoader.hideLoading();
+                    JSONLoader.showError(error, 'listening-s3-questions.json');
+                }
+            },
+
+            switchSection(index) {
+                StateManager.setCurrentSectionIndex(index);
+                StateManager.clearUserAnswers();
+                Navigation.updateActiveButton(index);
+                this.renderSection(index);
+                ScrollController.scrollToTop();
+            },
+
+            renderSection(index) {
+                const section = StateManager.allSections[index];
+                StateManager.clearUserAnswers();
+                
+                // Update audio source
+                const audioSource = document.getElementById('audioSource');
+                const audioPlayer = document.getElementById('audioPlayer');
+                audioSource.src = section.audio;
+                audioPlayer.load();
+                
+                const container = document.getElementById('sectionsContainer');
+                container.style.display = 'block';
+                
+                // Generate passage HTML with inline input blanks
+                let passageHTML = '';
+                if (section.passage) {
+                    passageHTML = section.passage;
+                    passageHTML = passageHTML.replace(/\((\d+)\)\s*\.{2,}/g, (match, num) => {
+                        const blankIndex = parseInt(num) - 1;
+                        return `<input type="text" 
+                                       class="passage-blank" 
+                                       id="blank-${index}-${blankIndex}"
+                                       placeholder="(${num})"
                                        autocomplete="off"
-                                       oninput="handleInput(${index}, ${idx}, this.value)">
-                                <div class="correct-answer" id="answer-${index}-${idx}">✓ ${blank}</div>
-                            </div>
-                        `).join('')}
+                                       oninput="ListeningS3Controller.handleInput(${index}, ${blankIndex}, this.value)">`;
+                    });
+                }
+                
+                container.innerHTML = `
+                    <div class="section-container">
+                        <div class="blanks-container">
+                            ${passageHTML ? `<div class="passage-text">${passageHTML}</div>` : ''}
+                            ${section.blanks.map((blank, idx) => `
+                                <div class="blank-item" style="${passageHTML ? 'display:none;' : ''}">
+                                    <div class="blank-number">${idx + 1}.</div>
+                                    <input type="text" 
+                                           class="blank-input" 
+                                           id="blank-fallback-${index}-${idx}"
+                                           placeholder="Type your answer here..."
+                                           autocomplete="off"
+                                           oninput="ListeningS3Controller.handleInput(${index}, ${idx}, this.value)">
+                                    <div class="correct-answer" id="answer-${index}-${idx}">✓ ${blank}</div>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
-                </div>
-            `;
-            
-            document.getElementById('submitBtn').style.display = 'inline-block';
-            document.getElementById('retryBtn').classList.remove('show');
-        }
-
-        function handleInput(sectionIdx, blankIdx, value) {
-            const key = `${sectionIdx}-${blankIdx}`;
-            userAnswers[key] = value.trim();
-        }
-
-        function normalizeAnswer(text) {
-            return text.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
-        }
-
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            const section = allSections[currentSectionIndex];
-            const totalBlanks = section.blanks.length;
-            
-            let answeredCount = 0;
-            for (let i = 0; i < totalBlanks; i++) {
-                const key = `${currentSectionIndex}-${i}`;
-                if (userAnswers[key] && userAnswers[key] !== '') answeredCount++;
-            }
-            
-            if (answeredCount < totalBlanks) {
-                alert('Vui lòng điền tất cả các ô trống!');
-                return;
-            }
-
-            let score = 0;
-            
-            section.blanks.forEach((correctAnswer, blankIdx) => {
-                const key = `${currentSectionIndex}-${blankIdx}`;
-                const userAns = userAnswers[key] || '';
+                `;
                 
-                const normalizedUser = normalizeAnswer(userAns);
-                const normalizedCorrect = normalizeAnswer(correctAnswer);
-                const isCorrect = normalizedUser === normalizedCorrect;
-                
-                if (isCorrect) score++;
+                RetryHandler.showSubmitButton();
+                RetryHandler.hideRetryButton();
+                this.applyFontSize();
+            },
 
-                const inputElem = document.getElementById(`blank-${currentSectionIndex}-${blankIdx}`);
-                const answerElem = document.getElementById(`answer-${currentSectionIndex}-${blankIdx}`);
+            handleInput(sectionIdx, blankIdx, value) {
+                const key = `${sectionIdx}-${blankIdx}`;
+                StateManager.userAnswers[key] = value.trim();
+            },
+
+            normalizeAnswer(text) {
+                return text.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+            },
+
+            handleSubmit() {
+                const section = StateManager.getCurrentSection();
+                const totalBlanks = section.blanks.length;
+                const sectionIdx = StateManager.currentSectionIndex;
                 
-                if (inputElem) {
-                    inputElem.disabled = true;
+                let answeredCount = 0;
+                for (let i = 0; i < totalBlanks; i++) {
+                    const key = `${sectionIdx}-${i}`;
+                    if (StateManager.userAnswers[key] && StateManager.userAnswers[key] !== '') answeredCount++;
+                }
+                
+                if (answeredCount < totalBlanks) {
+                    alert('Vui lòng điền tất cả các ô trống!');
+                    return;
+                }
+
+                let score = 0;
+                
+                section.blanks.forEach((correctAnswer, blankIdx) => {
+                    const key = `${sectionIdx}-${blankIdx}`;
+                    const userAns = StateManager.userAnswers[key] || '';
                     
-                    if (isCorrect) {
-                        inputElem.classList.add('correct');
-                        inputElem.classList.remove('incorrect');
-                    } else {
-                        inputElem.classList.add('incorrect');
-                        inputElem.classList.remove('correct');
-                        // Show correct answer next to the input
-                        if (section.passage) {
-                            inputElem.insertAdjacentHTML('afterend', 
-                                `<span style="color: #4CAF50; font-weight: 600; margin-left: 5px;">✓ ${correctAnswer}</span>`);
+                    const normalizedUser = this.normalizeAnswer(userAns);
+                    const normalizedCorrect = this.normalizeAnswer(correctAnswer);
+                    const isCorrect = normalizedUser === normalizedCorrect;
+                    
+                    if (isCorrect) score++;
+
+                    const inputElem = document.getElementById(`blank-${sectionIdx}-${blankIdx}`);
+                    const answerElem = document.getElementById(`answer-${sectionIdx}-${blankIdx}`);
+                    
+                    if (inputElem) {
+                        inputElem.disabled = true;
+                        
+                        if (isCorrect) {
+                            inputElem.classList.add('correct');
+                            inputElem.classList.remove('incorrect');
+                        } else {
+                            inputElem.classList.add('incorrect');
+                            inputElem.classList.remove('correct');
+                            if (section.passage) {
+                                inputElem.insertAdjacentHTML('afterend', 
+                                    `<span style="color: #4CAF50; font-weight: 600; margin-left: 5px;">✓ ${correctAnswer}</span>`);
+                            }
                         }
                     }
-                }
+                    
+                    if (answerElem && !isCorrect) {
+                        answerElem.classList.add('show');
+                    }
+                });
+
+                ScoreCalculator.displayResult(score, totalBlanks);
+                RetryHandler.hideSubmitButton();
+                RetryHandler.showRetryButton();
+            },
+
+            handleRetry() {
+                StateManager.clearUserAnswers();
+                this.renderSection(StateManager.currentSectionIndex);
+                ScrollController.scrollToTop();
+            },
+
+            changeFontSize(delta) {
+                this.passageFontSize += delta;
+                this.blankFontSize += delta;
+                this.applyFontSize();
+            },
+
+            applyFontSize() {
+                document.querySelectorAll('.passage-text').forEach(e => {
+                    e.style.fontSize = this.passageFontSize + 'px';
+                });
                 
-                // For fallback list view
-                if (answerElem && !isCorrect) {
-                    answerElem.classList.add('show');
-                }
-            });
-
-            const percentage = Math.round((score / totalBlanks) * 100);
-            
-            let emoji = '🎉';
-            let message = 'Xuất sắc!';
-            if (percentage < 50) {
-                emoji = '📚';
-                message = 'Cố gắng lên!';
-            } else if (percentage < 80) {
-                emoji = '👍';
-                message = 'Khá tốt!';
+                document.querySelectorAll('.passage-blank, .blank-input').forEach(e => {
+                    e.style.fontSize = this.blankFontSize + 'px';
+                });
             }
-            
-            // Show result in popup modal
-            document.getElementById('resultEmoji').textContent = emoji;
-            document.getElementById('resultMessage').textContent = message;
-            document.getElementById('resultScore').textContent = `${score}/${totalBlanks}`;
-            document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
-            document.getElementById('resultModal').classList.add('show');
-            
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('retryBtn').classList.add('show');
-        });
+        };
 
-        // Close modal
-        document.getElementById('modalCloseBtn').addEventListener('click', () => {
-            document.getElementById('resultModal').classList.remove('show');
-        });
-
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            userAnswers = {};
-            renderSection(currentSectionIndex);
-            window.scrollTo(0, 0);
-        });
-
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Change font size function
-        function changeFontSize(delta) {
-            fontSize += delta;
-            blankFontSize += delta;
-            
-            document.querySelectorAll('.passage-text').forEach(e => {
-                e.style.fontSize = fontSize + 'px';
-            });
-            
-            document.querySelectorAll('.passage-blank, .blank-input').forEach(e => {
-                e.style.fontSize = blankFontSize + 'px';
-            });
-        }
-
-        window.addEventListener('load', loadQuestions);
+        window.addEventListener('load', () => ListeningS3Controller.init());
     </script>
 </body>
 </html>

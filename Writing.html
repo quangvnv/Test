@@ -5,166 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Writing Test - Sentence Rewriting</title>
 
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="styles-common.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            line-height: 1.6;
-        }
-
-        /* ===== TOP BAR (FIXED) ===== */
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            z-index: 1000;
-            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
-            padding: 6px 10px;
-        }
-
-        .header {
-            position: relative;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-
-        /* Font size controls */
-        .font-controls {
-            position: absolute;
-            right: 10px;
-            top: 0;
-        }
-
-        .font-controls button {
-            padding: 2px 6px;
-            font-size: 14px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-        }
-
-        .font-controls button:hover {
-            background: #f0f0f0;
-        }
-
-        /* Test navigation */
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 6px;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            padding: 6px 16px;
-            font-size: 14px;
-            background: #e3f2fd;
-            border: 2px solid #2196F3;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #2196F3;
-            transition: all 0.3s;
-        }
-
+        /* Writing Test Specific Styles */
         .nav-btn.active {
             background: #9c27b0;
             color: white;
             border-color: #9c27b0;
         }
 
-        /* Popup Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s;
-        }
-        .modal.show {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 300px;
-            width: 85%;
-            animation: slideIn 0.3s;
-        }
-        .modal-content .emoji {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-        .modal-content .message {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .modal-content .score {
-            font-size: 48px;
-            color: #4CAF50;
-            margin: 20px 0;
-            font-weight: 700;
-        }
-        .modal-content .percentage {
-            font-size: 24px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .modal-close-btn {
-            padding: 15px 50px;
-            background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .modal-close-btn:hover {
-            background: #1976D2;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* ===== MAIN CONTAINER ===== */
-        .container {
-            max-width: 1400px;
-            margin: auto;
-            background: white;
-            padding: 100px 15px 80px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .button-container {
+            padding: 10px 10px 6px 10px;
         }
 
         /* ===== QUESTIONS ===== */
@@ -264,67 +117,14 @@
             color: #721c24;
         }
 
-        /* ===== BOTTOM BAR ===== */
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
-            padding: 6px 6px 5px 6px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            z-index: 1000;
-        }
-
-        .bottom-bar button {
-            padding: 6px 20px;
-            font-size: 14px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .bottom-bar button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
         .submit-btn {
             background: #9c27b0;
         }
 
-        .retry-btn {
-            background: #2196F3;
-            display: none;
+        .submit-btn:hover {
+            background: #7b1fa2;
         }
 
-        .top-btn {
-            background: #4caf50;
-        }
-
-        .loading {
-            text-align: center;
-            font-size: 18px;
-            color: #666;
-        }
-
-        /* ===== ẨN SCROLLBAR TOÀN TRANG, VẪN CUỘN ===== */
-        html, body {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Result icons */
         .result-icon {
             display: inline-block;
             margin-left: 10px;
@@ -338,10 +138,10 @@
 <!-- ===== TOP BAR ===== -->
 <div class="top-bar">
     <div class="header">
-        <h1>✏️ Writing Test: Rewrite the sentences</h1>
+        <h1>✍️ Writing Test: Rewrite the sentences</h1>
         <div class="font-controls">
-            <button onclick="changeFontSize(1)">A+</button>
-            <button onclick="changeFontSize(-1)">A−</button>
+            <button>A+</button>
+            <button>A−</button>
         </div>
     </div>
     <div id="navigation" class="navigation"></div>
@@ -350,14 +150,14 @@
 <!-- ===== CONTENT ===== -->
 <div class="container">
     <div id="loading" class="loading">Đang tải đề...</div>
-    <div id="questionsContainer"></div>
+    <div id="sectionsContainer"></div>
 </div>
 
 <!-- ===== BOTTOM BAR ===== -->
-<div class="bottom-bar">
+<div class="button-container">
     <button id="submitBtn" class="submit-btn">Chấm điểm</button>
     <button id="retryBtn" class="retry-btn">Làm lại</button>
-    <button class="top-btn" onclick="scrollToTop()">Về đầu trang</button>
+    <button class="top-btn">Về đầu trang</button>
 </div>
 
 <!-- Result Popup Modal -->
@@ -371,277 +171,260 @@
     </div>
 </div>
 
+<!-- Load Modules -->
+<script src="state-manager.js"></script>
+<script src="json-loader.js"></script>
+<script src="modal-manager.js"></script>
+<script src="font-controller.js"></script>
+<script src="scroll-controller.js"></script>
+<script src="navigation.js"></script>
+<script src="retry-handler.js"></script>
+<script src="score-calculator.js"></script>
+
 <script>
-    let allSections = [];
-    let currentSectionIndex = 0;
-    let fontSize = 18;
-    const DOTS_LENGTH = 50;
+    // Writing Test Specific Controller
+    const WritingController = {
+        DOTS_LENGTH: 50,
 
-    async function loadQuestions() {
-        try {
-            const res = await fetch('writing-questions.json');
-            allSections = await res.json();
+        async init() {
+            StateManager.init();
+            ModalManager.init();
+            FontController.init({
+                fontSize: 18,
+                optionFontSize: 18,
+                explanationFontSize: 16
+            });
+            ScrollController.setupScrollButton();
+            this.setupEventHandlers();
+            await this.loadQuestions();
+        },
 
-            document.getElementById('loading').style.display = 'none';
+        setupEventHandlers() {
+            RetryHandler.setupRetryButton(() => this.handleRetry());
+            
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', () => this.handleSubmit());
+            }
 
-            if (allSections.length > 1) renderNavigation();
-            renderSection(0);
-        } catch (error) {
-            document.getElementById('loading').innerHTML = 'Lỗi: Không tìm thấy file writing-questions.json';
-            console.error('Error loading questions:', error);
-        }
-    }
+            // Font size controls
+            const fontBtns = document.querySelectorAll('.font-controls button');
+            if (fontBtns[0]) fontBtns[0].addEventListener('click', () => this.changeFontSize(1));
+            if (fontBtns[1]) fontBtns[1].addEventListener('click', () => this.changeFontSize(-1));
+        },
 
-    function renderNavigation() {
-        const nav = document.getElementById('navigation');
-        nav.innerHTML = allSections.map((_, i) =>
-            `<button class="nav-btn ${i === 0 ? 'active' : ''}"
-                onclick="switchSection(${i})">Test ${i + 1}</button>`
-        ).join('');
-    }
+        async loadQuestions() {
+            try {
+                JSONLoader.showLoading();
+                const sections = await JSONLoader.loadQuestions('writing-questions.json');
+                StateManager.setSections(sections);
+                JSONLoader.hideLoading();
+                Navigation.renderNavigation(sections, (index) => this.switchSection(index));
+                this.renderSection(0);
+            } catch (error) {
+                JSONLoader.hideLoading();
+                JSONLoader.showError(error, 'writing-questions.json');
+            }
+        },
 
-    function switchSection(index) {
-        currentSectionIndex = index;
-        renderSection(index);
+        switchSection(index) {
+            StateManager.setCurrentSectionIndex(index);
+            Navigation.updateActiveButton(index);
+            this.renderSection(index);
+            ScrollController.scrollToTop();
+        },
 
-        document.querySelectorAll('.nav-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', i === index);
-        });
-    }
+        getEndingPunctuation(sentence) {
+            const trimmed = sentence.trim();
+            const lastChar = trimmed[trimmed.length - 1];
+            
+            if (['.', '?', '!', ',', ';', ':'].includes(lastChar)) {
+                return lastChar;
+            }
+            return '.';
+        },
 
-    function getEndingPunctuation(sentence) {
-        const trimmed = sentence.trim();
-        const lastChar = trimmed[trimmed.length - 1];
-        
-        if (['.', '?', '!', ',', ';', ':'].includes(lastChar)) {
-            return lastChar;
-        }
-        return '.';
-    }
+        normalizeText(text) {
+            return text.trim().toLowerCase()
+                .replace(/\s+/g, ' ')
+                .replace(/['']/g, "'")
+                .replace(/[""]/g, '"')
+                .replace(/[.!,;:]+$/, '');
+        },
 
-    function normalizeText(text) {
-        return text.trim().toLowerCase()
-            .replace(/\s+/g, ' ')
-            .replace(/['']/g, "'")
-            .replace(/[""]/g, '"')
-            .replace(/[.!,;:]+$/, ''); // Remove ending punctuation except ?
-    }
-
-    function checkAnswer(userAnswer, starterWord, suggestedAnswer) {
-        // Normalize all inputs
-        const normalizedUser = normalizeText(userAnswer);
-        const normalizedStarter = normalizeText(starterWord);
-        const normalizedSuggested = normalizeText(suggestedAnswer);
-        
-        // Check if user answer matches the full suggested answer
-        if (normalizedUser === normalizedSuggested) {
-            return true;
-        }
-        
-        // Check if user answer is the completion part (without starter word)
-        // Remove starter word from suggested answer to get the completion
-        if (normalizedSuggested.startsWith(normalizedStarter)) {
-            const completion = normalizedSuggested.substring(normalizedStarter.length).trim();
-            if (normalizedUser === completion) {
+        checkAnswer(userAnswer, starterWord, suggestedAnswer) {
+            const normalizedUser = this.normalizeText(userAnswer);
+            const normalizedStarter = this.normalizeText(starterWord);
+            const normalizedSuggested = this.normalizeText(suggestedAnswer);
+            
+            if (normalizedUser === normalizedSuggested) {
                 return true;
             }
-        }
-        
-        return false;
-    }
-
-    function renderSection(index) {
-        const container = document.getElementById('questionsContainer');
-        container.innerHTML = '';
-
-        const section = allSections[index];
-
-        section.questions.forEach((q, qIdx) => {
-            const starterWord = q.incompleteSentence.split(/\.{3,}/)[0].trim();
-            const endPunctuation = getEndingPunctuation(q.originalSentence);
-            const dots = '.'.repeat(DOTS_LENGTH);
-
-            const div = document.createElement('div');
-            div.className = 'question';
-            div.setAttribute('data-starter', starterWord);
-
-            div.innerHTML = `
-                <div class="question-text">
-                    <span class="question-number">${qIdx + 1}.</span>
-                    ${q.originalSentence}
-                </div>
-
-                <div class="starter-word">
-                    ${starterWord}<span class="dots">${dots}</span>${endPunctuation}
-                </div>
-
-                <input type="text" class="answer-input" data-question-index="${qIdx}">
-
-                <div class="answer-feedback">
-                    <div class="user-answer-display">
-                        Câu trả lời của bạn: <span class="user-answer-text"></span>
-                    </div>
-                    ${q.suggestedAnswer && q.suggestedAnswer.length > 0 
-                        ? q.suggestedAnswer.map((ans, idx) => 
-                            `<div class="suggested-answer" data-answer="${ans}">
-                                Đáp án gợi ý ${q.suggestedAnswer.length > 1 ? (idx + 1) + ': ' : ': '}${ans}
-                            </div>`
-                          ).join('')
-                        : '<div class="suggested-answer">Đáp án gợi ý: —</div>'
-                    }
-                </div>
-            `;
-
-            container.appendChild(div);
-        });
-
-        document.getElementById('submitBtn').style.display = 'inline-block';
-        document.getElementById('retryBtn').style.display = 'none';
-    }
-
-    // 👉 CHẤM ĐIỂM
-    document.getElementById('submitBtn').addEventListener('click', () => {
-        const inputs = document.querySelectorAll('.answer-input');
-        let allAnswered = true;
-
-        inputs.forEach(input => {
-            if (input.value.trim() === '') {
-                allAnswered = false;
+            
+            if (normalizedSuggested.startsWith(normalizedStarter)) {
+                const completion = normalizedSuggested.substring(normalizedStarter.length).trim();
+                if (normalizedUser === completion) {
+                    return true;
+                }
             }
-        });
+            
+            return false;
+        },
 
-        if (!allAnswered) {
-            alert('Vui lòng hoàn thành tất cả các câu trước khi chấm điểm.');
-            return;
-        }
+        renderSection(index) {
+            const container = document.getElementById('sectionsContainer');
+            container.innerHTML = '';
+            container.style.display = 'block';
 
-        let correctCount = 0;
-        let totalQuestions = inputs.length;
+            const section = StateManager.allSections[index];
 
-        inputs.forEach((input, index) => {
-            input.disabled = true;
-            
-            const userAnswer = input.value.trim();
-            const questionDiv = input.parentElement;
-            const starterWord = questionDiv.getAttribute('data-starter');
-            const feedback = questionDiv.querySelector('.answer-feedback');
-            const suggestedAnswers = feedback.querySelectorAll('.suggested-answer');
-            const userAnswerDisplay = feedback.querySelector('.user-answer-text');
-            
-            // Display user's answer
-            userAnswerDisplay.textContent = userAnswer;
-            
-            let hasMatch = false;
-            
-            suggestedAnswers.forEach(suggestedDiv => {
-                const correctAnswer = suggestedDiv.getAttribute('data-answer');
-                if (correctAnswer && correctAnswer !== '—') {
-                    // Check if user answer matches (with flexible checking)
-                    if (checkAnswer(userAnswer, starterWord, correctAnswer)) {
-                        hasMatch = true;
-                        suggestedDiv.classList.add('correct');
-                    } else {
-                        suggestedDiv.classList.add('incorrect');
-                    }
+            section.questions.forEach((q, qIdx) => {
+                const starterWord = q.incompleteSentence.split(/\.{3,}/)[0].trim();
+                const endPunctuation = this.getEndingPunctuation(q.originalSentence);
+                const dots = '.'.repeat(this.DOTS_LENGTH);
+
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.setAttribute('data-starter', starterWord);
+
+                div.innerHTML = `
+                    <div class="question-text">
+                        <span class="question-number">${qIdx + 1}.</span>
+                        ${q.originalSentence}
+                    </div>
+
+                    <div class="starter-word">
+                        ${starterWord}<span class="dots">${dots}</span>${endPunctuation}
+                    </div>
+
+                    <input type="text" class="answer-input" data-question-index="${qIdx}">
+
+                    <div class="answer-feedback">
+                        <div class="user-answer-display">
+                            Câu trả lời của bạn: <span class="user-answer-text"></span>
+                        </div>
+                        ${q.suggestedAnswer && q.suggestedAnswer.length > 0 
+                            ? q.suggestedAnswer.map((ans, idx) => 
+                                `<div class="suggested-answer" data-answer="${ans}">
+                                    Đáp án gợi ý ${q.suggestedAnswer.length > 1 ? (idx + 1) + ': ' : ': '}${ans}
+                                </div>`
+                              ).join('')
+                            : '<div class="suggested-answer">Đáp án gợi ý: —</div>'
+                        }
+                    </div>
+                `;
+
+                container.appendChild(div);
+            });
+
+            RetryHandler.showSubmitButton();
+            RetryHandler.hideRetryButton();
+            FontController.applyFontSize();
+        },
+
+        handleSubmit() {
+            const inputs = document.querySelectorAll('.answer-input');
+            let allAnswered = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    allAnswered = false;
                 }
             });
 
-            // Mark the question and input
-            if (hasMatch) {
-                correctCount++;
-                input.classList.add('correct');
-                questionDiv.classList.add('correct-answer');
-                questionDiv.querySelector('.question-number').innerHTML += ' <span class="result-icon">✓</span>';
-            } else {
-                input.classList.add('incorrect');
-                questionDiv.classList.add('incorrect-answer');
-                questionDiv.querySelector('.question-number').innerHTML += ' <span class="result-icon">✗</span>';
+            if (!allAnswered) {
+                alert('Vui lòng hoàn thành tất cả các câu trước khi chấm điểm.');
+                return;
             }
-        });
 
-        // Show all feedback
-        document.querySelectorAll('.answer-feedback').forEach(fb => {
-            fb.style.display = 'block';
-        });
+            let correctCount = 0;
+            let totalQuestions = inputs.length;
 
-        // Calculate percentage and show popup
-        const percentage = Math.round((correctCount / totalQuestions) * 100);
-        
-        let emoji = '🎉';
-        let message = 'Xuất sắc!';
-        if (percentage < 50) {
-            emoji = '📚';
-            message = 'Cố gắng lên!';
-        } else if (percentage < 80) {
-            emoji = '👍';
-            message = 'Khá tốt!';
+            inputs.forEach((input, index) => {
+                input.disabled = true;
+                
+                const userAnswer = input.value.trim();
+                const questionDiv = input.parentElement;
+                const starterWord = questionDiv.getAttribute('data-starter');
+                const feedback = questionDiv.querySelector('.answer-feedback');
+                const suggestedAnswers = feedback.querySelectorAll('.suggested-answer');
+                const userAnswerDisplay = feedback.querySelector('.user-answer-text');
+                
+                userAnswerDisplay.textContent = userAnswer;
+                
+                let hasMatch = false;
+                
+                suggestedAnswers.forEach(suggestedDiv => {
+                    const correctAnswer = suggestedDiv.getAttribute('data-answer');
+                    if (correctAnswer && correctAnswer !== '—') {
+                        if (this.checkAnswer(userAnswer, starterWord, correctAnswer)) {
+                            hasMatch = true;
+                            suggestedDiv.classList.add('correct');
+                        } else {
+                            suggestedDiv.classList.add('incorrect');
+                        }
+                    }
+                });
+
+                if (hasMatch) {
+                    correctCount++;
+                    input.classList.add('correct');
+                    questionDiv.classList.add('correct-answer');
+                    questionDiv.querySelector('.question-number').innerHTML += ' <span class="result-icon">✓</span>';
+                } else {
+                    input.classList.add('incorrect');
+                    questionDiv.classList.add('incorrect-answer');
+                    questionDiv.querySelector('.question-number').innerHTML += ' <span class="result-icon">✗</span>';
+                }
+            });
+
+            document.querySelectorAll('.answer-feedback').forEach(fb => {
+                fb.style.display = 'block';
+            });
+
+            ScoreCalculator.displayResult(correctCount, totalQuestions);
+            RetryHandler.hideSubmitButton();
+            RetryHandler.showRetryButton();
+        },
+
+        handleRetry() {
+            document.querySelectorAll('.answer-input').forEach(input => {
+                input.value = '';
+                input.disabled = false;
+                input.classList.remove('correct', 'incorrect');
+            });
+
+            document.querySelectorAll('.answer-feedback').forEach(fb => {
+                fb.style.display = 'none';
+            });
+
+            document.querySelectorAll('.suggested-answer').forEach(div => {
+                div.classList.remove('correct', 'incorrect');
+            });
+
+            document.querySelectorAll('.question').forEach(q => {
+                q.classList.remove('correct-answer', 'incorrect-answer');
+                const icon = q.querySelector('.result-icon');
+                if (icon) icon.remove();
+            });
+
+            RetryHandler.showSubmitButton();
+            RetryHandler.hideRetryButton();
+            ScrollController.scrollToTop();
+        },
+
+        changeFontSize(delta) {
+            FontController.changeFontSize(delta);
+            document.querySelectorAll('.question-text, .starter-word').forEach(e => {
+                e.style.fontSize = FontController.fontSize + 'px';
+            });
+            document.querySelectorAll('.answer-input').forEach(e => {
+                e.style.fontSize = (FontController.fontSize - 2) + 'px';
+            });
         }
-        
-        // Show result in popup modal
-        document.getElementById('resultEmoji').textContent = emoji;
-        document.getElementById('resultMessage').textContent = message;
-        document.getElementById('resultScore').textContent = `${correctCount}/${totalQuestions}`;
-        document.getElementById('resultPercentage').textContent = `Điểm số: ${percentage}%`;
-        document.getElementById('resultModal').classList.add('show');
+    };
 
-        document.getElementById('submitBtn').style.display = 'none';
-        document.getElementById('retryBtn').style.display = 'inline-block';
-    });
-
-    function getScoreMessage(percentage) {
-        if (percentage === 100) return 'Xuất sắc! 🎉';
-        if (percentage >= 80) return 'Tốt lắm! 👍';
-        if (percentage >= 60) return 'Khá! 😊';
-        if (percentage >= 40) return 'Cần cố gắng thêm! 💪';
-        return 'Hãy ôn lại và thử lại nhé! 📚';
-    }
-
-    // Close modal
-    document.getElementById('modalCloseBtn').addEventListener('click', () => {
-        document.getElementById('resultModal').classList.remove('show');
-    });
-
-    // 👉 LÀM LẠI
-    document.getElementById('retryBtn').addEventListener('click', () => {
-        document.querySelectorAll('.answer-input').forEach(input => {
-            input.value = '';
-            input.disabled = false;
-            input.classList.remove('correct', 'incorrect');
-        });
-
-        document.querySelectorAll('.answer-feedback').forEach(fb => {
-            fb.style.display = 'none';
-        });
-
-        document.querySelectorAll('.suggested-answer').forEach(div => {
-            div.classList.remove('correct', 'incorrect');
-        });
-
-        document.querySelectorAll('.question').forEach(q => {
-            q.classList.remove('correct-answer', 'incorrect-answer');
-            const icon = q.querySelector('.result-icon');
-            if (icon) icon.remove();
-        });
-
-        document.getElementById('submitBtn').style.display = 'inline-block';
-        document.getElementById('retryBtn').style.display = 'none';
-
-        scrollToTop();
-    });
-
-    // 👉 SCROLL TO TOP
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // 👉 CHANGE FONT SIZE
-    function changeFontSize(delta) {
-        fontSize += delta;
-        document.querySelectorAll('.question-text, .starter-word')
-            .forEach(e => e.style.fontSize = fontSize + 'px');
-    }
-
-    window.onload = loadQuestions;
+    window.addEventListener('load', () => WritingController.init());
 </script>
 
 </body>

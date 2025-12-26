@@ -104,35 +104,76 @@
             width: 100%;
         }
 
-        .section-header { text-align: center; margin-bottom: 15px; }
-        .section-header h1 { font-size: 1.8rem; color: #2c3e50; margin-bottom: 2px; }
+        .section-header { text-align: center; margin-bottom: 25px; }
+        .section-header h1 { font-size: 2.2rem; color: #2c3e50; margin-bottom: 5px; }
 
+        /* HOME GRID SỬA ĐỔI */
         .home-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 20px;
             width: 100%;
+        }
+
+        .home-card-container {
+            position: relative;
         }
 
         .home-card {
             background: #ffffff;
-            padding: 20px 15px;
-            border-radius: 8px;
+            padding: 30px 20px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
             cursor: pointer;
-            border-top: 4px solid #3498db;
+            border-top: 5px solid #3498db;
+            height: 100%;
         }
 
         .home-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        .card-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
-        .home-card h3 { color: #2c3e50; font-size: 1rem; margin-bottom: 5px; }
-        .home-card p { color: #636e72; font-size: 0.85rem; line-height: 1.3; }
+        /* Menu thả xuống cho Card */
+        .card-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            z-index: 10;
+            overflow: hidden;
+            border: 1px solid #eee;
+            margin-top: 2px;
+        }
+
+        .card-dropdown a {
+            display: block;
+            padding: 12px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .card-dropdown a:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .home-card-container.active .card-dropdown {
+            display: block;
+        }
+
+        .card-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+        .home-card h3 { color: #2c3e50; font-size: 1.2rem; margin-bottom: 8px; }
+        .home-card p { color: #636e72; font-size: 0.9rem; }
 
         /* HƯỚNG DẪN */
         .tutorial-box {
@@ -196,46 +237,56 @@
         <div id="home" class="content-section active">
             <div class="section-header">
                 <h1>English Platform</h1>
-                <p>Nâng cao kỹ năng Tiếng Anh của bạn mỗi ngày.</p>
+                <p>Chọn kỹ năng bạn muốn luyện tập hôm nay.</p>
             </div>
+            
+
+
             <div class="home-grid">
-                <div class="home-card" onclick="showContent('image-mcq')">
-                    <span class="card-icon">🖼️</span>
-                    <h3>Reading 1</h3>
-                    <p>Hình ảnh & Thông báo.</p>
+                <div class="home-card-container">
+                    <div class="home-card" onclick="toggleCardDropdown(this, event)">
+                        <span class="card-icon">📖</span>
+                        <h3>Reading</h3>
+                        <p>4 Sections đọc hiểu & ngữ pháp</p>
+                    </div>
+                    <div class="card-dropdown">
+                        <a href="#" onclick="changePage('image-mcq', event)">Section 1: Images</a>
+                        <a href="#" onclick="changePage('grammar-test', event)">Section 2: Grammar</a>
+                        <a href="#" onclick="changePage('reading-test', event)">Section 3: Comprehension</a>
+                        <a href="#" onclick="changePage('cloze-test', event)">Section 4: Cloze Test</a>
+                    </div>
                 </div>
-                <div class="home-card" onclick="showContent('grammar-test')">
-                    <span class="card-icon">⚖️</span>
-                    <h3>Reading 2</h3>
-                    <p>Ngữ pháp & Từ vựng.</p>
+
+                <div class="home-card-container">
+                    <div class="home-card" onclick="toggleCardDropdown(this, event)">
+                        <span class="card-icon">✍️</span>
+                        <h3>Writing</h3>
+                        <p>Luyện kỹ năng viết & diễn đạt</p>
+                    </div>
+                    <div class="card-dropdown">
+                        <a href="#" onclick="changePage('writing-test', event)">Writing Practice</a>
+                    </div>
                 </div>
-                <div class="home-card" onclick="showContent('reading-test')">
-                    <span class="card-icon">📖</span>
-                    <h3>Reading 3</h3>
-                    <p>Đọc hiểu văn bản.</p>
-                </div>
-                <div class="home-card" onclick="showContent('cloze-test')">
-                    <span class="card-icon">📝</span>
-                    <h3>Reading 4</h3>
-                    <p>Điền từ ngữ cảnh.</p>
-                </div>
-                <div class="home-card" onclick="showContent('writing-test')">
-                    <span class="card-icon">✍️</span>
-                    <h3>Writing</h3>
-                    <p>Viết lại câu & Diễn đạt.</p>
-                </div>
-                <div class="home-card" onclick="showContent('listening-section1')">
-                    <span class="card-icon">🎧</span>
-                    <h3>Listening</h3>
-                    <p>Nghe hiểu hội thoại.</p>
+
+                <div class="home-card-container">
+                    <div class="home-card" onclick="toggleCardDropdown(this, event)">
+                        <span class="card-icon">🎧</span>
+                        <h3>Listening</h3>
+                        <p>3 Sections nghe hiểu hội thoại</p>
+                    </div>
+                    <div class="card-dropdown">
+                        <a href="#" onclick="changePage('listening-section1', event)">Listening Section 1</a>
+                        <a href="#" onclick="changePage('listening-section2', event)">Listening Section 2</a>
+                        <a href="#" onclick="changePage('listening-section3', event)">Listening Section 3</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="tutorial" class="content-section">
             <div class="section-header">
-                <h1>⚙️ Cập Nhật Dữ Liệu Offline</h1>
-                <p>Thực hiện các bước sau để làm mới nội dung từ main.js</p>
+                <h1>⚙️ Hướng dẫn Cập nhật Dữ liệu</h1>
+                <p>Thực hiện các bước sau để cập nhật nội dung</p>
             </div>
             <div class="tutorial-box">
                 <div class="tutorial-step app">
@@ -268,25 +319,28 @@
     </div>
 
     <script>
-        // Đóng tất cả dropdowns
         function closeAllDropdowns() {
             document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            document.querySelectorAll('.home-card-container').forEach(c => c.classList.remove('active'));
         }
 
-        // Toggle dropdown khi bấm vào menu-item
         function toggleDropdown(element, event) {
-            event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+            event.stopPropagation();
             const parent = element.parentElement;
             const isOpen = parent.classList.contains('show');
-            
-            closeAllDropdowns(); // Đóng các cái khác trước
-            
-            if (!isOpen) {
-                parent.classList.add('show');
-            }
+            closeAllDropdowns();
+            if (!isOpen) parent.classList.add('show');
         }
 
-        // Chuyển trang từ submenu
+        // Toggle dropdown cho các Card ở trang chủ
+        function toggleCardDropdown(element, event) {
+            event.stopPropagation();
+            const container = element.parentElement;
+            const isOpen = container.classList.contains('active');
+            closeAllDropdowns();
+            if (!isOpen) container.classList.add('active');
+        }
+
         function changePage(sectionId, event) {
             event.preventDefault();
             event.stopPropagation();
@@ -294,35 +348,30 @@
             closeAllDropdowns();
         }
 
-        // Hiển thị nội dung
         function showContent(sectionId) {
-            // Ẩn tất cả section
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            // Bỏ active highlight ở navbar
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
             
-            // Hiện section mục tiêu
             const target = document.getElementById(sectionId);
             if (target) target.classList.add('active');
 
-            // Highlight menu tương ứng nếu là Trang chủ hoặc Hướng dẫn
             if(sectionId === 'home') document.getElementById('menu-home').classList.add('active');
             if(sectionId === 'tutorial') document.getElementById('menu-tutorial').classList.add('active');
             
             closeAllDropdowns();
         }
 
-        // SỰ KIỆN QUAN TRỌNG: Bấm ra ngoài menu sẽ đóng menu
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown')) {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.home-card-container')) {
                 closeAllDropdowns();
             }
         });
 
-        // Hỗ trợ đóng menu khi chuột đi vào vùng Iframe (vì click vào iframe không truyền sự kiện ra ngoài)
         document.querySelectorAll('iframe').forEach(iframe => {
             iframe.addEventListener('mouseenter', closeAllDropdowns);
         });
+
+
     </script>
 </body>
 </html>

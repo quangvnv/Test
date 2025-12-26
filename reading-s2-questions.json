@@ -1,0 +1,320 @@
+[
+  {
+    "id": "section1",
+    "title": "SECTION 1",
+    "questions": [
+      {
+        "question": "He………… her two years before we met.",
+        "options": [
+          "married",
+          "had married",
+          "had been married",
+          "has married"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Mr. McGuinness is from Ireland, …...........?",
+        "options": [
+          "isn't he",
+          "is he",
+          "does he",
+          "doesn't he"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Ted's flight from Amsterdam took more than 11 hours. He ….. be exhausted after such a long flight.",
+        "options": [
+          "could",
+          "should",
+          "can",
+          "must"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "With the cost of airfare so high, in-flight meals …... be free.",
+        "options": [
+          "need",
+          "have to",
+          "ought to",
+          "might"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "The students enjoy …........ by such an exciting new teacher.",
+        "options": [
+          "being taught",
+          "be taught",
+          "to be taught",
+          "to been taught"
+        ],
+        "answer": 3
+      },
+      {
+        "question": "The entire valley can ……… from their mountain home.",
+        "options": [
+          "be seeing",
+          "to be seen",
+          "being seen",
+          "be seen"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "In parts of Anatolia, many different fruits are still dried ........... many people in the sun for consumption during winter.",
+        "options": [
+          "with",
+          "by",
+          "of",
+          "about"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "My phone ran out of …........., so I plugged it in to charge.",
+        "options": [
+          "satnav",
+          "microchips",
+          "usb stick",
+          "battery"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Knowing how to communicate …...... others is a necessary skill for future success.",
+        "options": [
+          "to",
+          "on",
+          "with",
+          "of"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Peter is …........ the job of a navy officer because he is brave and well disciplined.",
+        "options": [
+          "cut out for",
+          "take up",
+          "take to",
+          "find out"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "section2",
+    "title": "SECTION 2",
+    "questions": [
+      {
+        "question": "He………… her two years before we met.",
+        "options": [
+          "married",
+          "had married",
+          "had been married",
+          "has married"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Mr. McGuinness is from Ireland, …...........?",
+        "options": [
+          "isn't he",
+          "is he",
+          "does he",
+          "doesn't he"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Ted's flight from Amsterdam took more than 11 hours. He ….. be exhausted after such a long flight.",
+        "options": [
+          "could",
+          "should",
+          "can",
+          "must"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "With the cost of airfare so high, in-flight meals …... be free.",
+        "options": [
+          "need",
+          "have to",
+          "ought to",
+          "might"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "The students enjoy …........ by such an exciting new teacher.",
+        "options": [
+          "being taught",
+          "be taught",
+          "to be taught",
+          "to been taught"
+        ],
+        "answer": 3
+      },
+      {
+        "question": "The entire valley can ……… from their mountain home.",
+        "options": [
+          "be seeing",
+          "to be seen",
+          "being seen",
+          "be seen"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "In parts of Anatolia, many different fruits are still dried ........... many people in the sun for consumption during winter.",
+        "options": [
+          "with",
+          "by",
+          "of",
+          "about"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "My phone ran out of …........., so I plugged it in to charge.",
+        "options": [
+          "satnav",
+          "microchips",
+          "usb stick",
+          "battery"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Knowing how to communicate …...... others is a necessary skill for future success.",
+        "options": [
+          "to",
+          "on",
+          "with",
+          "of"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Peter is …........ the job of a navy officer because he is brave and well disciplined.",
+        "options": [
+          "cut out for",
+          "take up",
+          "take to",
+          "find out"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "section3",
+    "title": "SECTION 3",
+    "questions": [
+      {
+        "question": "He………… her two years before we met.",
+        "options": [
+          "married",
+          "had married",
+          "had been married",
+          "has married"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Mr. McGuinness is from Ireland, …...........?",
+        "options": [
+          "isn't he",
+          "is he",
+          "does he",
+          "doesn't he"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Ted's flight from Amsterdam took more than 11 hours. He ….. be exhausted after such a long flight.",
+        "options": [
+          "could",
+          "should",
+          "can",
+          "must"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "With the cost of airfare so high, in-flight meals …... be free.",
+        "options": [
+          "need",
+          "have to",
+          "ought to",
+          "might"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "The students enjoy …........ by such an exciting new teacher.",
+        "options": [
+          "being taught",
+          "be taught",
+          "to be taught",
+          "to been taught"
+        ],
+        "answer": 3
+      },
+      {
+        "question": "The entire valley can ……… from their mountain home.",
+        "options": [
+          "be seeing",
+          "to be seen",
+          "being seen",
+          "be seen"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "In parts of Anatolia, many different fruits are still dried ........... many people in the sun for consumption during winter.",
+        "options": [
+          "with",
+          "by",
+          "of",
+          "about"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "My phone ran out of …........., so I plugged it in to charge.",
+        "options": [
+          "satnav",
+          "microchips",
+          "usb stick",
+          "battery"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "Knowing how to communicate …...... others is a necessary skill for future success.",
+        "options": [
+          "to",
+          "on",
+          "with",
+          "of"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "Peter is …........ the job of a navy officer because he is brave and well disciplined.",
+        "options": [
+          "cut out for",
+          "take up",
+          "take to",
+          "find out"
+        ],
+        "answer": 0
+      }
+    ]
+  }
+]
