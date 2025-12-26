@@ -44,11 +44,15 @@
         .font-controls button {
             padding: 6px 12px;
             background: #2196F3;
-            color: #333;
+            color: white;
             border: 1px solid #ddd;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.2s;
+        }
+        .font-controls button:hover {
+            background: #1976D2;
         }
         .navigation {
             display: flex;
@@ -115,7 +119,7 @@
             font-weight: bold;
             font-size: 14px;
         }
-        .quiz-nav-btn.answered { background: #4CAF50; color: white; border-color: #555; }
+        .quiz-nav-btn.answered { background: #4CAF50; color: white; border-color: #4CAF50; }
         .quiz-nav-btn.current { border: 2px solid #FF9800; }
         .quiz-nav-legend { padding: 10px; border-top: 1px solid #eee; font-size: 11px; }
         .legend-item { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
@@ -148,8 +152,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
         }
-        .question-image img { max-width: 100%; max-height: 250px; object-fit: contain; }
+        .question-image img { max-width: 100%; max-height: 200px; max-width: 250px; object-fit: contain; }
         .question-number { font-weight: 700; color: #1976D2; margin-bottom: 15px; font-size: 18px; }
         
         .options-container { display: flex; flex-direction: column; gap: 10px; }
@@ -179,8 +184,11 @@
         }
         .btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
         .submit-btn { background: #2196F3; }
+        .submit-btn:hover { background: #1976D2; }
         .retry-btn { background: #FF9800; display: none; }
+        .retry-btn:hover { background: #F57C00; }
         .top-btn { background: #4caf50; }
+        .top-btn:hover { background: #45a049; }
 
         /* MODAL */
         .modal {
@@ -193,6 +201,20 @@
         }
         .modal.show { display: flex; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px; width: 90%; }
+
+        #resultEmoji { font-size: 50px; margin-bottom: 10px; }
+        #resultMessage { font-size: 24px; margin-bottom: 10px; color: #333; }
+        #resultScore { font-size: 40px; color: #2196F3; font-weight: bold; margin: 10px 0; }
+        #resultPercentage { font-size: 18px; color: #666; margin-bottom: 20px; }
+        .modal-content button { width: 100%; }
+
+        @media (max-width: 768px) {
+            .header { grid-template-columns: 1fr auto; }
+            .header h1 { grid-column: 1; text-align: left; font-size: 16px; }
+            .main-layout { flex-direction: column; }
+            .quiz-nav-panel { width: 100%; height: 180px; }
+            .question-item { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -200,7 +222,7 @@
     <div class="top-bar">
         <div class="header">
             <div></div> 
-            <h1>Section 1: Note, message or email</h1>
+            <h1>Section 1: Choose the best answer for each note, message or email</h1>
             <div class="font-controls">
                 <button onclick="changeFontSize(1)">A+</button>
                 <button onclick="changeFontSize(-1)">A−</button>
@@ -234,11 +256,11 @@
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <div id="resultEmoji" style="font-size: 50px;">🎉</div>
+            <div id="resultEmoji">🎉</div>
             <h2 id="resultMessage">Kết quả</h2>
-            <div id="resultScore" style="font-size: 40px; color: #2196F3; font-weight: bold; margin: 10px 0;">0/0</div>
+            <div id="resultScore">0/0</div>
             <p id="resultPercentage">Tỷ lệ chính xác: 0%</p>
-            <button class="btn submit-btn" style="margin-top: 20px; width: 100%;" onclick="closeModal()">Đóng</button>
+            <button class="btn submit-btn" style="margin-top: 20px;" onclick="closeModal()">Đóng</button>
         </div>
     </div>
 
@@ -248,6 +270,17 @@
         let userAnswers = {};
         let fontSize = 18;
         let isSubmitted = false;
+        let shuffledQuestions = []; // Lưu thứ tự câu hỏi đã shuffle
+
+        // Hàm shuffle array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         async function loadQuestions() {
             try {
@@ -283,30 +316,44 @@
             const navGrid = document.getElementById('quizNavGrid');
             navGrid.innerHTML = '';
             userAnswers = {};
+            
+            // Shuffle câu hỏi - lưu lại thứ tự gốc
+            const questionsWithIndex = section.questions.map((q, idx) => ({
+                ...q,
+                originalIndex: idx
+            }));
+            shuffledQuestions = shuffleArray(questionsWithIndex);
 
-            container.innerHTML = section.questions.map((q, qIdx) => {
-                // Nav Button
+            container.innerHTML = shuffledQuestions.map((q, displayIdx) => {
+                // Nav Button - sử dụng displayIdx (thứ tự hiển thị)
                 const navBtn = document.createElement('button');
                 navBtn.className = 'quiz-nav-btn';
-                navBtn.id = `nav-btn-${qIdx}`;
-                navBtn.textContent = qIdx + 1;
-                navBtn.onclick = () => scrollToQuestion(qIdx);
+                navBtn.id = `nav-btn-${displayIdx}`;
+                navBtn.textContent = displayIdx + 1;
+                navBtn.onclick = () => scrollToQuestion(displayIdx);
                 navGrid.appendChild(navBtn);
 
+                // Shuffle options - giữ lại index gốc để so sánh đáp án
+                const optionsWithIndices = q.options.map((opt, oIdx) => ({
+                    text: opt,
+                    originalIndex: oIdx
+                }));
+                const shuffledOptions = shuffleArray(optionsWithIndices);
+
                 return `
-                    <div class="question-item" id="q-item-${qIdx}">
+                    <div class="question-item" id="q-item-${displayIdx}" data-original-index="${q.originalIndex}">
                         <div class="question-image">
-                            ${q.image ? `<img src="${q.image}" alt="Q${qIdx+1}">` : `<span>(Không có ảnh)</span>`}
+                            ${q.image ? `<img src="${q.image}" alt="Q${displayIdx+1}">` : `<span>(Không có ảnh)</span>`}
                         </div>
                         <div>
-                            <div class="question-number" style="font-size: ${fontSize}px">Question ${qIdx + 1}</div>
+                            <div class="question-number" style="font-size: ${fontSize}px">Question ${displayIdx + 1}</div>
                             <div class="options-container">
-                                ${q.options.map((opt, oIdx) => `
-                                    <label class="option-item" id="option-${index}-${qIdx}-${oIdx}" style="font-size: ${fontSize - 2}px">
-                                        <input type="radio" name="q-${qIdx}" value="${oIdx}" 
+                                ${shuffledOptions.map((opt, shuffledIdx) => `
+                                    <label class="option-item" id="option-${index}-${displayIdx}-${opt.originalIndex}" style="font-size: ${fontSize - 2}px">
+                                        <input type="radio" name="q-${displayIdx}" value="${opt.originalIndex}" 
                                             style="margin-right: 12px; transform: scale(1.2)"
-                                            onchange="handleAnswer(${qIdx}, ${oIdx})">
-                                        <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+                                            onchange="handleAnswer(${displayIdx}, ${opt.originalIndex})">
+                                        <span>${String.fromCharCode(65 + shuffledIdx)}. ${opt.text}</span>
                                     </label>
                                 `).join('')}
                             </div>
@@ -317,44 +364,44 @@
 
             document.getElementById('submitBtn').style.display = 'inline-block';
             document.getElementById('retryBtn').style.display = 'none';
+            isSubmitted = false;
         }
 
-        function handleAnswer(qIdx, oIdx) {
+        function handleAnswer(displayIdx, originalOptionIdx) {
             if (isSubmitted) return;
-            userAnswers[qIdx] = oIdx;
+            userAnswers[displayIdx] = originalOptionIdx;
             
             // Highlight
-            const section = allSections[currentSectionIndex];
-            section.questions[qIdx].options.forEach((_, idx) => {
-                const el = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${idx}`);
-                if (el) el.classList.toggle('selected', idx === oIdx);
+            const q = shuffledQuestions[displayIdx];
+            q.options.forEach((_, idx) => {
+                const el = document.getElementById(`option-${currentSectionIndex}-${displayIdx}-${idx}`);
+                if (el) el.classList.toggle('selected', idx === originalOptionIdx);
             });
 
-            const navBtn = document.getElementById(`nav-btn-${qIdx}`);
+            const navBtn = document.getElementById(`nav-btn-${displayIdx}`);
             if (navBtn) navBtn.classList.add('answered');
         }
 
-        function scrollToQuestion(qIdx) {
-            const el = document.getElementById(`q-item-${qIdx}`);
+        function scrollToQuestion(displayIdx) {
+            const el = document.getElementById(`q-item-${displayIdx}`);
             if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 document.querySelectorAll('.quiz-nav-btn').forEach(b => b.classList.remove('current'));
-                document.getElementById(`nav-btn-${qIdx}`).classList.add('current');
+                document.getElementById(`nav-btn-${displayIdx}`).classList.add('current');
             }
         }
 
         document.getElementById('submitBtn').addEventListener('click', () => {
-            const section = allSections[currentSectionIndex];
             isSubmitted = true;
             let score = 0;
 
-            section.questions.forEach((q, qIdx) => {
-                const userAns = userAnswers[qIdx];
+            shuffledQuestions.forEach((q, displayIdx) => {
+                const userAns = userAnswers[displayIdx];
                 const isCorrect = userAns === q.answer;
                 if (isCorrect) score++;
 
                 q.options.forEach((_, oIdx) => {
-                    const el = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${oIdx}`);
+                    const el = document.getElementById(`option-${currentSectionIndex}-${displayIdx}-${oIdx}`);
                     if (!el) return;
                     el.querySelector('input').disabled = true;
                     if (oIdx === q.answer) el.classList.add('correct');
@@ -362,9 +409,19 @@
                 });
             });
 
-            const percent = Math.round((score / section.questions.length) * 100);
-            document.getElementById('resultScore').textContent = `${score}/${section.questions.length}`;
+            const totalQuestions = shuffledQuestions.length;
+            const percent = Math.round((score / totalQuestions) * 100);
+            
+            document.getElementById('resultScore').textContent = `${score}/${totalQuestions}`;
             document.getElementById('resultPercentage').textContent = `Tỷ lệ chính xác: ${percent}%`;
+            
+            // Emoji dựa trên điểm
+            const emoji = percent >= 80 ? '🎉' : percent >= 60 ? '😊' : '💪';
+            document.getElementById('resultEmoji').textContent = emoji;
+            
+            const message = percent >= 80 ? 'Xuất sắc!' : percent >= 60 ? 'Tốt lắm!' : 'Cố gắng thêm!';
+            document.getElementById('resultMessage').textContent = message;
+            
             document.getElementById('resultModal').classList.add('show');
             document.getElementById('submitBtn').style.display = 'none';
             document.getElementById('retryBtn').style.display = 'inline-block';
@@ -380,7 +437,6 @@
         function scrollToTop() { document.getElementById('scrollArea').scrollTo({ top: 0, behavior: 'smooth' }); }
         
         document.getElementById('retryBtn').addEventListener('click', () => {
-            isSubmitted = false;
             renderSection(currentSectionIndex);
             scrollToTop();
         });

@@ -25,7 +25,7 @@
             flex-direction: column;
         }
 
-        /* ===== TOP BAR (DÚNG STYLE SECTION 2 GỐC) ===== */
+        /* ===== TOP BAR ===== */
         .top-bar {
             flex-shrink: 0;
             background: white;
@@ -292,8 +292,9 @@
         let userAnswers = {};
         let fontSize = 18;
         let isSubmitted = false;
+        let shuffledQuestions = []; // Store shuffled questions with their original indices
 
-        // Shuffle logic giữ từ bản gốc
+        // Shuffle function
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -337,36 +338,48 @@
         function renderSection(index) {
             const section = allSections[index];
             userAnswers = {};
+            
+            // Shuffle questions and store with original indices
+            shuffledQuestions = section.questions.map((q, originalIdx) => ({
+                question: q,
+                originalIndex: originalIdx
+            }));
+            shuffledQuestions = shuffleArray(shuffledQuestions);
+            
             const container = document.getElementById('sectionsContainer');
             const navGrid = document.getElementById('quizNavGrid');
             navGrid.innerHTML = '';
             
-            container.innerHTML = section.questions.map((q, qIdx) => {
+            container.innerHTML = shuffledQuestions.map((qData, displayIdx) => {
+                const q = qData.question;
+                const originalQIdx = qData.originalIndex;
+                
+                // Shuffle options with their original indices
                 const optionsWithIndices = q.options.map((opt, oIdx) => ({ text: opt, originalIndex: oIdx }));
                 const shuffledOptions = shuffleArray(optionsWithIndices);
 
-                // Tạo nút điều hướng bên trái
+                // Create navigation button
                 const navBtn = document.createElement('button');
                 navBtn.className = 'quiz-nav-btn';
-                navBtn.id = `nav-btn-${qIdx}`;
-                navBtn.textContent = qIdx + 1;
-                navBtn.onclick = () => scrollToQuestion(qIdx);
+                navBtn.id = `nav-btn-${displayIdx}`;
+                navBtn.textContent = displayIdx + 1;
+                navBtn.onclick = () => scrollToQuestion(displayIdx);
                 navGrid.appendChild(navBtn);
 
                 return `
-                    <div class="question-item" id="q-item-${qIdx}">
-                        <div class="question-text" style="font-size: ${fontSize}px">${qIdx + 1}. ${q.question}</div>
+                    <div class="question-item" id="q-item-${displayIdx}" data-original-idx="${originalQIdx}">
+                        <div class="question-text" style="font-size: ${fontSize}px">${displayIdx + 1}. ${q.question}</div>
                         <div class="options-container">
-                            ${shuffledOptions.map((opt, displayIdx) => `
-                                <label class="option-item" id="option-${index}-${qIdx}-${opt.originalIndex}" style="font-size: ${fontSize - 2}px">
-                                    <input type="radio" name="q-${qIdx}" value="${opt.originalIndex}" 
+                            ${shuffledOptions.map((opt, optDisplayIdx) => `
+                                <label class="option-item" id="option-${index}-${displayIdx}-${opt.originalIndex}" style="font-size: ${fontSize - 2}px">
+                                    <input type="radio" name="q-${displayIdx}" value="${opt.originalIndex}" 
                                         style="margin-right: 12px; transform: scale(1.2)"
-                                        onchange="handleAnswer(${qIdx}, ${opt.originalIndex})">
-                                    <span>${String.fromCharCode(65 + displayIdx)}. ${opt.text}</span>
+                                        onchange="handleAnswer(${displayIdx}, ${opt.originalIndex})">
+                                    <span>${String.fromCharCode(65 + optDisplayIdx)}. ${opt.text}</span>
                                 </label>
                             `).join('')}
                         </div>
-                        <div class="explanation-section" id="explanation-${qIdx}">
+                        <div class="explanation-section" id="explanation-${displayIdx}">
                             <strong>💡 Giải thích:</strong> ${q.explanation || 'Chưa có giải thích cho câu này.'}
                         </div>
                     </div>
@@ -378,62 +391,63 @@
             updateNavStatus();
         }
 
-        function handleAnswer(qIdx, optionIdx) {
+        function handleAnswer(displayIdx, optionIdx) {
             if (isSubmitted) return;
-            userAnswers[qIdx] = optionIdx;
+            userAnswers[displayIdx] = optionIdx;
             
-            // Highlight lựa chọn
-            const section = allSections[currentSectionIndex];
-            section.questions[qIdx].options.forEach((_, idx) => {
-                const el = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${idx}`);
+            // Highlight selected option
+            const qData = shuffledQuestions[displayIdx];
+            qData.question.options.forEach((_, idx) => {
+                const el = document.getElementById(`option-${currentSectionIndex}-${displayIdx}-${idx}`);
                 if (el) el.classList.toggle('selected', idx === optionIdx);
             });
             updateNavStatus();
         }
 
         function updateNavStatus() {
-            allSections[currentSectionIndex].questions.forEach((_, qIdx) => {
-                const btn = document.getElementById(`nav-btn-${qIdx}`);
-                if (btn) btn.classList.toggle('answered', userAnswers[qIdx] !== undefined);
+            shuffledQuestions.forEach((_, displayIdx) => {
+                const btn = document.getElementById(`nav-btn-${displayIdx}`);
+                if (btn) btn.classList.toggle('answered', userAnswers[displayIdx] !== undefined);
             });
         }
 
-        function scrollToQuestion(qIdx) {
-            const el = document.getElementById(`q-item-${qIdx}`);
+        function scrollToQuestion(displayIdx) {
+            const el = document.getElementById(`q-item-${displayIdx}`);
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth' });
                 document.querySelectorAll('.quiz-nav-btn').forEach(b => b.classList.remove('current'));
-                document.getElementById(`nav-btn-${qIdx}`).classList.add('current');
+                document.getElementById(`nav-btn-${displayIdx}`).classList.add('current');
             }
         }
 
         document.getElementById('submitBtn').addEventListener('click', () => {
-            const section = allSections[currentSectionIndex];
             const answeredCount = Object.keys(userAnswers).length;
 
-            if (answeredCount < section.questions.length) {
-                if (!confirm(`Bạn mới trả lời ${answeredCount}/${section.questions.length} câu. Vẫn muốn nộp bài?`)) return;
+            if (answeredCount < shuffledQuestions.length) {
+                if (!confirm(`Bạn mới trả lời ${answeredCount}/${shuffledQuestions.length} câu. Vẫn muốn nộp bài?`)) return;
             }
 
             isSubmitted = true;
             let score = 0;
-            section.questions.forEach((q, qIdx) => {
-                const userAns = userAnswers[qIdx];
+            
+            shuffledQuestions.forEach((qData, displayIdx) => {
+                const q = qData.question;
+                const userAns = userAnswers[displayIdx];
                 const isCorrect = userAns === q.answer;
                 if (isCorrect) score++;
 
                 q.options.forEach((_, oIdx) => {
-                    const el = document.getElementById(`option-${currentSectionIndex}-${qIdx}-${oIdx}`);
+                    const el = document.getElementById(`option-${currentSectionIndex}-${displayIdx}-${oIdx}`);
                     if (!el) return;
                     el.querySelector('input').disabled = true;
                     if (oIdx === q.answer) el.classList.add('correct');
                     else if (oIdx === userAns) el.classList.add('incorrect');
                 });
-                document.getElementById(`explanation-${qIdx}`).classList.add('show');
+                document.getElementById(`explanation-${displayIdx}`).classList.add('show');
             });
 
-            const percent = Math.round((score / section.questions.length) * 100);
-            document.getElementById('resultScore').textContent = `${score}/${section.questions.length}`;
+            const percent = Math.round((score / shuffledQuestions.length) * 100);
+            document.getElementById('resultScore').textContent = `${score}/${shuffledQuestions.length}`;
             document.getElementById('resultPercentage').textContent = `Tỷ lệ chính xác: ${percent}%`;
             document.getElementById('resultModal').classList.add('show');
             document.getElementById('submitBtn').style.display = 'none';
@@ -455,13 +469,11 @@
             document.querySelectorAll('.option-item').forEach(el => el.style.fontSize = (fontSize - 2) + 'px');
         }
 
-        // Tự động nhận diện câu hỏi đang xem khi cuộn
+        // Auto-detect current question when scrolling
         document.getElementById('scrollArea').addEventListener('scroll', () => {
-            const wrapper = document.getElementById('scrollArea');
             const items = document.querySelectorAll('.question-item');
             items.forEach((item, idx) => {
                 const rect = item.getBoundingClientRect();
-                // Nếu đầu câu hỏi nằm trong khoảng 200px đầu tiên của vùng nhìn thấy
                 if (rect.top >= 0 && rect.top <= 300) {
                     document.querySelectorAll('.quiz-nav-btn').forEach(b => b.classList.remove('current'));
                     const navBtn = document.getElementById(`nav-btn-${idx}`);

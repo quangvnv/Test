@@ -163,7 +163,6 @@
         let userAnswers = {};
         let fontSize = 18;
         let isSubmitted = false;
-        let shuffledOptions = {}; // Store shuffled option indices for each question
 
         async function loadQuestions() {
             try {
@@ -175,16 +174,6 @@
             } catch (error) {
                 document.getElementById('loading').textContent = "Lỗi tải dữ liệu JSON.";
             }
-        }
-
-        // Fisher-Yates shuffle algorithm
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
         }
 
         function renderNavigation() {
@@ -211,7 +200,6 @@
             
             navGrid.innerHTML = '';
             userAnswers = {};
-            shuffledOptions = {}; // Reset shuffled options for new section
 
             // Render Passage (Bỏ dòng tiêu đề ngắn nếu có)
             let lines = section.passage.split('\n');
@@ -225,11 +213,6 @@
 
             // Render Questions & Nav
             questionsPanel.innerHTML = section.questions.map((q, qIdx) => {
-                // Create shuffled indices for this question's options
-                const originalIndices = Array.from({ length: q.options.length }, (_, i) => i);
-                const shuffledIndices = shuffleArray(originalIndices);
-                shuffledOptions[qIdx] = shuffledIndices;
-
                 // Nav Button
                 const navBtn = document.createElement('button');
                 navBtn.className = 'quiz-nav-btn';
@@ -242,10 +225,10 @@
                     <div class="question-item" id="q-item-${qIdx}">
                         <div class="question-text" style="font-size: ${fontSize}px">${qIdx + 1}. ${q.question}</div>
                         <div class="options-container">
-                            ${shuffledIndices.map((originalIdx, displayIdx) => `
-                                <label class="option-item" id="option-${qIdx}-${displayIdx}" style="font-size: ${fontSize - 2}px">
-                                    <input type="radio" name="q-${qIdx}" value="${originalIdx}" style="margin-right: 10px;" onchange="handleAnswer(${qIdx}, ${originalIdx})">
-                                    <span>${q.options[originalIdx]}</span>
+                            ${q.options.map((opt, oIdx) => `
+                                <label class="option-item" id="option-${qIdx}-${oIdx}" style="font-size: ${fontSize - 2}px">
+                                    <input type="radio" name="q-${qIdx}" value="${oIdx}" style="margin-right: 10px;" onchange="handleAnswer(${qIdx}, ${oIdx})">
+                                    <span>${opt}</span>
                                 </label>
                             `).join('')}
                         </div>
@@ -257,17 +240,14 @@
             document.getElementById('retryBtn').style.display = 'none';
         }
 
-        function handleAnswer(qIdx, originalIdx) {
+        function handleAnswer(qIdx, oIdx) {
             if (isSubmitted) return;
-            userAnswers[qIdx] = originalIdx;
-            
-            // Find which display position corresponds to this original index
-            const displayIdx = shuffledOptions[qIdx].indexOf(originalIdx);
+            userAnswers[qIdx] = oIdx;
             
             // Highlight selected
             document.querySelectorAll(`[name="q-${qIdx}"]`).forEach((input, idx) => {
                 const label = document.getElementById(`option-${qIdx}-${idx}`);
-                label.classList.toggle('selected', idx === displayIdx);
+                label.classList.toggle('selected', idx === oIdx);
             });
 
             document.getElementById(`nav-btn-${qIdx}`).classList.add('answered');
@@ -292,12 +272,11 @@
                 const isCorrect = userAns === q.answer;
                 if (isCorrect) score++;
 
-                // Iterate through shuffled options
-                shuffledOptions[qIdx].forEach((originalIdx, displayIdx) => {
-                    const el = document.getElementById(`option-${qIdx}-${displayIdx}`);
+                q.options.forEach((_, oIdx) => {
+                    const el = document.getElementById(`option-${qIdx}-${oIdx}`);
                     el.querySelector('input').disabled = true;
-                    if (originalIdx === q.answer) el.classList.add('correct');
-                    else if (originalIdx === userAns) el.classList.add('incorrect');
+                    if (oIdx === q.answer) el.classList.add('correct');
+                    else if (oIdx === userAns) el.classList.add('incorrect');
                 });
             });
 
