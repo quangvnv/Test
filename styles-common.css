@@ -1,0 +1,361 @@
+/* ===== THIẾT LẬP CHUNG (RESET CSS) ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước thật của phần tử */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    line-height: 1.6;
+}
+
+/* ===== ẨN THANH CUỘN (HIDE SCROLLBAR) ===== */
+html, body {
+    scrollbar-width: none; /* Cho Firefox */
+    -ms-overflow-style: none; /* Cho IE/Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none; /* Cho Chrome/Safari/Brave */
+}
+
+/* ===== THANH TIÊU ĐỀ CỐ ĐỊNH (TOP BAR FIXED) ===== */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 6px 10px;
+    transition: all 0.3s;
+}
+
+.header {
+    position: relative;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin: 0;
+    font-size: 20px;
+}
+
+/* ===== NÚT ĐIỀU CHỈNH CỠ CHỮ (FONT SIZE CONTROLS) ===== */
+.font-controls {
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.font-controls button {
+    padding: 2px 6px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+}
+
+.font-controls button:hover {
+    background: #f0f0f0;
+}
+
+/* ===== THANH ĐIỀU HƯỚNG CÂU HỎI (NAVIGATION) ===== */
+.navigation {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 6px 16px;
+    background: #e3f2fd;
+    border: 1.5px solid #2196F3;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: #2196F3;
+    transition: all 0.3s;
+}
+
+.nav-btn:hover {
+    background: #2196F3;
+    color: white;
+}
+
+.nav-btn.active {
+    background: #2196F3;
+    color: white;
+}
+
+/* ===== KHUNG CHỨA NỘI DUNG CHÍNH (MAIN CONTAINER) ===== */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    /* padding: Trên Phải Dưới Trái - 100px trên để tránh bị Top Bar che mất */
+    padding: 100px 10px 40px 10px; 
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-height: 100vh;
+}
+
+.section-container {
+    margin-bottom: 10px;
+}
+
+/* ===== KHUNG HIỂN THỊ CÂU HỎI (QUESTION ITEM) ===== */
+.question-item {
+    padding: 10px;
+    background: #fafafa;
+    border-radius: 8px;
+    border-left: 4px solid #2196F3;
+    margin-bottom: 15px;
+}
+
+.question-number {
+    font-weight: 700;
+    color: #1976D2;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* Thêm lớp này vào styles-common.css nếu các file khác cũng dùng lớp này */
+.question-text {
+    font-size: 18px; 
+}
+
+/* ===== CÁC LỰA CHỌN TRẢ LỜI (OPTIONS STYLES) ===== */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    border-radius: 6px;
+}
+
+.option-item:hover {
+    border-color: #2196F3;
+    background: #f5f9ff;
+}
+
+/* Trạng thái khi người dùng chọn, đúng hoặc sai */
+.option-item.selected {
+    background: #e3f2fd;
+    border-color: #2196F3;
+}
+
+.option-item.correct {
+    background: #c8e6c9;
+    border-color: #4CAF50;
+}
+
+.option-item.incorrect {
+    background: #ffcdd2;
+    border-color: #f44336;
+}
+
+.option-item input[type="radio"] {
+    margin-right: 12px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.option-label {
+    flex: 1;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1.1;
+}
+
+/* ===== TRẠNG THÁI ĐANG TẢI VÀ LỖI (LOADING & ERROR) ===== */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 18px;
+}
+
+.error {
+    background: #ffebee;
+    border-left: 4px solid #f44336;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #c62828;
+    border-radius: 4px;
+}
+
+/* ===== THANH CÔNG CỤ DƯỚI CÙNG (BOTTOM BAR) ===== */
+.button-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+    padding: 6px 7px 6px 6px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    z-index: 1000;
+}
+
+/* Các loại nút: Nộp bài, Làm lại, Về đầu trang */
+.submit-btn {
+    padding: 6px 12px;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background: #1976D2;
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.retry-btn {
+    display: none;
+    padding: 6px 20px;
+    background: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.retry-btn:hover {
+    background: #F57C00;
+}
+
+.retry-btn.show {
+    display: inline-block;
+}
+
+.top-btn {
+    padding: 6px 20px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.top-btn:hover {
+    background: #388e3c;
+}
+
+/* ===== CỬA SỔ HIỂN THỊ KẾT QUẢ (RESULT MODAL) ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s;
+}
+
+.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 300px;
+    width: 85%;
+    animation: slideIn 0.3s;
+}
+
+.modal-content .emoji {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.modal-content .message {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.modal-content .score {
+    font-size: 48px;
+    color: #4CAF50;
+    margin: 20px 0;
+    font-weight: 700;
+}
+
+.modal-content .percentage {
+    font-size: 24px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.modal-close-btn {
+    padding: 15px 50px;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* ===== HIỆU ỨNG CHUYỂN ĐỘNG (ANIMATIONS) ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== TƯƠNG THÍCH THIẾT BỊ DI ĐỘNG (RESPONSIVE) ===== */
+@media (max-width: 768px) {
+    .question-item {
+        padding: 15px;
+    }
+}
