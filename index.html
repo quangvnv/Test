@@ -2,376 +2,194 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Learning Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile Learning MCQ</title>
     <style>
+        :root {
+            --primary-color: #4A90E2;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+            --bg-color: #F5F7FA;
+            --text-color: #333;
+        }
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
-            background-color: #f0f2f5;
+            overflow: hidden; /* Tránh cuộn toàn trang không cần thiết */
         }
 
-        /* NAVBAR */
-        .navbar {
-            background-color: #2c3e50;
-            color: white;
-            display: flex;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            height: 48px;
-        }
-
-        .navbar-menu {
-            display: flex;
-            list-style: none;
-            height: 100%;
-        }
-
-        .menu-item {
-            padding: 0 15px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            height: 100%;
-            font-size: 13.5px;
-            border-bottom: 3px solid transparent;
-        }
-
-        .menu-item:hover, .menu-item.active {
-            background-color: #34495e;
-            border-bottom-color: #3498db;
-        }
-
-        /* DROPDOWN LOGIC */
-        .dropdown { position: relative; }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 48px;
-            left: 0;
-            background-color: #34495e;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 1001;
-        }
-        .dropdown-content a {
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            display: block;
-            font-size: 13px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .dropdown-content a:hover { background-color: #2c3e50; }
-        .dropdown.show .dropdown-content { display: block; }
-
-        /* NỘI DUNG CHÍNH */
-        .content {
-            margin-top: 48px;
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .content-section {
-            display: none;
-            width: 100%;
-            height: 100%;
-            padding: 10px;
-        }
-
-        .content-section.active { display: flex; flex-direction: column; }
-
-        #home, #tutorial {
-            max-width: 1000px;
-            margin: auto;
-            width: 100%;
-        }
-
-        .section-header { text-align: center; margin-bottom: 25px; }
-        .section-header h1 { font-size: 2.2rem; color: #2c3e50; margin-bottom: 5px; }
-
-        /* HOME GRID SỬA ĐỔI */
-        .home-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            width: 100%;
-        }
-
-        .home-card-container {
-            position: relative;
-        }
-
-        .home-card {
-            background: #ffffff;
-            padding: 30px 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-top: 5px solid #3498db;
-            height: 100%;
-        }
-
-        .home-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        /* Menu thả xuống cho Card */
-        .card-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
+        /* 1. Thanh tiến độ cố định phía trên */
+        .header {
+            padding: 15px;
             background: white;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            z-index: 10;
-            overflow: hidden;
-            border: 1px solid #eee;
-            margin-top: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .card-dropdown a {
-            display: block;
-            padding: 12px;
-            text-decoration: none;
-            color: #2c3e50;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background 0.2s;
-        }
-
-        .card-dropdown a:hover {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .home-card-container.active .card-dropdown {
-            display: block;
-        }
-
-        .card-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-        .home-card h3 { color: #2c3e50; font-size: 1.2rem; margin-bottom: 8px; }
-        .home-card p { color: #636e72; font-size: 0.9rem; }
-
-        /* HƯỚNG DẪN */
-        .tutorial-box {
-            background: white;
-            padding: 20px;
+        .progress-container {
+            height: 8px;
+            background: #E0E0E0;
             border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 30%;
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        /* 2. Khu vực nội dung câu hỏi */
+        .quiz-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        /* 3. Thiết kế đáp án dạng Card */
+        .options-list {
             display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
-        .tutorial-step { 
-            padding: 10px 15px; 
-            background: #f8f9fa; 
-            border-radius: 6px; 
-            border-left: 4px solid #e67e22; 
-        }
-        .tutorial-step.app { border-left-color: #3498db; }
-        .tutorial-step h4 { color: #2c3e50; font-size: 0.9rem; margin-bottom: 4px; }
-        .tutorial-step p { font-size: 0.8rem; color: #636e72; }
 
-        .iframe-container { padding: 0 !important; }
-        .iframe-container iframe { width: 100%; height: 100%; border: none; }
+        .option-card {
+            background: white;
+            border: 2px solid #EEE;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-card:active {
+            transform: scale(0.98);
+            background-color: #F0F0F0;
+        }
+
+        .option-card.selected {
+            border-color: var(--primary-color);
+            background-color: #EBF3FF;
+        }
+
+        .option-card.correct {
+            border-color: var(--success-color);
+            background-color: #E8F5E9;
+            color: var(--success-color);
+        }
+
+        .option-card.wrong {
+            border-color: var(--error-color);
+            background-color: #FFEBEE;
+            color: var(--error-color);
+        }
+
+        /* 4. Khu vực nút điều hướng ở dưới cùng (Vùng ngón cái) */
+        .footer {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #EEE;
+        }
+
+        .btn-submit {
+            width: 100%;
+            height: 54px; /* Kích thước tối ưu cho ngón cái */
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+        }
+
+        .btn-submit:disabled {
+            background-color: #CCC;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <ul class="navbar-menu">
-            <li class="menu-item active" id="menu-home" onclick="showContent('home')">🏠 Trang chủ</li>
-            
-            <li class="dropdown">
-                <div class="menu-item" onclick="toggleDropdown(this, event)">📖 Reading <span style="font-size:9px; margin-left:4px;">▼</span></div>
-                <div class="dropdown-content">
-                    <a href="#" onclick="changePage('image-mcq', event)">Section 1: Images</a>
-                    <a href="#" onclick="changePage('grammar-test', event)">Section 2: Grammar</a>
-                    <a href="#" onclick="changePage('reading-test', event)">Section 3: Comprehension</a>
-                    <a href="#" onclick="changePage('cloze-test', event)">Section 4: Cloze Test</a>
-                </div>
-            </li>
 
-            <li class="dropdown">
-                <div class="menu-item" onclick="toggleDropdown(this, event)">✍️ Writing <span style="font-size:9px; margin-left:4px;">▼</span></div>
-                <div class="dropdown-content">
-                    <a href="#" onclick="changePage('writing-test', event)">Writing Practice</a>
-                </div>
-            </li>
+    <div class="header">
+        <div style="margin-bottom: 8px; font-size: 14px; color: #666;">Câu hỏi 1/10</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
 
-            <li class="dropdown">
-                <div class="menu-item" onclick="toggleDropdown(this, event)">🎧 Listening <span style="font-size:9px; margin-left:4px;">▼</span></div>
-                <div class="dropdown-content">
-                    <a href="#" onclick="changePage('listening-section1', event)">Section 1</a>
-                    <a href="#" onclick="changePage('listening-section2', event)">Section 2</a>
-                    <a href="#" onclick="changePage('listening-section3', event)">Section 3</a>
-                </div>
-            </li>
-
-            <li class="menu-item" id="menu-tutorial" onclick="showContent('tutorial')">⚙️ Hướng dẫn</li>
-        </ul>
-    </nav>
-
-    <div class="content">
-        <div id="home" class="content-section active">
-            <div class="section-header">
-                <h1>English Platform</h1>
-                <p>Chọn kỹ năng bạn muốn luyện tập hôm nay.</p>
-            </div>
-            
-
-
-            <div class="home-grid">
-                <div class="home-card-container">
-                    <div class="home-card" onclick="toggleCardDropdown(this, event)">
-                        <span class="card-icon">📖</span>
-                        <h3>Reading</h3>
-                        <p>4 Sections đọc hiểu & ngữ pháp</p>
-                    </div>
-                    <div class="card-dropdown">
-                        <a href="#" onclick="changePage('image-mcq', event)">Section 1: Images</a>
-                        <a href="#" onclick="changePage('grammar-test', event)">Section 2: Grammar</a>
-                        <a href="#" onclick="changePage('reading-test', event)">Section 3: Comprehension</a>
-                        <a href="#" onclick="changePage('cloze-test', event)">Section 4: Cloze Test</a>
-                    </div>
-                </div>
-
-                <div class="home-card-container">
-                    <div class="home-card" onclick="toggleCardDropdown(this, event)">
-                        <span class="card-icon">✍️</span>
-                        <h3>Writing</h3>
-                        <p>Luyện kỹ năng viết & diễn đạt</p>
-                    </div>
-                    <div class="card-dropdown">
-                        <a href="#" onclick="changePage('writing-test', event)">Writing Practice</a>
-                    </div>
-                </div>
-
-                <div class="home-card-container">
-                    <div class="home-card" onclick="toggleCardDropdown(this, event)">
-                        <span class="card-icon">🎧</span>
-                        <h3>Listening</h3>
-                        <p>3 Sections nghe hiểu hội thoại</p>
-                    </div>
-                    <div class="card-dropdown">
-                        <a href="#" onclick="changePage('listening-section1', event)">Listening Section 1</a>
-                        <a href="#" onclick="changePage('listening-section2', event)">Listening Section 2</a>
-                        <a href="#" onclick="changePage('listening-section3', event)">Listening Section 3</a>
-                    </div>
-                </div>
-            </div>
+    <div class="quiz-container">
+        <div class="question-text">
+            Đâu là thủ đô của Việt Nam?
         </div>
 
-        <div id="tutorial" class="content-section">
-            <div class="section-header">
-                <h1>⚙️ Hướng dẫn Cập nhật Dữ liệu</h1>
-                <p>Thực hiện các bước sau để cập nhật nội dung</p>
-            </div>
-            <div class="tutorial-box">
-                <div class="tutorial-step app">
-                    <h4>1. Chọn thư mục chứa dữ liệu cập nhật</h4>
-                    <p>Tạo một thư mục trên máy tính của bạn. Chọn <b>File</b> > <b>Chọn thư mục cập nhật</b> từ thanh công cụ và chọn thư mục này.</p>
-                </div>
-                <div class="tutorial-step">
-                    <h4>2. Cập nhật dữ liệu</h4>
-                    <p>Khi nhận được tập tin nén cập nhật từ giảng viên, hãy giải nén và ghi đè vào thư mục này.</p>
-                </div>
-                <div class="tutorial-step">
-                    <h4>3. Tải lại</h4>
-                    <p>Chọn <b>File</b> > <b>Tải lại trang</b> hoặc bám tổ hợp phím <b>Ctrl R</b> để hệ thống ghi nhận dữ liệu mới.</p>
-                </div>
-                <div class="tutorial-step app">
-                    <h4>4. Hoàn tất</h4>
-                    <p>Ứng dụng sẽ tự động tải lại dữ liệu và hiển thị nội dung mới nhất.</p>
-                </div>
-            </div>
+        <div class="options-list" id="options">
+            <div class="option-card" onclick="selectOption(this, 'A')">A. Thành phố Hồ Chí Minh</div>
+            <div class="option-card" onclick="selectOption(this, 'B')">B. Đà Nẵng</div>
+            <div class="option-card" onclick="selectOption(this, 'C')">C. Hà Nội</div>
+            <div class="option-card" onclick="selectOption(this, 'D')">D. Hải Phòng</div>
         </div>
+    </div>
 
-        <div id="grammar-test" class="content-section iframe-container"><iframe src="Section2.html"></iframe></div>
-        <div id="image-mcq" class="content-section iframe-container"><iframe src="Section1.html"></iframe></div>
-        <div id="listening-section1" class="content-section iframe-container"><iframe src="Listening_Section1.html"></iframe></div>
-        <div id="reading-test" class="content-section iframe-container"><iframe src="Section3.html"></iframe></div>
-        <div id="cloze-test" class="content-section iframe-container"><iframe src="Section4.html"></iframe></div>
-        <div id="writing-test" class="content-section iframe-container"><iframe src="Writing.html"></iframe></div>
-        <div id="listening-section2" class="content-section iframe-container"><iframe src="Listening_Section2.html"></iframe></div>
-        <div id="listening-section3" class="content-section iframe-container"><iframe src="Listening_Section3.html"></iframe></div>
+    <div class="footer">
+        <button class="btn-submit" id="submitBtn" disabled onclick="checkAnswer()">KIỂM TRA</button>
     </div>
 
     <script>
-        function closeAllDropdowns() {
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
-            document.querySelectorAll('.home-card-container').forEach(c => c.classList.remove('active'));
-        }
+        let selectedElement = null;
+        const correctAnswer = 'C';
 
-        function toggleDropdown(element, event) {
-            event.stopPropagation();
-            const parent = element.parentElement;
-            const isOpen = parent.classList.contains('show');
-            closeAllDropdowns();
-            if (!isOpen) parent.classList.add('show');
-        }
-
-        // Toggle dropdown cho các Card ở trang chủ
-        function toggleCardDropdown(element, event) {
-            event.stopPropagation();
-            const container = element.parentElement;
-            const isOpen = container.classList.contains('active');
-            closeAllDropdowns();
-            if (!isOpen) container.classList.add('active');
-        }
-
-        function changePage(sectionId, event) {
-            event.preventDefault();
-            event.stopPropagation();
-            showContent(sectionId);
-            closeAllDropdowns();
-        }
-
-        function showContent(sectionId) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+        function selectOption(element, val) {
+            // Xóa class selected của các option khác
+            const allOptions = document.querySelectorAll('.option-card');
+            allOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
             
-            const target = document.getElementById(sectionId);
-            if (target) target.classList.add('active');
-
-            if(sectionId === 'home') document.getElementById('menu-home').classList.add('active');
-            if(sectionId === 'tutorial') document.getElementById('menu-tutorial').classList.add('active');
+            // Highlight option được chọn
+            element.classList.add('selected');
+            selectedElement = element;
             
-            closeAllDropdowns();
+            // Active nút gửi bài
+            document.getElementById('submitBtn').disabled = false;
         }
 
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown') && !e.target.closest('.home-card-container')) {
-                closeAllDropdowns();
+        function checkAnswer() {
+            const text = selectedElement.innerText;
+            const btn = document.getElementById('submitBtn');
+
+            if (text.includes('Hà Nội')) {
+                selectedElement.classList.remove('selected');
+                selectedElement.classList.add('correct');
+                btn.innerText = "CHÍNH XÁC! TIẾP TỤC";
+                btn.style.backgroundColor = "var(--success-color)";
+            } else {
+                selectedElement.classList.remove('selected');
+                selectedElement.classList.add('wrong');
+                btn.innerText = "THỬ LẠI";
+                btn.style.backgroundColor = "var(--error-color)";
             }
-        });
-
-        document.querySelectorAll('iframe').forEach(iframe => {
-            iframe.addEventListener('mouseenter', closeAllDropdowns);
-        });
-
-
+        }
     </script>
 </body>
 </html>
