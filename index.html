@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mobile Learning MCQ</title>
+    <title>Mobile Learning MCQ with Timer</title>
     <style>
         :root {
             --primary-color: #4A90E2;
@@ -26,37 +26,63 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden; /* Tránh cuộn toàn trang không cần thiết */
+            overflow: hidden;
         }
 
-        /* 1. Thanh tiến độ cố định phía trên */
+        /* 1. Header với Thanh tiến độ và Đồng hồ */
         .header {
             padding: 15px;
             background: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #timer {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .timer-warning {
+            color: white !important;
+            background: var(--error-color) !important;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
         .progress-container {
-            height: 8px;
+            height: 6px;
             background: #E0E0E0;
             border-radius: 10px;
             overflow: hidden;
         }
 
         .progress-bar {
-            width: 30%;
+            width: 10%;
             height: 100%;
             background: var(--primary-color);
-            transition: width 0.3s ease;
         }
 
-        /* 2. Khu vực nội dung câu hỏi */
+        /* 2. Nội dung câu hỏi */
         .quiz-container {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
         }
 
         .question-text {
@@ -66,7 +92,7 @@
             margin-bottom: 25px;
         }
 
-        /* 3. Thiết kế đáp án dạng Card */
+        /* 3. Lựa chọn đáp án */
         .options-list {
             display: grid;
             gap: 12px;
@@ -76,17 +102,10 @@
             background: white;
             border: 2px solid #EEE;
             border-radius: 12px;
-            padding: 16px;
+            padding: 18px;
             font-size: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-        }
-
-        .option-card:active {
-            transform: scale(0.98);
-            background-color: #F0F0F0;
+            transition: all 0.2s;
         }
 
         .option-card.selected {
@@ -97,16 +116,21 @@
         .option-card.correct {
             border-color: var(--success-color);
             background-color: #E8F5E9;
-            color: var(--success-color);
+            pointer-events: none;
         }
 
         .option-card.wrong {
             border-color: var(--error-color);
             background-color: #FFEBEE;
-            color: var(--error-color);
+            pointer-events: none;
         }
 
-        /* 4. Khu vực nút điều hướng ở dưới cùng (Vùng ngón cái) */
+        .disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* 4. Footer */
         .footer {
             padding: 20px;
             background: white;
@@ -115,41 +139,42 @@
 
         .btn-submit {
             width: 100%;
-            height: 54px; /* Kích thước tối ưu cho ngón cái */
+            height: 56px;
             background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 18px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
         }
 
         .btn-submit:disabled {
             background-color: #CCC;
-            box-shadow: none;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div style="margin-bottom: 8px; font-size: 14px; color: #666;">Câu hỏi 1/10</div>
+        <div class="header-top">
+            <span>Câu 1/10</span>
+            <div id="timer">03:00</div>
+        </div>
         <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-bar"></div>
         </div>
     </div>
 
     <div class="quiz-container">
         <div class="question-text">
-            Đâu là thủ đô của Việt Nam?
+            Thiết kế UI cho điện thoại ở chế độ màn hình dọc (Portrait) nên ưu tiên điều gì nhất?
         </div>
 
         <div class="options-list" id="options">
-            <div class="option-card" onclick="selectOption(this, 'A')">A. Thành phố Hồ Chí Minh</div>
-            <div class="option-card" onclick="selectOption(this, 'B')">B. Đà Nẵng</div>
-            <div class="option-card" onclick="selectOption(this, 'C')">C. Hà Nội</div>
-            <div class="option-card" onclick="selectOption(this, 'D')">D. Hải Phòng</div>
+            <div class="option-card" onclick="selectOption(this)">Sử dụng chuột và bàn phím</div>
+            <div class="option-card" onclick="selectOption(this)">Tối ưu cho vùng chạm của ngón tay cái</div>
+            <div class="option-card" onclick="selectOption(this)">Dùng thật nhiều hình ảnh động lớn</div>
+            <div class="option-card" onclick="selectOption(this)">Bắt người dùng xoay ngang màn hình</div>
         </div>
     </div>
 
@@ -159,37 +184,71 @@
 
     <script>
         let selectedElement = null;
-        const correctAnswer = 'C';
+        let timeLeft = 180; // 3 phút = 180 giây
+        let timerId;
 
-        function selectOption(element, val) {
-            // Xóa class selected của các option khác
-            const allOptions = document.querySelectorAll('.option-card');
-            allOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+        // Khởi tạo bộ đếm ngược
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer');
             
-            // Highlight option được chọn
+            timerId = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+
+                // Định dạng hiển thị 00:00
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                timerDisplay.innerText = `${minutes}:${seconds}`;
+
+                // Cảnh báo khi dưới 30 giây
+                if (timeLeft <= 30) {
+                    timerDisplay.classList.add('timer-warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    handleTimeout();
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function selectOption(element) {
+            const allOptions = document.querySelectorAll('.option-card');
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            
             element.classList.add('selected');
             selectedElement = element;
-            
-            // Active nút gửi bài
             document.getElementById('submitBtn').disabled = false;
         }
 
         function checkAnswer() {
-            const text = selectedElement.innerText;
             const btn = document.getElementById('submitBtn');
+            const isCorrect = selectedElement.innerText.includes("ngón tay cái");
 
-            if (text.includes('Hà Nội')) {
-                selectedElement.classList.remove('selected');
-                selectedElement.classList.add('correct');
-                btn.innerText = "CHÍNH XÁC! TIẾP TỤC";
+            if (isCorrect) {
+                selectedElement.classList.replace('selected', 'correct');
+                btn.innerText = "CHÍNH XÁC!";
                 btn.style.backgroundColor = "var(--success-color)";
+                clearInterval(timerId); // Dừng thời gian khi làm đúng
             } else {
-                selectedElement.classList.remove('selected');
-                selectedElement.classList.add('wrong');
-                btn.innerText = "THỬ LẠI";
+                selectedElement.classList.replace('selected', 'wrong');
+                btn.innerText = "SAI RỒI!";
                 btn.style.backgroundColor = "var(--error-color)";
             }
+            btn.disabled = true;
         }
+
+        function handleTimeout() {
+            const allOptions = document.getElementById('options');
+            allOptions.classList.add('disabled');
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerText = "HẾT GIỜ!";
+            alert("Đã hết thời gian làm bài!");
+        }
+
+        // Chạy timer khi trang web load
+        window.onload = startTimer;
     </script>
 </body>
 </html>
