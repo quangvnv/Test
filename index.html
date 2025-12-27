@@ -3,252 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mobile Learning MCQ with Timer</title>
+    <title>Hệ thống Trắc nghiệm Mobile</title>
     <style>
         :root {
-            --primary-color: #4A90E2;
-            --success-color: #4CAF50;
-            --error-color: #F44336;
-            --bg-color: #F5F7FA;
-            --text-color: #333;
-        }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            --primary: #4A90E2;
+            --success: #4CAF50;
+            --error: #F44336;
+            --bg: #F8F9FA;
+            --card-bg: #FFFFFF;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: var(--bg);
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
         }
 
-        /* 1. Header với Thanh tiến độ và Đồng hồ */
+        /* Header & Progress */
         .header {
-            padding: 15px;
+            padding: 15px 20px;
             background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .header-top {
+        .info-bar {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: bold;
         }
 
-        #timer {
-            background: #f0f0f0;
-            padding: 4px 10px;
-            border-radius: 20px;
-            color: var(--text-color);
-            transition: all 0.3s;
-        }
-
-        .timer-warning {
-            color: white !important;
-            background: var(--error-color) !important;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        .progress-container {
+        .progress-bg {
             height: 6px;
-            background: #E0E0E0;
-            border-radius: 10px;
-            overflow: hidden;
+            background: #EEE;
+            border-radius: 3px;
         }
 
-        .progress-bar {
-            width: 10%;
+        #progress-fill {
             height: 100%;
-            background: var(--primary-color);
+            background: var(--primary);
+            width: 0%;
+            transition: 0.3s;
         }
 
-        /* 2. Nội dung câu hỏi */
+        /* Quiz Area */
         .quiz-container {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
         }
 
-        .question-text {
-            font-size: 1.2rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 25px;
+        .question-box h2 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
-        /* 3. Lựa chọn đáp án */
         .options-list {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 12px;
         }
 
-        .option-card {
-            background: white;
-            border: 2px solid #EEE;
+        .option {
+            background: var(--card-bg);
+            border: 2px solid #E0E0E0;
+            padding: 16px;
             border-radius: 12px;
-            padding: 18px;
             font-size: 16px;
+            transition: 0.2s;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .option-card.selected {
-            border-color: var(--primary-color);
-            background-color: #EBF3FF;
-        }
+        .option.selected { border-color: var(--primary); background: #EBF3FF; }
+        .option.correct { border-color: var(--success); background: #E8F5E9; color: var(--success); }
+        .option.wrong { border-color: var(--error); background: #FFEBEE; color: var(--error); }
+        .disabled { pointer-events: none; }
 
-        .option-card.correct {
-            border-color: var(--success-color);
-            background-color: #E8F5E9;
-            pointer-events: none;
-        }
-
-        .option-card.wrong {
-            border-color: var(--error-color);
-            background-color: #FFEBEE;
-            pointer-events: none;
-        }
-
-        .disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        /* 4. Footer */
+        /* Footer */
         .footer {
             padding: 20px;
             background: white;
             border-top: 1px solid #EEE;
         }
 
-        .btn-submit {
+        .btn {
             width: 100%;
-            height: 56px;
-            background-color: var(--primary-color);
-            color: white;
+            height: 54px;
             border: none;
             border-radius: 12px;
             font-size: 18px;
             font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .btn-submit:disabled {
-            background-color: #CCC;
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:disabled { background: #CCC; }
+
+        /* Result Screen */
+        #result-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 2rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="header-top">
-            <span>Câu 1/10</span>
-            <div id="timer">03:00</div>
+    <div id="game-screen">
+        <div class="header">
+            <div class="info-bar">
+                <span id="question-number">Câu 1/10</span>
+                <span id="timer">03:00</span>
+            </div>
+            <div class="progress-bg">
+                <div id="progress-fill"></div>
+            </div>
         </div>
-        <div class="progress-container">
-            <div class="progress-bar"></div>
+
+        <div class="quiz-container">
+            <div class="question-box">
+                <h2 id="question-text">Đang tải câu hỏi...</h2>
+                <div class="options-list" id="options-container"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button id="action-btn" class="btn btn-primary" disabled onclick="handleAction()">KIỂM TRA</button>
         </div>
     </div>
 
-    <div class="quiz-container">
-        <div class="question-text">
-            Thiết kế UI cho điện thoại ở chế độ màn hình dọc (Portrait) nên ưu tiên điều gì nhất?
+    <div id="result-screen">
+        <h1>Kết quả bài thi</h1>
+        <div class="score-circle">
+            <span id="final-score">0</span>
+            <small style="font-size: 1rem;">Điểm</small>
         </div>
-
-        <div class="options-list" id="options">
-            <div class="option-card" onclick="selectOption(this)">Sử dụng chuột và bàn phím</div>
-            <div class="option-card" onclick="selectOption(this)">Tối ưu cho vùng chạm của ngón tay cái</div>
-            <div class="option-card" onclick="selectOption(this)">Dùng thật nhiều hình ảnh động lớn</div>
-            <div class="option-card" onclick="selectOption(this)">Bắt người dùng xoay ngang màn hình</div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <button class="btn-submit" id="submitBtn" disabled onclick="checkAnswer()">KIỂM TRA</button>
+        <p id="result-text"></p>
+        <button class="btn btn-primary" onclick="location.reload()">LÀM LẠI</button>
     </div>
 
     <script>
-        let selectedElement = null;
-        let timeLeft = 180; // 3 phút = 180 giây
-        let timerId;
+        const questions = [
+            { q: "Thủ đô của Việt Nam là gì?", a: ["Hà Nội", "Huế", "Đà Nẵng", "TP. HCM"], c: 0 },
+            { q: "Hành tinh nào gần Mặt Trời nhất?", a: ["Kim tinh", "Thủy tinh", "Hỏa tinh", "Trái Đất"], c: 1 },
+            { q: "Đơn vị tiền tệ của Nhật Bản là gì?", a: ["Won", "Dollar", "Yên", "Baht"], c: 2 },
+            { q: "Đại dương nào lớn nhất thế giới?", a: ["Ấn Độ Dương", "Đại Tây Dương", "Bắc Băng Dương", "Thái Bình Dương"], c: 3 },
+            { q: "Ai là người phát minh ra bóng đèn điện?", a: ["Tesla", "Edison", "Newton", "Einstein"], c: 1 },
+            { q: "Việt Nam có bao nhiêu tỉnh thành?", a: ["61", "62", "63", "64"], c: 2 },
+            { q: "Ngọn núi cao nhất thế giới?", a: ["Phan Xi Păng", "K2", "Everest", "Phú Sĩ"], c: 2 },
+            { q: "Con vật nào được coi là chúa tể rừng xanh?", a: ["Voi", "Sư tử", "Hổ", "Báo"], c: 1 },
+            { q: "Số nguyên tố nhỏ nhất là?", a: ["0", "1", "2", "3"], c: 2 },
+            { q: "Tác giả của Truyện Kiều là ai?", a: ["Nguyễn Du", "Nguyễn Khuyến", "Hồ Xuân Hương", "Chu Văn An"], c: 0 }
+        ];
 
-        // Khởi tạo bộ đếm ngược
-        function startTimer() {
-            const timerDisplay = document.getElementById('timer');
+        let currentIdx = 0;
+        let score = 0;
+        let selectedIdx = null;
+        let isChecked = false;
+        let timeLeft = 180;
+
+        function initQuiz() {
+            const q = questions[currentIdx];
+            document.getElementById('question-number').innerText = `Câu ${currentIdx + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('progress-fill').style.width = `${((currentIdx) / questions.length) * 100}%`;
             
-            timerId = setInterval(() => {
-                let minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-
-                // Định dạng hiển thị 00:00
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                timerDisplay.innerText = `${minutes}:${seconds}`;
-
-                // Cảnh báo khi dưới 30 giây
-                if (timeLeft <= 30) {
-                    timerDisplay.classList.add('timer-warning');
-                }
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerId);
-                    handleTimeout();
-                }
-                timeLeft--;
-            }, 1000);
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.a.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerText = opt;
+                div.onclick = () => selectOption(i);
+                container.appendChild(div);
+            });
+            
+            document.getElementById('action-btn').innerText = "KIỂM TRA";
+            document.getElementById('action-btn').disabled = true;
+            isChecked = false;
+            selectedIdx = null;
         }
 
-        function selectOption(element) {
-            const allOptions = document.querySelectorAll('.option-card');
-            allOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            element.classList.add('selected');
-            selectedElement = element;
-            document.getElementById('submitBtn').disabled = false;
+        function selectOption(i) {
+            if (isChecked) return;
+            selectedIdx = i;
+            const opts = document.querySelectorAll('.option');
+            opts.forEach((el, idx) => {
+                el.classList.toggle('selected', idx === i);
+            });
+            document.getElementById('action-btn').disabled = false;
         }
 
-        function checkAnswer() {
-            const btn = document.getElementById('submitBtn');
-            const isCorrect = selectedElement.innerText.includes("ngón tay cái");
-
-            if (isCorrect) {
-                selectedElement.classList.replace('selected', 'correct');
-                btn.innerText = "CHÍNH XÁC!";
-                btn.style.backgroundColor = "var(--success-color)";
-                clearInterval(timerId); // Dừng thời gian khi làm đúng
+        function handleAction() {
+            const btn = document.getElementById('action-btn');
+            if (!isChecked) {
+                // Kiểm tra đáp án
+                isChecked = true;
+                const opts = document.querySelectorAll('.option');
+                const correctIdx = questions[currentIdx].c;
+                
+                opts.forEach(opt => opt.classList.add('disabled'));
+                
+                if (selectedIdx === correctIdx) {
+                    opts[selectedIdx].classList.add('correct');
+                    score += 10;
+                } else {
+                    opts[selectedIdx].classList.add('wrong');
+                    opts[correctIdx].classList.add('correct');
+                }
+                
+                btn.innerText = currentIdx < questions.length - 1 ? "CÂU TIẾP THEO" : "XEM KẾT QUẢ";
             } else {
-                selectedElement.classList.replace('selected', 'wrong');
-                btn.innerText = "SAI RỒI!";
-                btn.style.backgroundColor = "var(--error-color)";
+                // Chuyển câu hoặc kết thúc
+                if (currentIdx < questions.length - 1) {
+                    currentIdx++;
+                    initQuiz();
+                } else {
+                    showResult();
+                }
             }
-            btn.disabled = true;
         }
 
-        function handleTimeout() {
-            const allOptions = document.getElementById('options');
-            allOptions.classList.add('disabled');
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('submitBtn').innerText = "HẾT GIỜ!";
-            alert("Đã hết thời gian làm bài!");
+        function showResult() {
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('result-text').innerText = score >= 50 ? "Chúc mừng! Bạn đã vượt qua bài kiểm tra." : "Rất tiếc, bạn cần cố gắng thêm.";
         }
 
-        // Chạy timer khi trang web load
-        window.onload = startTimer;
+        // Timer Logic
+        setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                if (timeLeft < 30) document.getElementById('timer').style.color = 'red';
+            } else {
+                showResult();
+            }
+        }, 1000);
+
+        initQuiz();
     </script>
 </body>
 </html>
