@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hệ thống Trắc nghiệm Mobile</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --success: #4CAF50;
+            --error: #F44336;
+            --bg: #F8F9FA;
+            --card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header & Progress */
+        .header {
+            padding: 15px 20px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .progress-bg {
+            height: 6px;
+            background: #EEE;
+            border-radius: 3px;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        /* Quiz Area */
+        .quiz-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .question-box h2 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: var(--card-bg);
+            border: 2px solid #E0E0E0;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .option.selected { border-color: var(--primary); background: #EBF3FF; }
+        .option.correct { border-color: var(--success); background: #E8F5E9; color: var(--success); }
+        .option.wrong { border-color: var(--error); background: #FFEBEE; color: var(--error); }
+        .disabled { pointer-events: none; }
+
+        /* Footer */
+        .footer {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #EEE;
+        }
+
+        .btn {
+            width: 100%;
+            height: 54px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:disabled { background: #CCC; }
+
+        /* Result Screen */
+        #result-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-screen">
+        <div class="header">
+            <div class="info-bar">
+                <span id="question-number">Câu 1/10</span>
+                <span id="timer">03:00</span>
+            </div>
+            <div class="progress-bg">
+                <div id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="question-box">
+                <h2 id="question-text">Đang tải câu hỏi...</h2>
+                <div class="options-list" id="options-container"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button id="action-btn" class="btn btn-primary" disabled onclick="handleAction()">KIỂM TRA</button>
+        </div>
+    </div>
+
+    <div id="result-screen">
+        <h1>Kết quả bài thi</h1>
+        <div class="score-circle">
+            <span id="final-score">0</span>
+            <small style="font-size: 1rem;">Điểm</small>
+        </div>
+        <p id="result-text"></p>
+        <button class="btn btn-primary" onclick="location.reload()">LÀM LẠI</button>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Thủ đô của Việt Nam là gì?", a: ["Hà Nội", "Huế", "Đà Nẵng", "TP. HCM"], c: 0 },
+            { q: "Hành tinh nào gần Mặt Trời nhất?", a: ["Kim tinh", "Thủy tinh", "Hỏa tinh", "Trái Đất"], c: 1 },
+            { q: "Đơn vị tiền tệ của Nhật Bản là gì?", a: ["Won", "Dollar", "Yên", "Baht"], c: 2 },
+            { q: "Đại dương nào lớn nhất thế giới?", a: ["Ấn Độ Dương", "Đại Tây Dương", "Bắc Băng Dương", "Thái Bình Dương"], c: 3 },
+            { q: "Ai là người phát minh ra bóng đèn điện?", a: ["Tesla", "Edison", "Newton", "Einstein"], c: 1 },
+            { q: "Việt Nam có bao nhiêu tỉnh thành?", a: ["61", "62", "63", "64"], c: 2 },
+            { q: "Ngọn núi cao nhất thế giới?", a: ["Phan Xi Păng", "K2", "Everest", "Phú Sĩ"], c: 2 },
+            { q: "Con vật nào được coi là chúa tể rừng xanh?", a: ["Voi", "Sư tử", "Hổ", "Báo"], c: 1 },
+            { q: "Số nguyên tố nhỏ nhất là?", a: ["0", "1", "2", "3"], c: 2 },
+            { q: "Tác giả của Truyện Kiều là ai?", a: ["Nguyễn Du", "Nguyễn Khuyến", "Hồ Xuân Hương", "Chu Văn An"], c: 0 }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let selectedIdx = null;
+        let isChecked = false;
+        let timeLeft = 180;
+
+        function initQuiz() {
+            const q = questions[currentIdx];
+            document.getElementById('question-number').innerText = `Câu ${currentIdx + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('progress-fill').style.width = `${((currentIdx) / questions.length) * 100}%`;
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.a.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerText = opt;
+                div.onclick = () => selectOption(i);
+                container.appendChild(div);
+            });
+            
+            document.getElementById('action-btn').innerText = "KIỂM TRA";
+            document.getElementById('action-btn').disabled = true;
+            isChecked = false;
+            selectedIdx = null;
+        }
+
+        function selectOption(i) {
+            if (isChecked) return;
+            selectedIdx = i;
+            const opts = document.querySelectorAll('.option');
+            opts.forEach((el, idx) => {
+                el.classList.toggle('selected', idx === i);
+            });
+            document.getElementById('action-btn').disabled = false;
+        }
+
+        function handleAction() {
+            const btn = document.getElementById('action-btn');
+            if (!isChecked) {
+                // Kiểm tra đáp án
+                isChecked = true;
+                const opts = document.querySelectorAll('.option');
+                const correctIdx = questions[currentIdx].c;
+                
+                opts.forEach(opt => opt.classList.add('disabled'));
+                
+                if (selectedIdx === correctIdx) {
+                    opts[selectedIdx].classList.add('correct');
+                    score += 10;
+                } else {
+                    opts[selectedIdx].classList.add('wrong');
+                    opts[correctIdx].classList.add('correct');
+                }
+                
+                btn.innerText = currentIdx < questions.length - 1 ? "CÂU TIẾP THEO" : "XEM KẾT QUẢ";
+            } else {
+                // Chuyển câu hoặc kết thúc
+                if (currentIdx < questions.length - 1) {
+                    currentIdx++;
+                    initQuiz();
+                } else {
+                    showResult();
+                }
+            }
+        }
+
+        function showResult() {
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('result-text').innerText = score >= 50 ? "Chúc mừng! Bạn đã vượt qua bài kiểm tra." : "Rất tiếc, bạn cần cố gắng thêm.";
+        }
+
+        // Timer Logic
+        setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                if (timeLeft < 30) document.getElementById('timer').style.color = 'red';
+            } else {
+                showResult();
+            }
+        }, 1000);
+
+        initQuiz();
+    </script>
+</body>
+</html>

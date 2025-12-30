@@ -3,268 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ thống Trắc nghiệm Mobile</title>
+    <title>Matching Quiz - Multi-device</title>
     <style>
-        :root {
-            --primary: #4A90E2;
-            --success: #4CAF50;
-            --error: #F44336;
-            --bg: #F8F9FA;
-            --card-bg: #FFFFFF;
+        /* CSS giữ nguyên như cũ, thêm touch-action để tránh cuộn trang khi kéo */
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; flex-direction: column; align-items: center; padding: 20px; touch-action: manipulation; }
+        .container { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+        .column { display: flex; flex-direction: column; gap: 15px; }
+        .draggable {
+            padding: 12px 20px; background-color: #3498db; color: white;
+            cursor: grab; border-radius: 8px; text-align: center;
+            user-select: none; touch-action: none; /* Quan trọng cho di động */
+            z-index: 10;
         }
-
-        body {
-            font-family: -apple-system, system-ui, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+        .dropzone {
+            width: 140px; height: 45px; border: 2px dashed #aaa;
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; background-color: #fff;
         }
-
-        /* Header & Progress */
-        .header {
-            padding: 15px 20px;
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .info-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .progress-bg {
-            height: 6px;
-            background: #EEE;
-            border-radius: 3px;
-        }
-
-        #progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: 0.3s;
-        }
-
-        /* Quiz Area */
-        .quiz-container {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .question-box h2 {
-            font-size: 1.25rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option {
-            background: var(--card-bg);
-            border: 2px solid #E0E0E0;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .option.selected { border-color: var(--primary); background: #EBF3FF; }
-        .option.correct { border-color: var(--success); background: #E8F5E9; color: var(--success); }
-        .option.wrong { border-color: var(--error); background: #FFEBEE; color: var(--error); }
-        .disabled { pointer-events: none; }
-
-        /* Footer */
-        .footer {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #EEE;
-        }
-
-        .btn {
-            width: 100%;
-            height: 54px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:disabled { background: #CCC; }
-
-        /* Result Screen */
-        #result-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 20px auto;
-            font-size: 2rem;
-        }
+        .correct { background-color: #2ecc71 !important; color: white; border-style: solid; }
+        #result { margin-top: 25px; font-weight: bold; color: #2c3e50; height: 20px; }
     </style>
 </head>
 <body>
 
-    <div id="game-screen">
-        <div class="header">
-            <div class="info-bar">
-                <span id="question-number">Câu 1/10</span>
-                <span id="timer">03:00</span>
-            </div>
-            <div class="progress-bg">
-                <div id="progress-fill"></div>
-            </div>
+    <h3>Kéo tên thủ đô vào quốc gia</h3>
+    <div id="result"></div>
+
+    <div class="container">
+        <div class="column" id="options">
+            <div class="draggable" id="paris">Paris</div>
+            <div class="draggable" id="tokyo">Tokyo</div>
+            <div class="draggable" id="hanoi">Hà Nội</div>
         </div>
 
-        <div class="quiz-container">
-            <div class="question-box">
-                <h2 id="question-text">Đang tải câu hỏi...</h2>
-                <div class="options-list" id="options-container"></div>
-            </div>
+        <div class="column">
+            <div class="dropzone" data-answer="hanoi">Việt Nam</div>
+            <div class="dropzone" data-answer="tokyo">Nhật Bản</div>
+            <div class="dropzone" data-answer="paris">Pháp</div>
         </div>
-
-        <div class="footer">
-            <button id="action-btn" class="btn btn-primary" disabled onclick="handleAction()">KIỂM TRA</button>
-        </div>
-    </div>
-
-    <div id="result-screen">
-        <h1>Kết quả bài thi</h1>
-        <div class="score-circle">
-            <span id="final-score">0</span>
-            <small style="font-size: 1rem;">Điểm</small>
-        </div>
-        <p id="result-text"></p>
-        <button class="btn btn-primary" onclick="location.reload()">LÀM LẠI</button>
     </div>
 
     <script>
-        const questions = [
-            { q: "Thủ đô của Việt Nam là gì?", a: ["Hà Nội", "Huế", "Đà Nẵng", "TP. HCM"], c: 0 },
-            { q: "Hành tinh nào gần Mặt Trời nhất?", a: ["Kim tinh", "Thủy tinh", "Hỏa tinh", "Trái Đất"], c: 1 },
-            { q: "Đơn vị tiền tệ của Nhật Bản là gì?", a: ["Won", "Dollar", "Yên", "Baht"], c: 2 },
-            { q: "Đại dương nào lớn nhất thế giới?", a: ["Ấn Độ Dương", "Đại Tây Dương", "Bắc Băng Dương", "Thái Bình Dương"], c: 3 },
-            { q: "Ai là người phát minh ra bóng đèn điện?", a: ["Tesla", "Edison", "Newton", "Einstein"], c: 1 },
-            { q: "Việt Nam có bao nhiêu tỉnh thành?", a: ["61", "62", "63", "64"], c: 2 },
-            { q: "Ngọn núi cao nhất thế giới?", a: ["Phan Xi Păng", "K2", "Everest", "Phú Sĩ"], c: 2 },
-            { q: "Con vật nào được coi là chúa tể rừng xanh?", a: ["Voi", "Sư tử", "Hổ", "Báo"], c: 1 },
-            { q: "Số nguyên tố nhỏ nhất là?", a: ["0", "1", "2", "3"], c: 2 },
-            { q: "Tác giả của Truyện Kiều là ai?", a: ["Nguyễn Du", "Nguyễn Khuyến", "Hồ Xuân Hương", "Chu Văn An"], c: 0 }
-        ];
+        const draggables = document.querySelectorAll('.draggable');
+        const dropzones = document.querySelectorAll('.dropzone');
+        let activeItem = null;
+        let initialX, initialY;
 
-        let currentIdx = 0;
-        let score = 0;
-        let selectedIdx = null;
-        let isChecked = false;
-        let timeLeft = 180;
+        draggables.forEach(item => {
+            // Sự kiện chuột (PC)
+            item.addEventListener('mousedown', startDragging);
+            // Sự kiện cảm ứng (Mobile)
+            item.addEventListener('touchstart', startDragging, { passive: false });
+        });
 
-        function initQuiz() {
-            const q = questions[currentIdx];
-            document.getElementById('question-number').innerText = `Câu ${currentIdx + 1}/${questions.length}`;
-            document.getElementById('question-text').innerText = q.q;
-            document.getElementById('progress-fill').style.width = `${((currentIdx) / questions.length) * 100}%`;
+        function startDragging(e) {
+            e.preventDefault();
+            activeItem = this;
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
             
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
-            q.a.forEach((opt, i) => {
-                const div = document.createElement('div');
-                div.className = 'option';
-                div.innerText = opt;
-                div.onclick = () => selectOption(i);
-                container.appendChild(div);
-            });
-            
-            document.getElementById('action-btn').innerText = "KIỂM TRA";
-            document.getElementById('action-btn').disabled = true;
-            isChecked = false;
-            selectedIdx = null;
+            initialX = clientX - activeItem.offsetLeft;
+            initialY = clientY - activeItem.offsetTop;
+
+            activeItem.style.position = 'absolute';
+            activeItem.style.zIndex = '1000';
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', stopDragging);
+            document.addEventListener('touchend', stopDragging);
         }
 
-        function selectOption(i) {
-            if (isChecked) return;
-            selectedIdx = i;
-            const opts = document.querySelectorAll('.option');
-            opts.forEach((el, idx) => {
-                el.classList.toggle('selected', idx === i);
-            });
-            document.getElementById('action-btn').disabled = false;
+        function drag(e) {
+            if (!activeItem) return;
+            e.preventDefault();
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            activeItem.style.left = (clientX - initialX) + 'px';
+            activeItem.style.top = (clientY - initialY) + 'px';
         }
 
-        function handleAction() {
-            const btn = document.getElementById('action-btn');
-            if (!isChecked) {
-                // Kiểm tra đáp án
-                isChecked = true;
-                const opts = document.querySelectorAll('.option');
-                const correctIdx = questions[currentIdx].c;
-                
-                opts.forEach(opt => opt.classList.add('disabled'));
-                
-                if (selectedIdx === correctIdx) {
-                    opts[selectedIdx].classList.add('correct');
-                    score += 10;
+        function stopDragging(e) {
+            if (!activeItem) return;
+            
+            // Tìm xem có đang nằm trên ô dropzone nào không
+            const rect = activeItem.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            activeItem.style.display = 'none'; // Tạm ẩn để tìm phần tử bên dưới
+            const dropTarget = document.elementFromPoint(centerX, centerY);
+            activeItem.style.display = 'block';
+
+            if (dropTarget && dropTarget.classList.contains('dropzone')) {
+                const answer = dropTarget.getAttribute('data-answer');
+                if (activeItem.id === answer) {
+                    dropTarget.classList.add('correct');
+                    dropTarget.textContent = activeItem.textContent;
+                    activeItem.remove(); // Xóa thẻ gốc nếu đúng
+                    checkWin();
                 } else {
-                    opts[selectedIdx].classList.add('wrong');
-                    opts[correctIdx].classList.add('correct');
+                    resetPosition(activeItem);
                 }
-                
-                btn.innerText = currentIdx < questions.length - 1 ? "CÂU TIẾP THEO" : "XEM KẾT QUẢ";
             } else {
-                // Chuyển câu hoặc kết thúc
-                if (currentIdx < questions.length - 1) {
-                    currentIdx++;
-                    initQuiz();
-                } else {
-                    showResult();
-                }
+                resetPosition(activeItem);
+            }
+
+            activeItem.style.zIndex = '10';
+            activeItem = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+        }
+
+        function resetPosition(el) {
+            el.style.position = 'static';
+        }
+
+        function checkWin() {
+            if (document.querySelectorAll('.draggable').length === 0) {
+                document.getElementById('result').textContent = "Hoàn thành xuất sắc! 🎉";
             }
         }
-
-        function showResult() {
-            document.getElementById('game-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('final-score').innerText = score;
-            document.getElementById('result-text').innerText = score >= 50 ? "Chúc mừng! Bạn đã vượt qua bài kiểm tra." : "Rất tiếc, bạn cần cố gắng thêm.";
-        }
-
-        // Timer Logic
-        setInterval(() => {
-            if (timeLeft > 0) {
-                timeLeft--;
-                let m = Math.floor(timeLeft / 60);
-                let s = timeLeft % 60;
-                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
-                if (timeLeft < 30) document.getElementById('timer').style.color = 'red';
-            } else {
-                showResult();
-            }
-        }, 1000);
-
-        initQuiz();
     </script>
 </body>
 </html>
