@@ -57,6 +57,32 @@ body{min-height:100vh;background:#0b1220;display:flex;flex-direction:column;alig
 .cw-result-warn{background:#fef3c7;color:#92400e}
 .cw-result-bad{background:#fee2e2;color:#b91c1c}
 .cw-result-ok{background:#dcfce7;color:#15803d}
+/* ── Bố cục MÀN HẸP (điện thoại, ≤700px) — CHỈ riêng trang xuất, KHÔNG đụng cwRender/baigiang-crossword.css
+   dùng chung cho app (soạn/trình chiếu/mirror LAN).
+   BẢN ĐẦU (2026-07-24, đã bỏ): giữ khung "slide" cố định 960x540 + transform-scale, dùng CSS Grid
+   grid-template-rows:minmax(0,1.2fr) minmax(120px,1fr) để CHIA sẻ 540px cố định giữa lưới và danh
+   sách từ, để chia sẻ 1 ngân sách chiều cao cố định giữa lưới và danh sách từ - danh sách từ biến mất
+   hẳn trên máy thật (Zalo WebView) dù đặt sàn tối thiểu - chưa có trình duyệt thật để dò tận gốc, nhưng
+   bản chất vẫn là 2 phần tử phải TRANH nhau 1 ngân sách chiều cao cố định, dễ vỡ tuỳ engine render.
+   ĐỔI HẲN sang cách chắc chắn hơn: BỎ khung cố định + transform-scale trên mobile (JS fitScale() tự
+   phát hiện vw<=700 rồi XOÁ transform/kích thước ép - xem CW_EXPORT_JS), cho trang cuộn dọc BÌNH
+   THƯỜNG như mọi trang web khác - ảnh+lưới chiếm đúng chiều cao nó cần, danh sách từ chiếm đúng chiều
+   cao nó cần, KHÔNG còn cạnh tranh ngân sách chung nào nữa. Lưới vẫn giữ đúng cỡ ô tính sẵn lúc xuất
+   (px cố định, không zoom lại theo máy) nên hiện ở cỡ THẬT (dễ đọc/bấm hơn hẳn so với bị scale nhỏ
+   như cách cũ); nếu lưới rộng hơn màn hình thì tự cuộn ngang trong .cw-left. */
+@media (max-width:700px){
+  body{padding:14px 10px 30px}
+  .cw-stage-wrap{width:100%!important;max-width:600px}
+  .cw-scaler{width:100%}
+  .sl{width:100%;height:auto;min-height:0;padding:10px;box-shadow:0 4px 20px rgba(0,0,0,.35);overflow:visible}
+  .sl .cw-wrap{display:flex;flex-wrap:wrap;gap:10px}
+  .sl .cw-imgwrap.pos-left{align-items:flex-start}
+  .sl .illus-wrap.pos-left>.gfi-box.gfi-side{align-self:auto;max-height:none;flex:0 0 auto}
+  .sl .illus-wrap.pos-left>.gfi-box.gfi-side img{height:auto;max-height:220px;width:auto}
+  .sl .cw-left{flex:0 0 auto;max-height:55vh;overflow:auto}
+  .sl .cw-side{flex:1 1 100%;min-width:0;min-height:0}
+  .sl .cw-sidescroll{max-height:none;overflow-y:visible;justify-content:flex-start}
+}
 </style>
 </head>
 <body>
@@ -272,10 +298,14 @@ window.cwSubmit=function(btn){
 };
 function fitScale(){
   var vw=window.innerWidth||960;
+  var scaler=document.getElementById('cwScaler'), wrap=document.getElementById('cwStageWrap');
+  if(vw<=700){
+    scaler.style.transform=''; wrap.style.width=''; wrap.style.height='';
+    return;
+  }
   var sc=Math.min(vw/1000, 1); sc=Math.max(sc,0.3);
   var w=Math.round(960*sc), h=Math.round(540*sc);
-  document.getElementById('cwScaler').style.transform='scale('+sc+')';
-  var wrap=document.getElementById('cwStageWrap');
+  scaler.style.transform='scale('+sc+')';
   wrap.style.width=w+'px'; wrap.style.height=h+'px';
 }
 window.addEventListener('resize',fitScale);
