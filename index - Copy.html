@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matching Quiz - Multi-device</title>
+    <style>
+        /* CSS giữ nguyên như cũ, thêm touch-action để tránh cuộn trang khi kéo */
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; flex-direction: column; align-items: center; padding: 20px; touch-action: manipulation; }
+        .container { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+        .column { display: flex; flex-direction: column; gap: 15px; }
+        .draggable {
+            padding: 12px 20px; background-color: #3498db; color: white;
+            cursor: grab; border-radius: 8px; text-align: center;
+            user-select: none; touch-action: none; /* Quan trọng cho di động */
+            z-index: 10;
+        }
+        .dropzone {
+            width: 140px; height: 45px; border: 2px dashed #aaa;
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; background-color: #fff;
+        }
+        .correct { background-color: #2ecc71 !important; color: white; border-style: solid; }
+        #result { margin-top: 25px; font-weight: bold; color: #2c3e50; height: 20px; }
+    </style>
+</head>
+<body>
+
+    <h3>Kéo tên thủ đô vào quốc gia</h3>
+    <div id="result"></div>
+
+    <div class="container">
+        <div class="column" id="options">
+            <div class="draggable" id="paris">Paris</div>
+            <div class="draggable" id="tokyo">Tokyo</div>
+            <div class="draggable" id="hanoi">Hà Nội</div>
+        </div>
+
+        <div class="column">
+            <div class="dropzone" data-answer="hanoi">Việt Nam</div>
+            <div class="dropzone" data-answer="tokyo">Nhật Bản</div>
+            <div class="dropzone" data-answer="paris">Pháp</div>
+        </div>
+    </div>
+
+    <script>
+        const draggables = document.querySelectorAll('.draggable');
+        const dropzones = document.querySelectorAll('.dropzone');
+        let activeItem = null;
+        let initialX, initialY;
+
+        draggables.forEach(item => {
+            // Sự kiện chuột (PC)
+            item.addEventListener('mousedown', startDragging);
+            // Sự kiện cảm ứng (Mobile)
+            item.addEventListener('touchstart', startDragging, { passive: false });
+        });
+
+        function startDragging(e) {
+            e.preventDefault();
+            activeItem = this;
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            
+            initialX = clientX - activeItem.offsetLeft;
+            initialY = clientY - activeItem.offsetTop;
+
+            activeItem.style.position = 'absolute';
+            activeItem.style.zIndex = '1000';
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', stopDragging);
+            document.addEventListener('touchend', stopDragging);
+        }
+
+        function drag(e) {
+            if (!activeItem) return;
+            e.preventDefault();
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            activeItem.style.left = (clientX - initialX) + 'px';
+            activeItem.style.top = (clientY - initialY) + 'px';
+        }
+
+        function stopDragging(e) {
+            if (!activeItem) return;
+            
+            // Tìm xem có đang nằm trên ô dropzone nào không
+            const rect = activeItem.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            activeItem.style.display = 'none'; // Tạm ẩn để tìm phần tử bên dưới
+            const dropTarget = document.elementFromPoint(centerX, centerY);
+            activeItem.style.display = 'block';
+
+            if (dropTarget && dropTarget.classList.contains('dropzone')) {
+                const answer = dropTarget.getAttribute('data-answer');
+                if (activeItem.id === answer) {
+                    dropTarget.classList.add('correct');
+                    dropTarget.textContent = activeItem.textContent;
+                    activeItem.remove(); // Xóa thẻ gốc nếu đúng
+                    checkWin();
+                } else {
+                    resetPosition(activeItem);
+                }
+            } else {
+                resetPosition(activeItem);
+            }
+
+            activeItem.style.zIndex = '10';
+            activeItem = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+        }
+
+        function resetPosition(el) {
+            el.style.position = 'static';
+        }
+
+        function checkWin() {
+            if (document.querySelectorAll('.draggable').length === 0) {
+                document.getElementById('result').textContent = "Hoàn thành xuất sắc! 🎉";
+            }
+        }
+    </script>
+</body>
+</html>
