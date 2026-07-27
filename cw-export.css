@@ -1,0 +1,178 @@
+/* ============================================================
+   cw-export.css — stylesheet chung cho các trang xuất bài tập
+   (ô chữ / điền từ minh hoạ...). Tách riêng khỏi HTML để nhiều
+   trang xuất (who-are-they-*.html, ...) cùng dùng lại.
+   Tông màu/khoảng cách đồng bộ với css/lich-giang.css.
+   ============================================================ */
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+
+:root{
+  --blue-primary:#1A6FBF;
+  --blue-light:#EBF4FF;
+  --green-primary:#1E8A5E;
+  --text-muted:#7A8799;
+  --font-base:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  --radius:6px;
+}
+
+body{
+  min-height:100vh;
+  background:#0b1220;
+  display:flex; flex-direction:column; align-items:center;
+  padding:10px;
+  font-family:var(--font-base);
+}
+
+.cw-page-title{
+  color:#fff; font-size:16px; font-weight:600; opacity:.85;
+  text-align:center; max-width:960px; margin-bottom:10px;
+}
+
+.cw-scaler{ transform-origin:top left; }
+
+/* ===== Khung "slide" ===== */
+.sl{
+  width:960px; height:540px; padding:10px;
+  background:#fff; display:flex; flex-direction:column;
+  font-family:var(--font-base); position:relative;
+  border-radius:var(--radius); box-shadow:0 10px 40px rgba(0,0,0,.4);
+  overflow:hidden;
+}
+.sl-nohead{
+  position:absolute; top:6px; right:10px; z-index:6;
+  display:flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.92); border:1px solid var(--blue-light);
+  border-radius:var(--radius); padding:4px 8px;
+}
+.sl-check{
+  flex:0 0 auto; height:26px; padding:0 10px; font-size:12px; font-weight:700; line-height:1;
+  border-radius:5px; background:var(--blue-primary); color:#fff; border:0; cursor:pointer;
+  font-family:var(--font-base);
+}
+.sl-check:hover{ opacity:.9 }
+
+/* ===== Minh hoạ (ảnh) dùng chung cho các layout khác ===== */
+.sl .illus-wrap{ flex:1; min-height:0; display:flex; gap:8px; }
+.sl .illus-wrap.pos-left{ flex-direction:row; align-items:stretch; }
+.sl .gfi-box{ border:0; border-radius:var(--radius); background:#fff; padding:0; position:relative; }
+.sl .gfi-box img{ max-width:100%; height:auto; display:block; object-fit:contain; }
+.sl .illus-wrap.pos-left>.gfi-box.gfi-side{ flex:0 0 auto; align-self:stretch; display:flex; min-height:0; max-height:100%; }
+.sl .illus-wrap.pos-left>.gfi-box.gfi-side img{ height:100%; width:auto; max-width:100%; object-fit:contain; margin:auto; }
+.sl .gfi-box.gfi-multi{ display:flex; position:relative; }
+.sl .gfi-box.gfi-multi .gfi-strip{ display:flex; gap:8px; width:100%; height:100%; min-width:0; min-height:0; }
+.sl .illus-wrap>.gfi-box.gfi-side.gfi-multi{ align-self:stretch; max-height:100%; }
+.sl .illus-wrap>.gfi-box.gfi-side.gfi-multi .gfi-strip{
+  flex-direction:column; align-items:center; flex:0 0 auto; height:auto; max-width:100%; margin:auto; overflow:visible;
+}
+.sl .illus-wrap>.gfi-box.gfi-side.gfi-multi .gfi-strip>img{
+  width:100%; height:auto; max-width:100%; flex:0 0 auto; object-fit:contain; margin:0; display:block;
+}
+
+/* ===== Layout ô chữ ===== */
+.sl.lay-crossword{ padding:10px; }
+.sl .cw-wrap{ flex:1; min-height:0; display:flex; gap:8px; }
+.sl .cw-imgwrap.pos-left{ gap:10px; align-items:stretch; }
+
+.sl .cw-left{
+  flex:0 1 auto; min-width:0; min-height:0; position:relative;
+  display:flex; align-items:center; justify-content:center; overflow:auto;
+}
+.sl .cw-left::-webkit-scrollbar{ width:4px; height:4px; }
+.sl .cw-left::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:2px; }
+
+/* Lưới ô chữ — CO GIÃN theo chiều rộng khung chứa (KHÔNG còn kích thước ô cố
+   định px như trước): width:100% + max-width giữ cỡ gần với bản gốc trên màn
+   hình lớn, --cols/--rows lấy từ data-cols/data-rows (đặt bởi cw-export.js)
+   nên module này dùng chung được cho MỌI cỡ lưới, không riêng 20x20. Không
+   còn cần cuộn ngang: lưới luôn vừa đúng bề rộng khung chứa ở mọi kích thước
+   màn hình, kể cả điện thoại dọc. */
+.sl .cw-grid{
+  display:grid;
+  grid-template-columns:repeat(var(--cols,10),1fr);
+  grid-template-rows:repeat(var(--rows,10),1fr);
+  width:100%; max-width:500px;
+  aspect-ratio:var(--cols,10)/var(--rows,10);
+  gap:1px; background:#334155; padding:1px; line-height:1;
+}
+.sl .cw-cell{ position:relative; background:#fff; min-width:0; min-height:0; }
+.sl .cw-cell.cw-blk{ background:#334155; }
+.sl .cw-num{
+  position:absolute; top:0; left:1px; color:#64748b; font-weight:700; pointer-events:none; z-index:1;
+  font-size:clamp(6px,1.6vw,11px); line-height:1.1;
+}
+.sl .cw-in{
+  width:100%; height:100%; min-width:0; border:0; padding:0; margin:0;
+  background:transparent; outline:none; text-align:center; text-transform:uppercase;
+  font-family:inherit; font-weight:700; color:#111;
+  font-size:clamp(9px,4.2vw,22px);
+}
+.sl .cw-cell.cw-hl{ background:#e0ecff; }
+.sl .cw-cell.cw-cur{ background:#bfdbfe; }
+.sl .cw-cell.cw-wrong{ background:#fee2e2; }
+.sl .cw-in.cw-ok{ color:var(--green-primary); }
+.sl .cw-in.cw-bad{ color:#b91c1c; }
+
+/* Container-query: khi trình duyệt hỗ trợ, cỡ chữ bám sát bề rộng THẬT của
+   lưới (không phải toàn khung nhìn) — vẫn giữ mốc vw ở trên làm phương án
+   dự phòng cho các engine cũ chưa hỗ trợ container query units. */
+@supports (container-type: inline-size){
+  .sl .cw-grid{ container-type:inline-size; }
+  .sl .cw-num{ font-size:clamp(6px,1.6cqw,11px); }
+  .sl .cw-in{ font-size:clamp(9px,4.2cqw,22px); }
+}
+
+.sl .cw-side{
+  flex:1 1 240px; min-width:200px; min-height:0;
+  display:flex; flex-direction:column; font-size:13px; line-height:1.35; color:#1e293b;
+}
+.sl .cw-sidescroll{
+  flex:1 1 auto; min-height:0; overflow-y:auto; scrollbar-gutter:stable;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.sl .cw-sidescroll::-webkit-scrollbar{ width:4px; }
+.sl .cw-sidescroll::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:2px; }
+.sl .cw-bar{ display:none!important; }
+.sl .cw-grp{ font-weight:700; color:var(--blue-primary); letter-spacing:.4px; margin-bottom:4px; }
+.sl .cw-grp ~ .cw-grp{ margin-top:8px; }
+.sl .cw-clue{ display:flex; gap:6px; padding:2px 4px; border-radius:4px; cursor:pointer; }
+.sl .cw-clue b{ flex:0 0 auto; color:#475569; }
+.sl .cw-clue.cw-clue-on{ background:#e0ecff; }
+.sl .cw-bankwrap{ display:none; }
+.sl .cw-tbtn{ cursor:pointer; }
+
+.cw-result{
+  margin-top:10px; max-width:960px; width:100%; text-align:center;
+  font-size:15px; font-weight:600; padding:10px; border-radius:8px;
+}
+.cw-result-warn{ background:#fef3c7; color:#92400e; }
+.cw-result-bad{ background:#fee2e2; color:#b91c1c; }
+.cw-result-ok{ background:#dcfce7; color:#15803d; }
+
+/* ── Bố cục MÀN HẸP (điện thoại, ≤700px) ─────────────────────────────────
+   Grid ô chữ giờ đã tự co theo bề rộng khung chứa ở MỌI kích thước màn hình
+   (xem .sl .cw-grid ở trên), nên trên di động nó tự vừa khít, không còn
+   cần logic bỏ khung cố định/transform-scale dành riêng cho lưới như bản
+   cũ. Phần còn lại dưới đây chỉ xử lý việc XẾP LẠI bố cục (illus-wrap,
+   cw-wrap...) từ ngang sang dọc để dùng hết chiều rộng màn hình. */
+@media (max-width:700px){
+  html,body{ overflow-x:hidden; }
+  body{ padding:10px; }
+  .cw-stage-wrap{ width:100%!important; max-width:600px; }
+  .cw-scaler{ width:100%; }
+  .sl{
+    width:100%; max-width:100%; height:auto; min-height:0; padding:10px;
+    box-shadow:0 4px 20px rgba(0,0,0,.35); overflow:hidden;
+  }
+  .sl .cw-wrap{ display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start; }
+  .sl .illus-wrap.pos-left>.gfi-box.gfi-side{ align-self:auto; max-width:100%; max-height:none; flex:0 0 auto; }
+  .sl .illus-wrap.pos-left>.gfi-box.gfi-side img{ height:auto; max-height:220px; width:auto; }
+  .sl .illus-wrap>.gfi-box.gfi-side.gfi-multi{ align-self:auto; width:auto!important; max-width:100%; max-height:none; flex:0 0 auto; }
+  .sl .illus-wrap>.gfi-box.gfi-side.gfi-multi .gfi-strip{ width:auto!important; max-height:none; margin:0; }
+  .sl .illus-wrap>.gfi-box.gfi-side.gfi-multi .gfi-strip>img{ width:auto; max-width:100%; max-height:220px; }
+
+  .sl .cw-left{ flex:1 1 100%; min-width:0; max-width:100%; max-height:none; justify-content:flex-start; overflow:auto; }
+  .sl .cw-side{ flex:1 1 100%; min-width:0; min-height:0; }
+  .sl .cw-sidescroll{ max-height:none; overflow-y:visible; justify-content:flex-start; }
+}
